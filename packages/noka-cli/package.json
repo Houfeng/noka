@@ -3,9 +3,28 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": {
+    "noka": "./lib/index.js",
+    "nk": "./lib/index.js"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf ./lib",
+    "lint": "tslint --project ./tsconfig.json --fix",
+    "build": "npm run clean && npm run lint && tsc && npm run copy && npm link",
+    "copy": "copyfiles --up 1 ./src/**/*.txt lib/",
+    "dev": "tsnd ./src/index.ts"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "cmdline": "^2.0.4"
+  },
+  "devDependencies": {
+    "copyfiles": "^2.1.0",
+    "ts-node": "^8.2.0",
+    "ts-node-dev": "^1.0.0-pre.40",
+    "tslint": "^5.16.0",
+    "tslint-config-dawn": "^1.0.2",
+    "typescript": "^3.5.1"
+  }
 }
