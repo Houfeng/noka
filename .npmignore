@@ -1,0 +1,17 @@
+.D_Store
+*.log
+node_modules
+designs
+Gulpfile.js
+.travis.yml
+.vscode
+_*
+*.src.*
+*.d.ts
+coverage
+src/
+packages/
+tsconfig.json
+tslint.json
+logs/
+*.db
