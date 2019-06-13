@@ -1,32 +1,31 @@
 import { AbstractLoader } from "../AbstractLoader";
 import { Logger, Level } from "hilog";
 import { mix } from "../common/utils";
-import { resolve } from "path";
 import { LOGGER_ENTITY_KEY } from "./constants";
 import { EOL } from "os";
 
 const defaultOptions: any = {
   writers: {
     error: {
-      type: "console",
+      type: "file",
       categories: ["*"],
       level: [Level.warn, Level.error],
       location: "./error-yyyy-MM-dd.log"
     },
     app: {
-      type: "console",
+      type: "file",
       categories: ["app"],
       level: [Level.debug, Level.info],
       location: "./app-yyyy-MM-dd.log"
     },
     ctx: {
-      type: "console",
+      type: "file",
       categories: ["ctx"],
       level: [Level.debug, Level.info],
       location: "./ctx-yyyy-MM-dd.log"
     },
     access: {
-      type: "console",
+      type: "file",
       categories: ["access"],
       level: [Level.info],
       format: "[:time] - :method :url :status :rtms :hostname #:pid",
@@ -40,11 +39,36 @@ const defaultOptions: any = {
  */
 export class LoggerLoader<T = any> extends AbstractLoader<T> {
   /**
+   * 是否仅打印日志到 console
+   */
+  protected get onlyConsole() {
+    return (
+      !this.app.env ||
+      ["dev", "development", "test", "local"].includes(this.app.env)
+    );
+  }
+
+  /**
+   * 获取日志选项
+   */
+  protected getOptions() {
+    const options = mix({ root: "~/logs", ...defaultOptions }, this.options);
+    options.root = this.resolvePath(options.root);
+    if (options.writers && this.onlyConsole) {
+      Object.keys(options.writers).forEach(key => {
+        const writerConf = options.writers[key];
+        if (!writerConf) return;
+        writerConf.type = "console";
+      });
+    }
+    return options;
+  }
+
+  /**
    * 初始化日志模块
    */
   public async load() {
-    const options = mix({ root: "./logs/", ...defaultOptions }, this.options);
-    options.root = resolve(this.root, options.root);
+    const options = this.getOptions();
     await Logger.init(options);
     const getLogger = (category?: string) => Logger.get(category);
     this.container.registerValue(LOGGER_ENTITY_KEY, getLogger);

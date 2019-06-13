@@ -5,6 +5,7 @@ import { IApplication } from "../Application/IApplication";
 import { ILoader } from "./ILoader";
 import { ILoaderOptions } from "./ILoaderOptions";
 import { isArray } from "util";
+import { homedir } from "os";
 
 /**
  * 资源加载器抽象基类
@@ -47,6 +48,13 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   }
 
   /**
+   * app 在 home 中的位置
+   */
+  protected get homeOfApp() {
+    return normalize(`${homedir()}/${this.app.name}`);
+  }
+
+  /**
    * 已加载的资源或类型列表
    */
   protected content: T[] = [];
@@ -68,10 +76,10 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   }
 
   /**
-   * 将匹配一个表达式字符串规范化
-   * @param path 匹配表达式
+   * 解析路径中的动态占位符
+   * @param path 路径
    */
-  protected normalizePath(path: string): string {
+  protected parsePath(path: string) {
     if (!path) return;
     const ext = extname(this.app.entry);
     const src = ext === ".ts" ? this.sourceDir : this.distDir;
@@ -79,13 +87,13 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   }
 
   /**
-   * 规范化匹配表达式字符串
-   * @param paths 匹配表达式
+   * 解析路径中的动态占位符
+   * @param paths 路径数组
    */
-  protected normalizePaths(paths: string[] | string): string[] | string {
+  protected parsePaths(paths: string[] | string) {
     return isArray(paths)
-      ? paths.map((path: string) => this.normalizePath(path))
-      : this.normalizePath(paths);
+      ? paths.map((path: string) => this.parsePath(path))
+      : this.parsePath(paths);
   }
 
   /**
@@ -93,12 +101,10 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param path 相对路径
    * @param options 选项
    */
-  protected resolvePath(path: string, options?: { normalize: boolean }) {
+  protected resolvePath(path: string) {
     if (!path) return;
-    const resolvedPath = resolve(this.root, path);
-    return options && options.normalize
-      ? this.normalizePath(resolvedPath)
-      : resolvedPath;
+    path = normalize(path.replace("~/", this.homeOfApp + "/"));
+    return resolve(this.root, this.parsePath(path));
   }
 
   /**
@@ -106,13 +112,10 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param paths 相对路径
    * @param options 选项
    */
-  protected resolvePaths(
-    paths: string[] | string,
-    options?: { normalize: boolean }
-  ): string[] | string {
+  protected resolvePaths(paths: string[] | string) {
     return isArray(paths)
-      ? paths.map((path: string) => this.resolvePath(path, options))
-      : this.resolvePath(paths, options);
+      ? paths.map((path: string) => this.resolvePath(path))
+      : this.resolvePath(paths);
   }
 
   /**
@@ -120,12 +123,9 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param paths 匹配表达式
    * @param options 匹配选项
    */
-  protected glob(
-    paths: string | string[],
-    options?: globby.GlobbyOptions
-  ): Promise<string[]> {
+  protected glob(paths: string | string[], options?: globby.GlobbyOptions) {
     const cwd = this.root;
-    return globby(this.normalizePaths(paths), { cwd, ...options });
+    return globby(this.parsePaths(paths), { cwd, ...options });
   }
 
   /**

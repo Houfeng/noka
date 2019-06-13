@@ -10,7 +10,6 @@ import { EventEmitter } from "events";
 import { existsSync } from "fs";
 import { IApplication } from "./IApplication";
 import { IApplicationOptions } from "./IApplicationOptions";
-import { ILaunchInfo } from "./ILaunchInfo";
 import { ILoader } from "../AbstractLoader/ILoader";
 import { ILoaderConstructor } from "../AbstractLoader/ILoaderConstructor";
 import { ILoaderInfo, ILoaderInfoMap } from "../AbstractLoader/ILoaderInfo";
@@ -180,15 +179,46 @@ export class Application extends EventEmitter implements IApplication {
   }
 
   /**
+   * 当前应用端口私有变量
+   */
+  protected __port: number;
+
+  /**
+   * 获取应用端口
+   */
+  protected async getPort() {
+    if (this.__port) return this.__port;
+    const { port = this.config.port || (await acquire()) } = this.options;
+    this.__port = port;
+    return this.__port;
+  }
+
+  /**
+   * 当前应用使用的端口
+   */
+  public get port() {
+    return this.__port;
+  }
+
+  /**
+   * 当前应用名称
+   */
+  public get name() {
+    const pkgFile = resolve(this.root, "./package.json");
+    const { name = this.config.name || require(pkgFile).name } = this.options;
+    return name;
+  }
+
+  /**
    * 启动当前应用实例
    */
-  public async launch(): Promise<ILaunchInfo> {
+  public async launch(): Promise<IApplication> {
+    const port = await this.getPort();
     const loaders = await this.createAllLoaderInstances();
     for (let loader of loaders) await loader.load();
-    const { port = this.config.port || (await acquire()) } = this.options;
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     this.server.listen(port);
-    return { app: this, port };
+    return this;
   }
 }
