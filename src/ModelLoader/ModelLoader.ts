@@ -8,19 +8,30 @@ export * from "typeorm";
  * 模型加载器
  */
 export class ModelLoader<T = any> extends IoCLoader<T> {
-  private get defaultConnection() {
+  protected get defaultConnection() {
     return {
       type: "sqljs",
-      location: this.resolvePath("./data/store.db", { normalize: true }),
+      location: "./data/store.db",
       autoSave: true,
       synchronize: true,
-      logging: false,
-      entities: this.resolvePaths([this.options.path], { normalize: true })
+      logging: false
     };
   }
 
-  private wrapConnection(connection: any) {
-    return { ...this.defaultConnection, ...connection };
+  protected wrapConnection(connection: any) {
+    const conn = { ...this.defaultConnection, ...connection };
+    conn.entities = conn.entities || [this.options.path];
+    ["entities", "subscribers", "entitySchemas", "migrations"].forEach(key => {
+      if (!conn[key]) return;
+      conn[key] = this.resolvePaths(conn[key], { normalize: true });
+    });
+    if (conn.type === "sqljs") {
+      conn.location = this.resolvePath(conn.location, { normalize: true });
+    }
+    if (conn.type === "sqlite") {
+      conn.datebase = this.resolvePath(conn.datebase, { normalize: true });
+    }
+    return conn;
   }
 
   async load() {

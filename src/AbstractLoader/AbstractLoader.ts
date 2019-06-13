@@ -72,6 +72,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param path 匹配表达式
    */
   protected normalizePath(path: string): string {
+    if (!path) return;
     const ext = extname(this.app.entry);
     const src = ext === ".ts" ? this.sourceDir : this.distDir;
     return normalize(path.replace(":src", src).replace(":ext", ext));
@@ -93,6 +94,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param options 选项
    */
   protected resolvePath(path: string, options?: { normalize: boolean }) {
+    if (!path) return;
     const resolvedPath = resolve(this.root, path);
     return options && options.normalize
       ? this.normalizePath(resolvedPath)
