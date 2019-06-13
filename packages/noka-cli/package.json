@@ -1,6 +1,6 @@
 {
   "name": "noka-cli",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "",
   "main": "./lib/index.js",
   "bin": {
@@ -21,16 +21,16 @@
     "cmdline": "^2.0.4",
     "debug": "^4.1.1",
     "del": "^4.1.1",
-    "shify": "^3.0.6"
-  },
-  "devDependencies": {
-    "@types/copyfiles": "^2.1.1",
-    "@types/del": "^4.0.0",
+    "shify": "^3.0.6",
     "copyfiles": "^2.1.0",
     "ts-node": "^8.2.0",
     "ts-node-dev": "^1.0.0-pre.40",
     "tslint": "^5.16.0",
     "tslint-config-dawn": "^1.0.2",
     "typescript": "^3.5.1"
+  },
+  "devDependencies": {
+    "@types/copyfiles": "^2.1.1",
+    "@types/del": "^4.0.0"
   }
 }
