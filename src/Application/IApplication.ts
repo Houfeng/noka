@@ -46,4 +46,14 @@ export interface IApplication {
    * 日志对象
    */
   readonly logger: ILogger;
+
+  /**
+   * 应用端口
+   */
+  readonly port: number;
+
+  /**
+   * 应用名称
+   */
+  readonly name: string;
 }

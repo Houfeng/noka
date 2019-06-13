@@ -23,13 +23,13 @@ export class ModelLoader<T = any> extends IoCLoader<T> {
     conn.entities = conn.entities || [this.options.path];
     ["entities", "subscribers", "entitySchemas", "migrations"].forEach(key => {
       if (!conn[key]) return;
-      conn[key] = this.resolvePaths(conn[key], { normalize: true });
+      conn[key] = this.resolvePaths(conn[key]);
     });
     if (conn.type === "sqljs") {
-      conn.location = this.resolvePath(conn.location, { normalize: true });
+      conn.location = this.resolvePath(conn.location);
     }
     if (conn.type === "sqlite") {
-      conn.datebase = this.resolvePath(conn.datebase, { normalize: true });
+      conn.datebase = this.resolvePath(conn.datebase);
     }
     return conn;
   }
