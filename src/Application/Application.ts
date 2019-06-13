@@ -213,11 +213,11 @@ export class Application extends EventEmitter implements IApplication {
    * 启动当前应用实例
    */
   public async launch(): Promise<IApplication> {
-    const port = await this.getPort();
     const loaders = await this.createAllLoaderInstances();
     for (let loader of loaders) await loader.load();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
+    const port = await this.getPort();
     this.server.listen(port);
     return this;
   }
