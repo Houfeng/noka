@@ -96,7 +96,7 @@ export class Application extends EventEmitter implements IApplication {
    * 入口文件
    */
   get entry() {
-    return process.argv[1];
+    return process.env.pm_exec_path || process.argv[1];
   }
 
   /**
