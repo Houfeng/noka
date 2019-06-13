@@ -4,5 +4,5 @@
 *.d.ts
 node_modules
 coverage
-lib/
+dist/
 *.db

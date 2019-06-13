@@ -11,11 +11,11 @@ export class ModelLoader<T = any> extends IoCLoader<T> {
   private get defaultConnection() {
     return {
       type: "sqljs",
-      location: this.normalizePattern("./data/store.db"),
+      location: this.resolvePath("./data/store.db", { normalize: true }),
       autoSave: true,
       synchronize: true,
       logging: false,
-      entities: this.normalizePatterns([this.options.path])
+      entities: this.resolvePaths([this.options.path], { normalize: true })
     };
   }
 

@@ -3,8 +3,8 @@
   "displayName": "Noka",
   "version": "1.0.0",
   "description": "A Web development framework",
-  "main": "./lib/index.js",
-  "typings": "./lib/index.d.ts",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
   "scripts": {
     "clean": "bash ./scripts/clean.sh",
     "lint": "bash ./scripts/lint.sh",
