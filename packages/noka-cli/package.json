@@ -1,11 +1,11 @@
 {
   "name": "noka-cli",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "bin": {
-    "noka": "./lib/index.js",
-    "nk": "./lib/index.js"
+    "noka": "./bin/cli.js",
+    "nk": "./bin/cli.js"
   },
   "scripts": {
     "clean": "rm -rf ./lib",
@@ -17,9 +17,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "cmdline": "^2.0.4"
+    "bufferhelper": "^0.2.1",
+    "cmdline": "^2.0.4",
+    "debug": "^4.1.1",
+    "del": "^4.1.1",
+    "shify": "^3.0.6"
   },
   "devDependencies": {
+    "@types/copyfiles": "^2.1.1",
+    "@types/del": "^4.0.0",
     "copyfiles": "^2.1.0",
     "ts-node": "^8.2.0",
     "ts-node-dev": "^1.0.0-pre.40",
