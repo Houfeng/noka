@@ -6,10 +6,10 @@
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
   "scripts": {
-    "clean": "rm -rf ./lib",
+    "clean": "rm -rf ./dist",
     "lint": "tslint --project ./tsconfig.json --fix",
     "build": "npm run clean && npm run lint && tsc && npm run copy",
-    "copy": "copyfiles --up 1 ./src/**/*.{json,yml,html,css,md} lib/",
+    "copy": "copyfiles --up 1 ./src/**/*.{json,yml,html,css,md} dist/",
     "dev": "tsnd ./src/app.ts"
   },
   "keywords": [

@@ -1,5 +1,6 @@
 import * as del from "del";
+import { DIST_PATH } from "../common/consts";
 
 export async function clean() {
-  await del("./lib");
+  await del(DIST_PATH);
 }

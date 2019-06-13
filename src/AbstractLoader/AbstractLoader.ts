@@ -1,6 +1,6 @@
 import * as globby from "globby";
 import { existsSync } from "fs";
-import { extname, resolve } from "path";
+import { extname, normalize, resolve } from "path";
 import { IApplication } from "../Application/IApplication";
 import { ILoader } from "./ILoader";
 import { ILoaderOptions } from "./ILoaderOptions";
@@ -52,35 +52,78 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   protected content: T[] = [];
 
   /**
-   * 将匹配一个表达式字符串规范化
-   * @param pattern 匹配表达式
+   * 获取工程源码目录
    */
-  protected normalizePattern(pattern: string): string {
+  protected get sourceDir(): string {
+    const tsconfig = this.require("./tsconfig.json");
+    return (tsconfig && tsconfig.rootDir) || "src";
+  }
+
+  /**
+   * 获取工程构建结果目录
+   */
+  protected get distDir(): string {
+    const tsconfig = this.require("./tsconfig.json");
+    return (tsconfig && tsconfig.outDir) || "dist";
+  }
+
+  /**
+   * 将匹配一个表达式字符串规范化
+   * @param path 匹配表达式
+   */
+  protected normalizePath(path: string): string {
     const ext = extname(this.app.entry);
-    const src = ext === ".ts" ? "src" : "lib";
-    return pattern.replace(":src", src).replace(":ext", ext);
+    const src = ext === ".ts" ? this.sourceDir : this.distDir;
+    return normalize(path.replace(":src", src).replace(":ext", ext));
   }
 
   /**
    * 规范化匹配表达式字符串
-   * @param patterns 匹配表达式
+   * @param paths 匹配表达式
    */
-  protected normalizePatterns(patterns: string | string[]): string | string[] {
-    return isArray(patterns)
-      ? patterns.map((pattern: string) => this.normalizePattern(pattern))
-      : this.normalizePattern(patterns);
+  protected normalizePaths(paths: string[] | string): string[] | string {
+    return isArray(paths)
+      ? paths.map((path: string) => this.normalizePath(path))
+      : this.normalizePath(paths);
+  }
+
+  /**
+   * 解析为对象路径
+   * @param path 相对路径
+   * @param options 选项
+   */
+  protected resolvePath(path: string, options?: { normalize: boolean }) {
+    const resolvedPath = resolve(this.root, path);
+    return options && options.normalize
+      ? this.normalizePath(resolvedPath)
+      : resolvedPath;
+  }
+
+  /**
+   * 解析为对象路径
+   * @param paths 相对路径
+   * @param options 选项
+   */
+  protected resolvePaths(
+    paths: string[] | string,
+    options?: { normalize: boolean }
+  ): string[] | string {
+    return isArray(paths)
+      ? paths.map((path: string) => this.resolvePath(path, options))
+      : this.resolvePath(paths, options);
   }
 
   /**
    * 获取匹配的文件
-   * @param patterns 匹配表达式
+   * @param paths 匹配表达式
    * @param options 匹配选项
    */
   protected glob(
-    patterns: string | string[],
+    paths: string | string[],
     options?: globby.GlobbyOptions
   ): Promise<string[]> {
-    return globby(this.normalizePatterns(patterns), options);
+    const cwd = this.root;
+    return globby(this.normalizePaths(paths), { cwd, ...options });
   }
 
   /**
@@ -88,8 +131,11 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * @param moduleFile 模块路径
    */
   protected require(moduleFile: string) {
-    const { root } = this.app;
-    return require(resolve(root, moduleFile));
+    try {
+      return require(this.resolvePath(moduleFile));
+    } catch {
+      return null;
+    }
   }
 
   /**
@@ -100,9 +146,10 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
     const { root } = this.app;
     if (!existsSync(root)) return;
     const { path } = this.options;
-    const moduleFiles = await this.glob(path, { cwd: root });
+    const moduleFiles = await this.glob(path);
     moduleFiles.forEach(moduleFile => {
       const types = this.require(moduleFile);
+      if (!types) return;
       Object.keys(types).forEach(name => this.content.push(types[name]));
     });
   }

@@ -2,4 +2,4 @@
 
 set -e
 
-rm -rf ./lib
+rm -rf ./dist
