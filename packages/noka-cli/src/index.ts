@@ -1,6 +1,5 @@
-#!/usr/bin/env node
-
 import { build } from "./commands/build";
+import { clean } from "./commands/clean";
 import { dev } from "./commands/dev";
 import { init } from "./commands/init";
 import { lint } from "./commands/lint";
@@ -36,6 +35,10 @@ cmdline
   // test
   .root.command(["test"])
   .action(test, false)
+
+  // clean
+  .root.command(["clean"])
+  .action(clean, false)
 
   // build
   .root.command(["build"])
