@@ -6,4 +6,6 @@ new Application()
     logger.info("Root:", root);
     logger.info("Running:", `[ http://localhost:${port} ]`);
   })
-  .catch(err => console.error(err));
+  .catch(err => {
+    console.error(err);
+  });
