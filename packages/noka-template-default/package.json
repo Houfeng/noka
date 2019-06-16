@@ -1,0 +1,48 @@
+{
+  "name": "noka-template-default",
+  "version": "1.0.0",
+  "description": "Noka default template",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "scripts": {
+    "clean": "noka clean",
+    "lint": "noka lint",
+    "test": "noka test",
+    "dev": "noka dev",
+    "build": "noka build",
+    "start": "noka start",
+    "stop": "noka stop",
+    "restart": "noka restart",
+    "remove": "noka remove",
+    "pu": "npm pu --registry=http://registry.npmjs.org"
+  },
+  "keywords": [
+    "noka",
+    "noka",
+    "nsp",
+    "mvc",
+    "rest",
+    "webapi",
+    "web"
+  ],
+  "author": {
+    "name": "Houfeng",
+    "email": "admin@xhou.net"
+  },
+  "homepage": "http://noka.org",
+  "bugs": {
+    "url": "https://github.com/noka/noka/issues",
+    "email": "admin@xhou.net"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noka/noka.git"
+  },
+  "dependencies": {
+    "noka": "^1.0.5"
+  },
+  "devDependencies": {
+    "noka-cli": "^1.0.5"
+  }
+}
