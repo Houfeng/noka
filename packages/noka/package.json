@@ -1,7 +1,7 @@
 {
   "name": "noka",
   "displayName": "Noka",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A Web development framework",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -10,7 +10,8 @@
     "lint": "bash ./scripts/lint.sh",
     "build": "bash ./scripts/build.sh",
     "copy": "bash ./scripts/copy.sh",
-    "dev": "bash ./scripts/dev.sh"
+    "dev": "bash ./scripts/dev.sh",
+    "publish": "npm pu --registry=http://registry.npmjs.org"
   },
   "keywords": [
     "nokit",
