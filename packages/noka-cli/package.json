@@ -12,7 +12,8 @@
     "lint": "tslint --project ./tsconfig.json --fix",
     "build": "npm run clean && npm run lint && tsc && npm run copy && npm link",
     "copy": "copyfiles --up 1 ./src/**/*.txt ./dist/",
-    "dev": "tsnd ./src/index.ts"
+    "dev": "tsnd ./src/index.ts",
+    "publish": "npm pu --registry=http://registry.npmjs.org"
   },
   "author": "",
   "license": "ISC",
