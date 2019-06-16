@@ -7,7 +7,6 @@ Gulpfile.js
 .vscode
 _*
 *.src.*
-*.d.ts
 coverage
 src/
 packages/
