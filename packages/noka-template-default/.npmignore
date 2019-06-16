@@ -1,0 +1,10 @@
+.D_Store
+*.log
+*.d.ts
+*.db
+.travis.yml
+.vscode
+node_modules/
+coverage/
+logs/
+dist/
