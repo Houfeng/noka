@@ -1,6 +1,6 @@
 {
   "name": "noka-cli",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -25,6 +25,7 @@
     "cmdline": "^3.0.2",
     "confman": "^0.2.10",
     "console3": "^1.0.6",
+    "copy": "^0.3.2",
     "copyfiles": "^2.1.0",
     "debug": "^4.1.1",
     "del": "^4.1.1",

@@ -3,8 +3,10 @@ import { AppInfo } from "../common/AppInfo";
 import { cpus } from "os";
 import { handleError } from "../common/ErrorHandler";
 import { list } from "./list";
+import { logger } from "../common/logger";
 
 export async function start(env: string, $1: string, name: string) {
+  logger.log("启动应用...");
   const appInfo = new AppInfo({ env, $1 });
   pm2.connect(err => {
     if (err) return handleError(err);

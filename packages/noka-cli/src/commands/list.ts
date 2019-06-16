@@ -1,5 +1,6 @@
 import * as pm2 from "pm2";
 import { handleError } from "../common/ErrorHandler";
+import { logger } from "../common/logger";
 // import { resolve } from "dns";
 
 // export async function getApps(){
@@ -9,6 +10,7 @@ import { handleError } from "../common/ErrorHandler";
 // }
 
 export async function list() {
+  logger.log("所有启动过的应用...");
   pm2.connect(err => {
     if (err) return handleError(err);
     pm2.list((err, data: pm2.ProcessDescription[]) => {

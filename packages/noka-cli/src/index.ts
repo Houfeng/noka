@@ -5,6 +5,7 @@ import { dev } from "./commands/dev";
 import { init } from "./commands/init";
 import { lint } from "./commands/lint";
 import { list } from "./commands/list";
+import { logger } from "./common/logger";
 import { normalize } from "path";
 import { remove } from "./commands/remove";
 import { restart } from "./commands/restart";
@@ -12,15 +13,15 @@ import { start } from "./commands/start";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
 
-const console = require("console3");
 const pkg = require("../package.json");
 
 function onError(err: Error) {
-  console.error(err.message);
+  logger.error(err.message);
   process.exit(2);
 }
 
 cmdline
+  .console(logger)
   .error(onError)
   .version(pkg.version)
   .help(normalize(`@${__dirname}/assets/help.txt`))
