@@ -1,19 +1,20 @@
 import * as del from "del";
+import { AppInfo } from "../common/AppInfo";
 import { clean } from "./clean";
-import { DIST_PATH, SRC_PATH } from "../common/consts";
 import { exec } from "../common/exec";
 import { findCommand } from "../common/findCommand";
-import { lint } from "./lint";
+import { test } from "./test";
 
-export async function build() {
-  await clean();
-  await lint();
+export async function build($1: string) {
+  await clean($1);
+  await test($1);
+  const appInfo = new AppInfo({ $1 });
   const tsc = findCommand(__dirname, "tsc");
   const copy = findCommand(__dirname, "copyfiles");
   const command = [
-    `${copy} --up 1 ${SRC_PATH}/**/*.* ${DIST_PATH}`,
+    `${copy} --up 1 ${appInfo.srcPath}/**/*.* ${appInfo.distPath}`,
     `${tsc} --pretty`
   ];
-  await exec(command);
-  await del([`${SRC_PATH}/**/*.ts`, `!${SRC_PATH}/**/*.d.ts`]);
+  await exec(command, { cwd: appInfo.root });
+  await del([`${appInfo.distPath}/**/*.ts`, `!${appInfo.distPath}/**/*.d.ts`]);
 }
