@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "./lib/",
+    "outDir": "./dist/",
+    "rootDir": "./src/",
     "sourceMap": false,
     "declaration": true,
     "noImplicitAny": true,
@@ -8,16 +9,15 @@
     "target": "esnext",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noFallthroughCasesInSwitch": true,
     "maxNodeModuleJsDepth": 4,
-    "pretty": true,
     "lib": [
       "esnext"
     ]
   },
   "include": [
-    "./src/**/*.ts"
+    "src/**/*.ts"
   ]
 }
