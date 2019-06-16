@@ -5,11 +5,15 @@
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "scripts": {
-    "clean": "rm -rf ./dist",
-    "lint": "tslint --project ./tsconfig.json --fix",
-    "build": "npm run clean && npm run lint && tsc && npm run copy",
-    "copy": "copyfiles --up 1 ./src/**/*.{json,yml,html,css,md} dist/",
-    "dev": "tsnd ./src/app.ts"
+    "clean": "noka clean",
+    "lint": "noka lint",
+    "test": "noka test",
+    "dev": "noka dev",
+    "build": "noka build",
+    "start": "noka start",
+    "stop": "noka stop",
+    "restart": "noka restart",
+    "remove": "noka remove"
   },
   "keywords": [
     "noka",
@@ -33,5 +37,11 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/noka/noka.git"
+  },
+  "dependencies": {
+    "noka": "^1.0.5"
+  },
+  "devDependencies": {
+    "noka-cli": "^1.0.5"
   }
 }

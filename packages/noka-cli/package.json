@@ -1,6 +1,6 @@
 {
   "name": "noka-cli",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -13,7 +13,7 @@
     "build": "npm run clean && npm run lint && tsc && npm run copy && npm link",
     "copy": "copyfiles --up 1 ./src/**/*.txt ./dist/",
     "dev": "tsnd ./src/index.ts",
-    "publish": "npm pu --registry=http://registry.npmjs.org"
+    "pu": "npm pu --registry=http://registry.npmjs.org"
   },
   "author": "",
   "license": "ISC",
