@@ -69,7 +69,7 @@
     "ts-node": "^8.2.0",
     "ts-node-dev": "^1.0.0-pre.39",
     "tslint": "^5.16.0",
-    "tslint-config-dawn": "^1.0.2",
+    "tslint-config-noka": "^1.0.0",
     "typescript": "^3.5.1"
   }
 }
