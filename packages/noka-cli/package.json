@@ -1,6 +1,6 @@
 {
   "name": "noka-cli",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -18,10 +18,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/chalk": "^2.2.0",
     "@types/copyfiles": "^2.1.1",
     "@types/del": "^4.0.0",
     "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
     "bufferhelper": "^0.2.1",
+    "chalk": "^2.4.2",
     "cmdline": "^3.0.2",
     "confman": "^0.2.10",
     "console3": "^1.0.6",

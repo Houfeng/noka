@@ -1,17 +1,24 @@
-const console3 = require("console3");
-const utils = require("ntils");
-const { colors } = console3;
+import chalk from "chalk";
+import { EOL } from "os";
+import { format } from "util";
+
+const { formatDate } = require("ntils");
+const timeFormater = "yyyy-MM-dd hh:mm:ss";
+const originConsole = console as any;
 
 ["log", "info", "warn", "error"].forEach(name => {
-  const func = console3[name];
-  console3[name] = (...args: any[]) => {
-    const text = [...args].join("").trim();
-    if (text && !text.includes("\n")) {
-      const time = utils.formatDate(new Date(), "yyyy-MM-dd hh:mm:ss");
-      console3.write(colors.blue(`[${time}] `));
+  const func = originConsole[name];
+  originConsole[name] = (formater: string, ...args: any[]) => {
+    if (
+      formater.includes(EOL) ||
+      args.some((str: string) => str.includes(EOL))
+    ) {
+      return func.call(originConsole, formater, ...args);
     }
-    func.call(console3, ...args);
+    const time = `[${formatDate(new Date(), timeFormater)}]`;
+    const text = format(formater, ...args);
+    return func.call(originConsole, chalk.blue(time), text);
   };
 });
 
-export const logger = console3;
+export const logger = originConsole as Console;
