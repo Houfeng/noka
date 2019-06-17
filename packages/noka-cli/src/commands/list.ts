@@ -22,7 +22,7 @@ export async function list() {
         if (!root) return;
         const { name, pid } = item;
         const { cpu, memory } = item.monit;
-        apps.push({ name, pid, status, cpu, memory, root });
+        apps.push({ name, pid, status, cpu, memory });
       });
       if (apps.length > 0) console.table(apps);
     });

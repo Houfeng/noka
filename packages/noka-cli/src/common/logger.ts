@@ -9,14 +9,11 @@ const originConsole = console as any;
 ["log", "info", "warn", "error"].forEach(name => {
   const func = originConsole[name];
   originConsole[name] = (formater: string, ...args: any[]) => {
-    if (
-      formater.includes(EOL) ||
-      args.some((str: string) => str.includes(EOL))
-    ) {
+    const text = format(formater, ...args);
+    if (text.includes(EOL)) {
       return func.call(originConsole, formater, ...args);
     }
     const time = `[${formatDate(new Date(), timeFormater)}]`;
-    const text = format(formater, ...args);
     return func.call(originConsole, chalk.blue(time), text);
   };
 });

@@ -12,7 +12,7 @@ export async function start(env: string, $1: string, name: string) {
     if (err) return handleError(err);
     pm2.start(
       {
-        name,
+        name: name || appInfo.name,
         script: appInfo.jsEntry,
         exec_mode: "cluster",
         instances: cpus.length,
