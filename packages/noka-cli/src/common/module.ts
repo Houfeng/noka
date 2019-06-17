@@ -54,7 +54,7 @@ export function mkdir(dir: string) {
 
 export async function download(name: string, version?: string) {
   const info = await getVersionInfo(name, version);
-  const pkgDir = resolve(homedir(), "./.noka-cli");
+  const pkgDir = resolve(homedir(), "./.noka-cli/modules");
   await mkdir(pkgDir);
   const pkgFile = resolve(pkgDir, `${name}@${info.version}.tgz`);
   if (existsSync(pkgFile)) return pkgFile;
