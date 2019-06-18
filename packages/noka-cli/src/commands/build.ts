@@ -7,7 +7,7 @@ import { logger } from "../common/logger";
 import { test } from "./test";
 
 export async function build($1: string) {
-  logger.log("准备构建...");
+  logger.info("准备构建...");
   await clean($1);
   await test($1);
   logger.log("开始构建...");

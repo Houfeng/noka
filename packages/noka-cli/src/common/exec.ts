@@ -4,7 +4,6 @@ import { platform } from "os";
 
 const shify = require("shify");
 const BufferHelper = require("bufferhelper");
-const debug = require("debug")("exec");
 
 const isWin = platform() === "win32";
 
@@ -16,14 +15,11 @@ export function exec(script: string[] | string, opts?: any) {
   opts.env.PATH = `${opts.env.PATH}${isWin ? ";" : ":"}${bin}`;
   opts.stdio = opts.stdio || "inherit";
   opts.builtIn = true;
-  debug("opts", opts);
   script = script || "";
-  debug("script", opts);
   return new Promise((resolve, reject) => {
     let childProcess = shify(script, opts);
     if (opts.onStart) opts.onStart(childProcess);
     childProcess.on("exit", (code: number) => {
-      debug("exit", code);
       if (code !== 0) {
         return reject(new Error(`Script Error, exit ${code}`));
       }

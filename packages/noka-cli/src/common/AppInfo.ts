@@ -86,7 +86,7 @@ export class AppInfo {
   /**
    * 当前应用的 package 信息
    */
-  public package() {
+  public get package() {
     const pkgFile = resolve(this.root, "./package.json");
     return require(pkgFile);
   }
@@ -94,7 +94,7 @@ export class AppInfo {
   /**
    * 当前应用 tsconfig
    */
-  public tsConfig() {
+  public get tsConfig() {
     return require(this.tsConfigFile);
   }
 

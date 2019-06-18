@@ -7,7 +7,7 @@ import { resolve } from "path";
 
 export async function test($1: string) {
   await lint($1);
-  logger.log("执行单元测试...");
+  logger.info("执行单元测试...");
   const appInfo = new AppInfo({ $1 });
   const mocha = findCommand(__dirname, "mocha");
   const tsNode = findCommand(__dirname, "ts-node");

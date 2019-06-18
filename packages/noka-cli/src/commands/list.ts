@@ -10,7 +10,7 @@ import { logger } from "../common/logger";
 // }
 
 export async function list() {
-  logger.log("所有启动过的应用...");
+  logger.info("所有启动过的应用...");
   pm2.connect(err => {
     if (err) return handleError(err);
     pm2.list((err, data: pm2.ProcessDescription[]) => {
