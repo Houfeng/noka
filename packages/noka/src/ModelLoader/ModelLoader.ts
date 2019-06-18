@@ -2,7 +2,6 @@ import { createConnections } from "typeorm";
 import { IoCLoader } from "../IoCLoader";
 import { isArray } from "util";
 import { MODEL_CONN_ENTITY_KEY } from "./constants";
-export * from "typeorm";
 
 /**
  * 模型加载器

@@ -2,20 +2,9 @@ import * as globby from "globby";
 import { AbstractLoader } from "../AbstractLoader";
 import { basename, resolve } from "path";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
-import { existsSync, readFile } from "fs";
+import { existsSync } from "fs";
+import { readText } from "../common/utils";
 import { VIEWS_ENTITY_KEY } from "./constants";
-
-/**
- * 读取模板路径
- * @param filename 模板路径
- */
-export function readTemplate(filename: string) {
-  return new Promise<string>((done, reject) => {
-    readFile(filename, "utf8", (err, data) => {
-      return err ? reject(err) : done(data);
-    });
-  });
-}
 
 /**
  * 静态资源 加载器
@@ -28,12 +17,13 @@ export class ViewLoader<T = any> extends AbstractLoader<T> {
     const { path, extname = ".html" } = this.options;
     const viewRoot = resolve(this.root, path);
     if (!existsSync(viewRoot)) return;
-    const files = await globby(`./**/*${extname}`, { cwd: viewRoot });
+    const viewPattern = `./**/*${extname}`;
+    const viewFiles = await globby(viewPattern, { cwd: viewRoot });
     const viewMap: any = {};
     const env = new Environment(new FileSystemLoader(viewRoot));
     await Promise.all(
-      files.map(async file => {
-        const text = await readTemplate(resolve(viewRoot, file));
+      viewFiles.map(async file => {
+        const text = await readText(resolve(viewRoot, file));
         // @types/nunjucks 3.1.1 没有第三个 path 参数的类型定义
         const relativePath: any = file;
         const template = compile(text, env, relativePath);
@@ -41,6 +31,7 @@ export class ViewLoader<T = any> extends AbstractLoader<T> {
       })
     );
     this.container.registerValue(VIEWS_ENTITY_KEY, viewMap);
+    this.watchBy(viewPattern, { cwd: viewRoot });
     this.app.logger.info("View ready");
   }
 }

@@ -5,7 +5,7 @@ import { builtLoaders } from "./builtInLoaders";
 import { CONF_RESERVEDS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../ConfigLoader";
 import { Container } from "../IoCLoader";
-import { dirname, normalize, resolve } from "path";
+import { dirname, extname, normalize, resolve } from "path";
 import { EventEmitter } from "events";
 import { existsSync } from "fs";
 import { IApplication } from "./IApplication";
@@ -13,9 +13,11 @@ import { IApplicationOptions } from "./IApplicationOptions";
 import { ILoader } from "../AbstractLoader/ILoader";
 import { ILoaderConstructor } from "../AbstractLoader/ILoaderConstructor";
 import { ILoaderInfo, ILoaderInfoMap } from "../AbstractLoader/ILoaderInfo";
+import { ILogger } from "../LoggerLoader/ILogger";
 import { isObject } from "util";
 import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
-import { ILogger } from "../LoggerLoader/ILogger";
+import { readText, writeText } from "../common/utils";
+import { watch, WatchOptions } from "chokidar";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -135,9 +137,7 @@ export class Application extends EventEmitter implements IApplication {
   protected importLoader(name: string): ILoaderConstructor {
     name = String(name);
     const { root } = this.options;
-    const loaderPath = this.isPath(name)
-      ? resolve(root, name)
-      : normalize(`${root}/node_modules/${name}`);
+    const loaderPath = this.isPath(name) ? resolve(root, name) : name;
     const loader = require(loaderPath);
     return loader.default || loader;
   }
@@ -208,6 +208,27 @@ export class Application extends EventEmitter implements IApplication {
     const { name = this.config.name || require(pkgFile).name } = this.options;
     return name;
   }
+
+  /**
+   * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
+   * 在非 noka-cli 启动时，此方法将不会起任何作用
+   * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
+   * @param paths 文件（file, dir, glob, or array）
+   */
+  public watchBy(paths: string | string[], options?: WatchOptions): void {
+    const ext = extname(this.entry);
+    if (ext !== ".ts") return;
+    const watcher = watch(paths, { ...options, ignoreInitial: true });
+    watcher.on("all", this.triggerRestart);
+  }
+
+  /**
+   * 通过读写 entry 触发 dev 模式的进程重启
+   */
+  protected triggerRestart = async () => {
+    const text = await readText(this.entry);
+    return writeText(this.entry, text);
+  };
 
   /**
    * 启动当前应用实例

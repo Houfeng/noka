@@ -14,9 +14,10 @@ export class ConfigLoader<T = any> extends AbstractLoader<T> {
   public async load() {
     const { root } = this.app;
     const { path } = this.options;
-    const configFile = resolve(root, path);
+    const configPath = resolve(root, path);
     const configParser = new Parser({ env: this.env });
-    const configObject = await configParser.load(configFile);
+    const configObject = await configParser.load(configPath);
     this.container.registerValue(CONFIG_ENTITY_KEY, configObject);
+    this.watchBy([`${configPath}.*`, `${configPath}/**/*.*`]);
   }
 }
