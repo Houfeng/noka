@@ -1,3 +1,5 @@
+import { readFile, writeFile } from "fs";
+
 const utils = require("ntils");
 
 /**
@@ -27,4 +29,28 @@ export function uuid(): string {
  */
 export function mix(dst: any, src: any, igonres?: string[]) {
   return utils.mix(dst, src, igonres);
+}
+
+/**
+ * 读取文本文件
+ * @param filename 文件路径
+ */
+export function readText(filename: string) {
+  return new Promise<string>((resolve, reject) => {
+    readFile(filename, "utf8", (err, data) => {
+      return err ? reject(err) : resolve(data);
+    });
+  });
+}
+
+/**
+ * 写入文本文件
+ * @param filename 文件路径
+ */
+export function writeText(filename: string, text: string) {
+  return new Promise<void>((resolve, reject) => {
+    writeFile(filename, text, err => {
+      return err ? reject(err) : resolve();
+    });
+  });
 }

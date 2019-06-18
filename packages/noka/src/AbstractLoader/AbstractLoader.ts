@@ -1,11 +1,12 @@
 import * as globby from "globby";
 import { existsSync } from "fs";
 import { extname, normalize, resolve } from "path";
+import { homedir } from "os";
 import { IApplication } from "../Application/IApplication";
 import { ILoader } from "./ILoader";
 import { ILoaderOptions } from "./ILoaderOptions";
 import { isArray } from "util";
-import { homedir } from "os";
+import { WatchOptions } from "chokidar";
 
 /**
  * 资源加载器抽象基类
@@ -63,7 +64,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * 获取工程源码目录
    */
   protected get sourceDir(): string {
-    const tsconfig = this.require("./tsconfig.json");
+    const tsconfig = this.importModule("./tsconfig.json");
     return (tsconfig && tsconfig.rootDir) || "src";
   }
 
@@ -71,7 +72,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * 获取工程构建结果目录
    */
   protected get distDir(): string {
-    const tsconfig = this.require("./tsconfig.json");
+    const tsconfig = this.importModule("./tsconfig.json");
     return (tsconfig && tsconfig.outDir) || "dist";
   }
 
@@ -132,12 +133,22 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    * 导入一个模块
    * @param moduleFile 模块路径
    */
-  protected require(moduleFile: string) {
+  protected importModule(moduleFile: string) {
     try {
       return require(this.resolvePath(moduleFile));
     } catch {
       return null;
     }
+  }
+
+  /**
+   * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
+   * 在非 noka-cli 启动时，此方法将不会起任何作用
+   * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
+   * @param paths 文件（file, dir, glob, or array）
+   */
+  public watchBy(paths: string | string[], options?: WatchOptions): void {
+    this.app.watchBy(paths, options);
   }
 
   /**
@@ -150,7 +161,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
     const { path } = this.options;
     const moduleFiles = await this.glob(path);
     moduleFiles.forEach(moduleFile => {
-      const types = this.require(moduleFile);
+      const types = this.importModule(moduleFile);
       if (!types) return;
       Object.keys(types).forEach(name => this.content.push(types[name]));
     });
