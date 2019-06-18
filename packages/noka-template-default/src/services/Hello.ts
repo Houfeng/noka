@@ -13,6 +13,11 @@ export class ItemService {
     return repo.save(demo);
   }
 
+  async remove(id: string) {
+    const repo = this.conn.getRepository(Item);
+    return repo.delete(id);
+  }
+
   async list() {
     const repo = this.conn.getRepository(Item);
     return repo
