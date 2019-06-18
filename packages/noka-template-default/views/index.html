@@ -2,20 +2,24 @@
 
 {% block content %}
 <h1>Items:</h1>
-<table>
-  <thead>
-    <tr>
-      <th>ID</th>
-      <th>Name</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in items %}
-    <tr>
-      <td>{{ item.id }}</td>
-      <td>{{ item.name }}</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
+<form method="POST" enctype="application/x-www-form-urlencoded">
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th><button name="create" value="true">Create</button></th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for item in items %}
+      <tr>
+        <td>{{ item.id }}</td>
+        <td>{{ item.name }}</td>
+        <td><button name="remove" value="{{item.id}}">Remove</button></td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</form>
 {% endblock %}

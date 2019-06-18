@@ -1,6 +1,6 @@
 {
   "name": "noka-template-default",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Noka default template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
