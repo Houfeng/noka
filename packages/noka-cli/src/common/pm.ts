@@ -54,8 +54,7 @@ export async function start(options: pm2.StartOptions) {
   return new Promise<void>((resolve, reject) => {
     pm2.start(options, (err: any) => {
       disconnect();
-      err = err[0] || err;
-      return err ? reject(err) : resolve();
+      return err ? reject(err[0] || err) : resolve();
     });
   });
 }
