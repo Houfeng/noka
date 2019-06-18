@@ -52,8 +52,9 @@ export async function restart(process: string | number) {
 export async function start(options: pm2.StartOptions) {
   await connect();
   return new Promise<void>((resolve, reject) => {
-    pm2.start(options, err => {
+    pm2.start(options, (err: any) => {
       disconnect();
+      err = err[0] || err;
       return err ? reject(err) : resolve();
     });
   });

@@ -7,10 +7,10 @@ import { logger } from "../common/logger";
 import { test } from "./test";
 
 export async function build($1: string) {
-  logger.info("准备构建...");
+  logger.info("Prepare to build ...");
   await clean($1);
   await test($1);
-  logger.info("开始构建...");
+  logger.info("Start building...");
   const appInfo = new AppInfo({ $1 });
   const tsc = findCommand(__dirname, "tsc");
   const copy = findCommand(__dirname, "copyfiles");
@@ -20,5 +20,5 @@ export async function build($1: string) {
   ];
   await exec(command, { cwd: appInfo.root });
   await del([`${appInfo.distPath}/**/*.ts`, `!${appInfo.distPath}/**/*.d.ts`]);
-  logger.info("done");
+  logger.info("finished");
 }

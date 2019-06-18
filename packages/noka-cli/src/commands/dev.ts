@@ -8,7 +8,7 @@ import { logger } from "../common/logger";
  * @param env 环境名称
  */
 export async function dev(env: string, $1: string) {
-  logger.info("启动开发模式...");
+  logger.info("Start development mode ...");
   const appInfo = new AppInfo({ env, $1 });
   const tsnd = findCommand(__dirname, "tsnd");
   const envSetter = env ? `NOKA_ENV=${env}` : "";

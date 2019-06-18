@@ -4,9 +4,9 @@ import { logger } from "../common/logger";
 export async function list() {
   const apps = await pm.list();
   if (apps && apps.length > 1) {
-    logger.info("所有应用:");
+    logger.info("All applications:");
     logger.table(apps);
   } else {
-    logger.info("无任何应用");
+    logger.info("No application");
   }
 }

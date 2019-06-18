@@ -16,5 +16,5 @@ export async function start(env: string, $1: string, name: string) {
       NOKA_ENV: env
     }
   });
-  logger.info("已启动应用");
+  logger.info("The application is started");
 }

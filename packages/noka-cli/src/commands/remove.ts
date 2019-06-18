@@ -4,18 +4,18 @@ import { logger } from "../common/logger";
 
 export async function remove($1: string, name: string, all: string) {
   if (all) {
-    const restarted: any = {};
+    const handled: any = {};
     const apps = await pm.list();
     for (let app of apps) {
-      if (restarted[app.name]) continue;
-      logger.info("移除:", app.name);
+      if (handled[app.name]) continue;
       await pm.remove(app.name);
-      restarted[app.name] = true;
+      handled[app.name] = true;
+      logger.info("Removed:", app.name);
     }
-    logger.info("已移除所有应用");
+    logger.info("All applications have been removed");
   } else {
     const appInfo = new AppInfo({ $1 });
     await pm.remove(name || appInfo.jsEntry);
-    logger.info("已移除应用");
+    logger.info("Application removed");
   }
 }

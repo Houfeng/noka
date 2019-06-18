@@ -17,7 +17,7 @@ import { test } from "./commands/test";
 const pkg = require("../package.json");
 
 function onError(err: Error) {
-  logger.error(err.message);
+  logger.error(process.env.NOKA_CLI_DEBUG ? err : err.message);
   process.exit(2);
 }
 

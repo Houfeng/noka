@@ -4,18 +4,18 @@ import { logger } from "../common/logger";
 
 export async function restart($1: string, name: string, all: string) {
   if (all) {
-    const restarted: any = {};
+    const handled: any = {};
     const apps = await pm.list();
     for (let app of apps) {
-      if (restarted[app.name]) continue;
-      logger.info("重启:", app.name);
+      if (handled[app.name]) continue;
       await pm.restart(app.name);
-      restarted[app.name] = true;
+      handled[app.name] = true;
+      logger.info("Restarted:", app.name);
     }
-    logger.info("已重启所有应用");
+    logger.info("All applications have been restarted");
   } else {
     const appInfo = new AppInfo({ $1 });
     await pm.restart(name || appInfo.jsEntry);
-    logger.info("已重启应用");
+    logger.info("Application restarted");
   }
 }
