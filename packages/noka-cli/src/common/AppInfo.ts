@@ -83,19 +83,27 @@ export class AppInfo {
     return configObject;
   }
 
+  protected load(filename: string, defaultValue: any = null) {
+    try {
+      return require(filename);
+    } catch {
+      return defaultValue;
+    }
+  }
+
   /**
    * 当前应用的 package 信息
    */
   public get package() {
     const pkgFile = resolve(this.root, "./package.json");
-    return require(pkgFile);
+    return this.load(pkgFile, {});
   }
 
   /**
    * 当前应用 tsconfig
    */
   public get tsConfig() {
-    return require(this.tsConfigFile);
+    return this.load(this.tsConfigFile);
   }
 
   /**

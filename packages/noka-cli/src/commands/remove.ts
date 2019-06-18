@@ -1,16 +1,21 @@
-import * as pm2 from "pm2";
+import * as pm from "../common/pm";
 import { AppInfo } from "../common/AppInfo";
-import { handleError } from "../common/ErrorHandler";
 import { logger } from "../common/logger";
 
-export async function remove($1: string, name: string) {
-  logger.info("从已启动应用列表中移除...");
-  const appInfo = new AppInfo({ $1 });
-  pm2.connect(err => {
-    if (err) return handleError(err);
-    pm2.delete(name || appInfo.jsEntry, err => {
-      pm2.disconnect();
-      if (err) return handleError(err);
-    });
-  });
+export async function remove($1: string, name: string, all: string) {
+  if (all) {
+    const restarted: any = {};
+    const apps = await pm.list();
+    for (let app of apps) {
+      if (restarted[app.name]) continue;
+      logger.info("移除:", app.name);
+      await pm.remove(app.name);
+      restarted[app.name] = true;
+    }
+    logger.info("已移除所有应用");
+  } else {
+    const appInfo = new AppInfo({ $1 });
+    await pm.remove(name || appInfo.jsEntry);
+    logger.info("已移除应用");
+  }
 }

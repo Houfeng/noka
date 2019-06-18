@@ -10,6 +10,7 @@ import { normalize } from "path";
 import { remove } from "./commands/remove";
 import { restart } from "./commands/restart";
 import { start } from "./commands/start";
+import { startup } from "./commands/startup";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
 
@@ -79,6 +80,11 @@ cmdline
   .option(["-n", "--name"], "string")
   .option(["-a", "--all"], "switch")
   .action(remove, false)
+
+  // startup
+  .root.command(["startup", "su"])
+  .option(["-p", "--platform"], "string")
+  .action(startup, false)
 
   // ready
   .ready();

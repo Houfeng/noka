@@ -6,4 +6,5 @@ export async function clean($1: string) {
   logger.info("清理构建结果...");
   const appInfo = new AppInfo({ $1 });
   await del(appInfo.distPath);
+  logger.info("done");
 }

@@ -1,30 +1,12 @@
-import * as pm2 from "pm2";
-import { handleError } from "../common/ErrorHandler";
+import * as pm from "../common/pm";
 import { logger } from "../common/logger";
-// import { resolve } from "dns";
-
-// export async function getApps(){
-//   return new Promise((resolve,reject)=>{
-
-//   })
-// }
 
 export async function list() {
-  logger.info("所有启动过的应用...");
-  pm2.connect(err => {
-    if (err) return handleError(err);
-    pm2.list((err, data: pm2.ProcessDescription[]) => {
-      pm2.disconnect();
-      if (err) return handleError(err);
-      const apps: any[] = [];
-      data.forEach(item => {
-        const { status, NOKA_ROOT: root } = item.pm2_env as any;
-        if (!root) return;
-        const { name, pid } = item;
-        const { cpu, memory } = item.monit;
-        apps.push({ name, pid, status, cpu, memory });
-      });
-      if (apps.length > 0) console.table(apps);
-    });
-  });
+  const apps = await pm.list();
+  if (apps && apps.length > 1) {
+    logger.info("所有应用:");
+    logger.table(apps);
+  } else {
+    logger.info("无任何应用");
+  }
 }
