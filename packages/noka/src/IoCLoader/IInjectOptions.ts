@@ -5,4 +5,5 @@ import { IInjectGetter } from "./InjectGetter";
  */
 export interface IInjectOptions {
   getter?: IInjectGetter;
+  [name: string]: any;
 }
