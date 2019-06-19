@@ -1,26 +1,23 @@
-import { Conn, Connection, Provider } from "noka";
+import { Provider, Repository, Repo } from "noka";
 import { Item } from "../models/Item";
 
 @Provider("itemService")
 export class ItemService {
-  @Conn()
-  conn: Connection;
+  @Repo(Item)
+  repo: Repository<Item>;
 
   async create() {
-    const repo = this.conn.getRepository(Item);
     const demo = new Item();
     demo.name = "test";
-    return repo.save(demo);
+    return this.repo.save(demo);
   }
 
   async remove(id: string) {
-    const repo = this.conn.getRepository(Item);
-    return repo.delete(id);
+    return this.repo.delete(id);
   }
 
   async list() {
-    const repo = this.conn.getRepository(Item);
-    return repo
+    return this.repo
       .createQueryBuilder("item")
       .orderBy("item.id", "DESC")
       .skip(0)
