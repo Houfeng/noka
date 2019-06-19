@@ -1,6 +1,6 @@
 {
   "name": "noka-template-default",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Noka default template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -43,6 +43,6 @@
     "noka": "^1.0.6"
   },
   "devDependencies": {
-    "noka-cli": "^1.1.3"
+    "noka-cli": "^1.1.5"
   }
 }
