@@ -9,7 +9,7 @@ export interface IAppInfoOptions {
   // 当前环境名称
   env?: string;
   // 启动点（入口文件或应用目录）
-  $1: string;
+  $1?: string;
 }
 
 /**
@@ -20,13 +20,14 @@ export class AppInfo {
    * 构建一个应用信息实例
    * @param startPoint 启动入口
    */
-  constructor(private options: IAppInfoOptions) {}
+  constructor(private options: IAppInfoOptions = {}) {}
 
   /**
    * 应用启动点
    */
   public get startPoint() {
-    return this.options.$1 || process.cwd();
+    const cwd = process.cwd();
+    return this.options.$1 ? resolve(cwd, this.options.$1) : cwd;
   }
 
   /**
@@ -82,19 +83,27 @@ export class AppInfo {
     return configObject;
   }
 
+  protected load(filename: string, defaultValue: any = null) {
+    try {
+      return require(filename);
+    } catch {
+      return defaultValue;
+    }
+  }
+
   /**
    * 当前应用的 package 信息
    */
-  public package() {
+  public get package() {
     const pkgFile = resolve(this.root, "./package.json");
-    return require(pkgFile);
+    return this.load(pkgFile, {});
   }
 
   /**
    * 当前应用 tsconfig
    */
-  public tsConfig() {
-    return require(this.tsConfigFile);
+  public get tsConfig() {
+    return this.load(this.tsConfigFile);
   }
 
   /**
