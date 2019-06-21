@@ -1,3 +1,4 @@
+import * as mkdirp from "mkdirp";
 import { readFile, writeFile } from "fs";
 
 const utils = require("ntils");
@@ -52,5 +53,15 @@ export function writeText(filename: string, text: string) {
     writeFile(filename, text, err => {
       return err ? reject(err) : resolve();
     });
+  });
+}
+
+/**
+ * 创建目录
+ * @param dir 目录路径
+ */
+export function mkdir(dir: string) {
+  return new Promise<string>((resolve, reject) => {
+    mkdirp(dir, err => (err ? reject(err) : resolve(dir)));
   });
 }

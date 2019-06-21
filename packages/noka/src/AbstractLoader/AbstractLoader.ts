@@ -1,12 +1,12 @@
 import * as globby from "globby";
 import { existsSync } from "fs";
 import { extname, normalize, resolve } from "path";
-import { homedir } from "os";
 import { IApplication } from "../Application/IApplication";
 import { ILoader } from "./ILoader";
 import { ILoaderOptions } from "./ILoaderOptions";
 import { isArray } from "util";
-import { WatchOptions } from "chokidar";
+import { readText, writeText } from "../common/utils";
+import { watch, WatchOptions } from "chokidar";
 
 /**
  * 资源加载器抽象基类
@@ -51,8 +51,8 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   /**
    * app 在 home 中的位置
    */
-  protected get homeOfApp() {
-    return normalize(`${homedir()}/${this.app.name}`);
+  protected get home() {
+    return this.app.home;
   }
 
   /**
@@ -74,6 +74,13 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   protected get distDir(): string {
     const tsconfig = this.importModule("./tsconfig.json");
     return (tsconfig && tsconfig.outDir) || "dist";
+  }
+
+  /**
+   * 运行时的临时输出信息目录
+   */
+  protected get tempDir(): string {
+    return this.resolvePath("./temp");
   }
 
   /**
@@ -104,7 +111,7 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
    */
   protected resolvePath(path: string) {
     if (!path) return;
-    path = normalize(path.replace("~/", this.homeOfApp + "/"));
+    path = normalize(path.replace("~/", this.home + "/"));
     return resolve(this.root, this.parsePath(path));
   }
 
@@ -142,14 +149,31 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
   }
 
   /**
+   * 是否是开发模式
+   */
+  protected get isDevelopment() {
+    return this.app.isDevelopment;
+  }
+
+  /**
    * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
    * 在非 noka-cli 启动时，此方法将不会起任何作用
    * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
    * @param paths 文件（file, dir, glob, or array）
    */
-  public watchBy(paths: string | string[], options?: WatchOptions): void {
-    this.app.watchBy(paths, options);
+  protected watchBy(paths: string | string[], options?: WatchOptions): void {
+    if (!this.isDevelopment) return;
+    const watcher = watch(paths, { ...options, ignoreInitial: true });
+    watcher.on("all", this.triggerRestart);
   }
+
+  /**
+   * 通过读写 entry 触发 dev 模式的进程重启
+   */
+  protected triggerRestart = async () => {
+    const text = await readText(this.app.entry);
+    return writeText(this.app.entry, text);
+  };
 
   /**
    * 加载相关的内容
@@ -161,9 +185,13 @@ export abstract class AbstractLoader<T = any> implements ILoader<T> {
     const { path } = this.options;
     const moduleFiles = await this.glob(path);
     moduleFiles.forEach(moduleFile => {
-      const types = this.importModule(moduleFile);
-      if (!types) return;
-      Object.keys(types).forEach(name => this.content.push(types[name]));
+      const modules = this.importModule(moduleFile);
+      if (!modules) return;
+      Object.keys(modules).forEach(name => {
+        const mod = modules[name];
+        mod.file = moduleFile;
+        this.content.push(mod);
+      });
     });
   }
 }

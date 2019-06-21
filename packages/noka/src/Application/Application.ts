@@ -8,21 +8,28 @@ import { Container } from "../IoCLoader";
 import { dirname, extname, normalize, resolve } from "path";
 import { EventEmitter } from "events";
 import { existsSync } from "fs";
+import { homedir } from "os";
 import { IApplication } from "./IApplication";
 import { IApplicationOptions } from "./IApplicationOptions";
 import { ILoader } from "../AbstractLoader/ILoader";
 import { ILoaderConstructor } from "../AbstractLoader/ILoaderConstructor";
 import { ILoaderInfo, ILoaderInfoMap } from "../AbstractLoader/ILoaderInfo";
 import { ILogger } from "../LoggerLoader/ILogger";
-import { isObject } from "util";
+import { isObject, isNullOrUndefined } from "util";
 import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
-import { readText, writeText } from "../common/utils";
-import { watch, WatchOptions } from "chokidar";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
 export class Application extends EventEmitter implements IApplication {
+  /**
+   * 全局应用构造函数
+   * @param options 应用程序类构建选项
+   */
+  constructor(protected options: IApplicationOptions = {}) {
+    super();
+  }
+
   /**
    * 当前环境标识
    */
@@ -62,7 +69,7 @@ export class Application extends EventEmitter implements IApplication {
    * 是否是系统根目录
    * @param dir 目录
    */
-  private isSystemRootDir(dir: string) {
+  protected isSystemRootDir(dir: string) {
     return !dir || dir === "/" || dir.endsWith(":\\") || dir.endsWith(":\\\\");
   }
 
@@ -70,14 +77,14 @@ export class Application extends EventEmitter implements IApplication {
    * 目录中存在 package.json
    * @param dir 目录
    */
-  private existsPackage(dir: string) {
+  protected existsPackage(dir: string) {
     return existsSync(normalize(`${dir}/package.json`));
   }
 
   /**
    * 根目录缓存
    */
-  private __root: string;
+  protected __root: string;
 
   /**
    * 应用根目录
@@ -102,14 +109,6 @@ export class Application extends EventEmitter implements IApplication {
   }
 
   /**
-   * 全局应用构造函数
-   * @param options 应用程序类构建选项
-   */
-  constructor(protected options: IApplicationOptions = {}) {
-    super();
-  }
-
-  /**
    * 内建的 loaders
    */
   static loaders = builtLoaders;
@@ -125,7 +124,7 @@ export class Application extends EventEmitter implements IApplication {
    * 字符串是不是一个路戏
    * @param str 字符串
    */
-  private isPath(str: string) {
+  protected isPath(str: string) {
     if (!str) return false;
     return str.startsWith("/") || str.startsWith(".") || /^[a-z]+\:/i.test(str);
   }
@@ -210,25 +209,27 @@ export class Application extends EventEmitter implements IApplication {
   }
 
   /**
-   * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
-   * 在非 noka-cli 启动时，此方法将不会起任何作用
-   * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
-   * @param paths 文件（file, dir, glob, or array）
+   * app 在 home 中的位置
    */
-  public watchBy(paths: string | string[], options?: WatchOptions): void {
-    const ext = extname(this.entry);
-    if (ext !== ".ts") return;
-    const watcher = watch(paths, { ...options, ignoreInitial: true });
-    watcher.on("all", this.triggerRestart);
+  public get home() {
+    return normalize(`${homedir()}/${this.name}`);
   }
 
   /**
-   * 通过读写 entry 触发 dev 模式的进程重启
+   * 是否是开发模式
    */
-  protected triggerRestart = async () => {
-    const text = await readText(this.entry);
-    return writeText(this.entry, text);
-  };
+  protected __isDevelopment: boolean;
+
+  /**
+   * 是否是开发模式
+   */
+  public get isDevelopment() {
+    if (isNullOrUndefined(this.__isDevelopment)) {
+      const ext = extname(this.entry);
+      this.__isDevelopment = ext === ".ts";
+    }
+    return this.__isDevelopment;
+  }
 
   /**
    * 启动当前应用实例
