@@ -11,12 +11,15 @@ import { watch, WatchOptions } from "chokidar";
 /**
  * 资源加载器抽象基类
  */
-export abstract class AbstractLoader<T = any> implements ILoader<T> {
+export abstract class AbstractLoader<
+  T = any,
+  O extends ILoaderOptions = ILoaderOptions
+> implements ILoader<T> {
   /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
    */
-  constructor(protected app: IApplication, protected options: ILoaderOptions) {
+  constructor(protected app: IApplication, protected options: O) {
     this.options = { ...options };
   }
 
