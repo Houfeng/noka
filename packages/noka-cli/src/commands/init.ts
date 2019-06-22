@@ -31,6 +31,8 @@ async function renameFiles(files: string[], extname: string) {
   return Promise.all(
     files.map(oldPath => {
       const newPath = oldPath.slice(0, oldPath.length - extname.length);
+      console.log("-".repeat(80));
+      console.log(oldPath, newPath);
       return rename(oldPath, newPath);
     })
   );
@@ -53,7 +55,7 @@ export async function init(template: string) {
   Object.assign(pkg, await input());
   writeFileSync(pkgFile, JSON.stringify(pkg, null, "") + EOL);
   // 重命名处理
-  await renameFiles(await globby("./**/*.rename"), ".rename");
+  await renameFiles(await globby("./**/*.rename", { dot: true }), ".rename");
   // 安装依赖
   logger.info("Installing dependents ...");
   await exec("npm i");
