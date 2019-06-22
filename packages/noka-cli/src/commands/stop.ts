@@ -15,7 +15,7 @@ export async function stop($1: string, name: string, all: string) {
     logger.info("All applications have been stopped");
   } else {
     const appInfo = new AppInfo({ $1 });
-    await pm.restart(name || appInfo.jsEntry);
+    await pm.stop(name || appInfo.jsEntry);
     logger.info("Application stopped");
   }
 }
