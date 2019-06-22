@@ -1,3 +1,4 @@
+import * as upgrade from "./common/upgrade";
 import { build } from "./commands/build";
 import { clean } from "./commands/clean";
 import { cmdline } from "cmdline";
@@ -13,6 +14,8 @@ import { start } from "./commands/start";
 import { startup } from "./commands/startup";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
+
+upgrade.check();
 
 const pkg = require("../package.json");
 
