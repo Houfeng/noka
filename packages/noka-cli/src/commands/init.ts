@@ -31,8 +31,6 @@ async function renameFiles(files: string[], extname: string) {
   return Promise.all(
     files.map(oldPath => {
       const newPath = oldPath.slice(0, oldPath.length - extname.length);
-      console.log("-".repeat(80));
-      console.log(oldPath, newPath);
       return rename(oldPath, newPath);
     })
   );
