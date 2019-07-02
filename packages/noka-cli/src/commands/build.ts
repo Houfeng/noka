@@ -5,9 +5,11 @@ import { exec } from "../common/exec";
 import { existsSync } from "fs";
 import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
+import { showBrand } from "../common/brand";
 import { test } from "./test";
 
 export async function build($1: string) {
+  showBrand();
   logger.info("Prepare to build ...");
   await clean($1);
   await test($1);

@@ -3,8 +3,10 @@ import { AppInfo } from "../common/AppInfo";
 import { cpus } from "os";
 import { existsSync } from "fs";
 import { logger } from "../common/logger";
+import { showBrand } from "../common/brand";
 
 export async function start(env: string, $1: string, name: string) {
+  showBrand();
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.jsEntry)) throw new Error("No entry file found");
   await pm.start({

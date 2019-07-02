@@ -1,4 +1,3 @@
-
 Usage: noka [command] [options]
 
 Commands:

@@ -6,6 +6,7 @@ import { initTemplate } from "../common/module";
 import { logger } from "../common/logger";
 import { prompt } from "inquirer";
 import { readDir, rename } from "../common/fs";
+import { showBrand } from "../common/brand";
 import { writeFileSync } from "fs";
 
 async function input() {
@@ -37,6 +38,7 @@ async function renameFiles(files: string[], extname: string) {
 }
 
 export async function init(template: string) {
+  showBrand();
   // 检查非空
   const files = await readDir(process.cwd());
   if (files && files.length > 0) {

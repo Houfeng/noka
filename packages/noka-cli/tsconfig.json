@@ -4,7 +4,7 @@
     "rootDir": "./src/",
     "sourceMap": false,
     "declaration": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "module": "commonjs",
     "target": "es2017",
     "removeComments": true,
@@ -15,11 +15,13 @@
     "noFallthroughCasesInSwitch": true,
     "maxNodeModuleJsDepth": 4,
     "pretty": true,
+    "jsx": "react",
     "lib": [
       "esnext"
     ]
   },
   "include": [
-    "./src/**/*.ts"
+    "./src/**/*.ts",
+    "./src/**/*.tsx"
   ]
 }

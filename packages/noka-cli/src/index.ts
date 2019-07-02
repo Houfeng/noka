@@ -1,7 +1,7 @@
 import * as upgrade from "./common/upgrade";
 import { build } from "./commands/build";
 import { clean } from "./commands/clean";
-import { cmdline } from "cmdline";
+import { cmdline, Command } from "cmdline";
 import { dev } from "./commands/dev";
 import { init } from "./commands/init";
 import { lint } from "./commands/lint";
@@ -14,9 +14,9 @@ import { start } from "./commands/start";
 import { startup } from "./commands/startup";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
+import { showBrand } from "./common/brand";
 
 upgrade.check();
-
 const pkg = require("../package.json");
 
 function onError(err: Error) {
@@ -26,68 +26,73 @@ function onError(err: Error) {
 
 cmdline
   .console(logger)
+  .action((self: Command) => {
+    showBrand();
+    self.helpHandler();
+  }, false)
   .error(onError)
   .version(pkg.version)
+  .action(() => showBrand(), ["help"])
   .help(normalize(`@${__dirname}/assets/help.txt`))
 
   // init
   .root.command(["init"])
   .option(["-t", "--template"], "string")
-  .action(init, false)
+  .action(init, "*")
 
   // dev
   .root.command(["dev"])
   .option(["-e", "--env"], "string")
-  .action(dev, false)
+  .action(dev, "*")
 
   // lint
   .root.command(["lint"])
-  .action(lint, false)
+  .action(lint, "*")
 
   // test
   .root.command(["test"])
-  .action(test, false)
+  .action(test, "*")
 
   // clean
   .root.command(["clean"])
-  .action(clean, false)
+  .action(clean, "*")
 
   // build
   .root.command(["build"])
-  .action(build, false)
+  .action(build, "*")
 
   // start
   .root.command(["start"])
   .option(["-e", "--env"], "string")
   .option(["-n", "--name"], "string")
-  .action(start, false)
+  .action(start, "*")
 
   // list
   .root.command(["list", "ls"])
-  .action(list, false)
+  .action(list, "*")
 
   // restart
   .root.command(["restart", "rs"])
   .option(["-n", "--name"], "string")
   .option(["-a", "--all"], "switch")
-  .action(restart, false)
+  .action(restart, "*")
 
   // stop
   .root.command(["stop"])
   .option(["-n", "--name"], "string")
   .option(["-a", "--all"], "switch")
-  .action(stop, false)
+  .action(stop, "*")
 
   // remove
   .root.command(["remove", "rm"])
   .option(["-n", "--name"], "string")
   .option(["-a", "--all"], "switch")
-  .action(remove, false)
+  .action(remove, "*")
 
   // startup
   .root.command(["startup", "su"])
   .option(["-p", "--platform"], "string")
-  .action(startup, false)
+  .action(startup, "*")
 
   // ready
   .ready();
