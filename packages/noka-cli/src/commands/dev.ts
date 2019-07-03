@@ -12,10 +12,13 @@ import { showBrand } from "../common/brand";
 export async function dev(env: string, $1: string) {
   showBrand();
   logger.info("Start development mode ...");
+  if (!env || env === "development") env = "dev";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.tsEntry)) throw new Error("No entry file found");
   const tsnd = findCommand(__dirname, "tsnd");
-  const envSetter = env ? `NOKA_ENV=${env}` : "";
-  const command = `${envSetter} ${tsnd} ${appInfo.tsEntry}`;
-  await exec(command, { cwd: appInfo.root });
+  const command = `${tsnd} ${appInfo.tsEntry}`;
+  await exec(command, {
+    cwd: appInfo.root,
+    env: { NOKA_ENV: env }
+  });
 }

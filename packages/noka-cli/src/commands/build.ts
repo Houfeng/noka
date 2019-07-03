@@ -8,11 +8,11 @@ import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
 import { test } from "./test";
 
-export async function build($1: string) {
+export async function build(env: string, $1: string) {
   showBrand();
   logger.info("Prepare to build ...");
   await clean($1);
-  await test($1);
+  await test(env, $1);
   logger.info("Start building...");
   const appInfo = new AppInfo({ $1 });
   if (!existsSync(appInfo.tsConfigFile)) {
@@ -24,7 +24,10 @@ export async function build($1: string) {
     `${copy} --up 1 ${appInfo.srcPath}/**/*.* ${appInfo.distPath}`,
     `${tsc} --pretty`
   ];
-  await exec(command, { cwd: appInfo.root });
+  await exec(command, {
+    cwd: appInfo.root,
+    env: { NOKA_ENV: env }
+  });
   await del([`${appInfo.distPath}/**/*.ts`, `!${appInfo.distPath}/**/*.d.ts`]);
   logger.info("finished");
 }

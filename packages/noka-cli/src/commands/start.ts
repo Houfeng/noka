@@ -7,6 +7,7 @@ import { showBrand } from "../common/brand";
 
 export async function start(env: string, $1: string, name: string) {
   showBrand();
+  if (!env || env === "production") env = "prod";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.jsEntry)) throw new Error("No entry file found");
   await pm.start({

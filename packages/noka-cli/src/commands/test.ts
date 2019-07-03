@@ -6,9 +6,10 @@ import { lint } from "./lint";
 import { logger } from "../common/logger";
 import { resolve } from "path";
 
-export async function test($1: string) {
+export async function test(env: string, $1: string) {
   await lint($1);
   logger.info("Unit testing in progress ...");
+  if (!env) env = "test";
   const appInfo = new AppInfo({ $1 });
   if (!existsSync(appInfo.tsConfigFile)) {
     throw new Error("No compilation configuration found");
@@ -18,6 +19,9 @@ export async function test($1: string) {
   const tsRegister = resolve(tsNode, "../../ts-node/register");
   const testFiels = resolve(appInfo.srcPath, "./**/*.spec.ts");
   const command = `${mocha} -r ${tsRegister} ${testFiels}`;
-  await exec(command, { cwd: appInfo.root });
+  await exec(command, {
+    cwd: appInfo.root,
+    env: { NOKA_ENV: env }
+  });
   logger.info("finished");
 }
