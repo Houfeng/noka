@@ -1,6 +1,6 @@
 {
   "name": "noka-template-default",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Noka default template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
@@ -40,7 +40,8 @@
     "url": "https://github.com/noka/noka.git"
   },
   "dependencies": {
-    "noka": "^1.1.1"
+    "noka": "^1.1.2",
+    "noka-cli": "^1.2.2"
   },
   "devDependencies": {
     "noka-cli": "^1.2.2"
