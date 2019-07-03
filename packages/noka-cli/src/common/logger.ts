@@ -11,8 +11,6 @@ const colors: { [name: string]: Function } = {
 
 function wrapConsole(originConsole: any) {
   const newConsole = Object.create(originConsole);
-  const { formatDate } = require("ntils");
-  const timeFormater = "yyyy-MM-dd hh:mm:ss";
   ["log", "info", "warn", "error"].forEach(name => {
     const func = newConsole[name];
     newConsole[name] = (formater: string, ...args: any[]) => {
@@ -20,7 +18,7 @@ function wrapConsole(originConsole: any) {
       if (text.includes(EOL)) {
         return func.call(newConsole, formater, ...args);
       }
-      const time = `[${formatDate(new Date(), timeFormater)}]`;
+      const time = `[${new Date().toLocaleString()}]`;
       return func.call(newConsole, chalk.blue(time), colors[name](text));
     };
   });
