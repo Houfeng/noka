@@ -56,8 +56,8 @@
     "eslint-plugin-react-hooks": "4.6.0",
     "prettier": "2.7.1",
     "noka-cli": "1.2.2",
-    "noka-eslintrc": "0.1.0",
     "noka-tsconfig": "0.1.0",
+    "eslint-config-noka": "0.1.0",
     "pnpm": "8.7.4",
     "typescript": "5.2.2"
   }
