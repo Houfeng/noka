@@ -2,7 +2,7 @@ import pm2 from "pm2";
 
 export function connect() {
   return new Promise<void>((resolve, reject) => {
-    pm2.connect(err => (err ? reject(err) : resolve()));
+    pm2.connect((err) => (err ? reject(err) : resolve()));
   });
 }
 
@@ -17,7 +17,7 @@ export async function list() {
       disconnect();
       if (err) return reject(err);
       const apps: any[] = [];
-      data.forEach(item => {
+      data.forEach((item) => {
         const { status, NOKA_ROOT: root } = item.pm2_env as any;
         if (!root) return;
         const { name, pid } = item;
@@ -32,7 +32,7 @@ export async function list() {
 export async function remove(process: string | number) {
   await connect();
   return new Promise<void>((resolve, reject) => {
-    pm2.delete(process, err => {
+    pm2.delete(process, (err) => {
       disconnect();
       return err ? reject(err) : resolve();
     });
@@ -42,7 +42,7 @@ export async function remove(process: string | number) {
 export async function restart(process: string | number) {
   await connect();
   return new Promise<void>((resolve, reject) => {
-    pm2.restart(process, err => {
+    pm2.restart(process, (err) => {
       disconnect();
       return err ? reject(err) : resolve();
     });
@@ -62,7 +62,7 @@ export async function start(options: pm2.StartOptions) {
 export async function stop(process: string | number) {
   await connect();
   return new Promise<void>((resolve, reject) => {
-    pm2.stop(process, err => {
+    pm2.stop(process, (err) => {
       disconnect();
       return err ? reject(err) : resolve();
     });
@@ -74,7 +74,7 @@ export async function startup(platform: string) {
   return new Promise<void>((resolve, reject) => {
     const func = pm2.startup as any;
     func(<any>platform, { args: [] }, (err: Error) =>
-      err ? reject(err) : resolve()
+      err ? reject(err) : resolve(),
     );
   });
 }

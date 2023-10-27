@@ -4,7 +4,7 @@ import { pkg, uuid } from "../common/utils";
 
 const defaultOptions: any = {
   key: pkg.displayName.toUpperCase(),
-  maxAge: 86400000
+  maxAge: 86400000,
 };
 
 const SIGN_KEYS: string[] = [uuid()];

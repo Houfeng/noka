@@ -53,7 +53,7 @@ export class ControllerLoader<T = any[]> extends IoCLoader<T> {
   protected regRoute(
     ctlType: any,
     ctlInfo: IControllerInfo,
-    mapInfo: IMappingInfo
+    mapInfo: IMappingInfo,
   ) {
     const { path, verb, method } = mapInfo;
     const httpMethods = this.getHttpMethods(verb);
@@ -71,7 +71,7 @@ export class ControllerLoader<T = any[]> extends IoCLoader<T> {
       path: routePath,
       file: ctlType.file,
       controller: ctlType.name,
-      method
+      method,
     });
   }
 
@@ -84,11 +84,11 @@ export class ControllerLoader<T = any[]> extends IoCLoader<T> {
   protected async invokeCtlMethod(
     ctx: Context,
     ctlInstance: any,
-    method: string
+    method: string,
   ) {
     const parameters = getCtxInfos(ctlInstance, method)
       .sort((a, b) => (a.index || 0) - (b.index || 0))
-      .map(info => getByPath(ctx, info.name));
+      .map((info) => getByPath(ctx, info.name));
     return ctlInstance[method](...parameters);
   }
 

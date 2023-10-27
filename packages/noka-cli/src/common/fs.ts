@@ -8,6 +8,8 @@ export function readDir(dir: string) {
 
 export function rename(oldPath: string, newPath: string) {
   return new Promise<string>((resolve, reject) => {
-    fs.rename(oldPath, newPath, err => (err ? reject(err) : resolve(newPath)));
+    fs.rename(oldPath, newPath, (err) =>
+      err ? reject(err) : resolve(newPath),
+    );
   });
 }

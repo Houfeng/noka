@@ -13,8 +13,9 @@ import { watch, WatchOptions } from "chokidar";
  */
 export abstract class AbstractLoader<
   T = any,
-  O extends ILoaderOptions = ILoaderOptions
-> implements ILoader {
+  O extends ILoaderOptions = ILoaderOptions,
+> implements ILoader
+{
   /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
@@ -187,10 +188,10 @@ export abstract class AbstractLoader<
     if (!existsSync(root)) return;
     const { path } = this.options;
     const moduleFiles = await this.glob(path);
-    moduleFiles.forEach(moduleFile => {
+    moduleFiles.forEach((moduleFile) => {
       const modules = this.importModule(moduleFile);
       if (!modules) return;
-      Object.keys(modules).forEach(name => {
+      Object.keys(modules).forEach((name) => {
         const mod = modules[name];
         mod.file = moduleFile;
         this.content.push(mod);

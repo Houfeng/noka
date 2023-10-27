@@ -22,7 +22,7 @@ export interface IProviderInfo {
  */
 export function Provider(
   name: string | symbol,
-  options: IProviderOptions = {}
+  options: IProviderOptions = {},
 ) {
   return (target: any) =>
     Reflect.metadata(IOC_PROVIDER, { name, options })(target);

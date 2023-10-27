@@ -5,36 +5,39 @@ import { Box, Text } from "ink";
 const Header = ({ children }: any) => <Text bold={true}>{children}</Text>;
 
 Header.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 };
 
 const Cell = ({ children }: any) => <Text>{children}</Text>;
 
 Cell.propTypes = {
   children: PropTypes.any.isRequired,
-  focused: PropTypes.bool
+  focused: PropTypes.bool,
 };
 
 Cell.defaultProps = {
-  focused: false
+  focused: false,
 };
 
 const Skeleton = ({ children }: any) => <Text>{children}</Text>;
 
 Skeleton.propTypes = {
-  children: PropTypes.any.isRequired
+  children: PropTypes.any.isRequired,
 };
 
 const get = (key: any) => (obj: any) => obj[key];
 const length = (el: any) => el.length;
 const isUndefined = (v: any) => v === undefined;
-const not = (func: any) => (...args: any[]) => !func(...args);
+const not =
+  (func: any) =>
+  (...args: any[]) =>
+    !func(...args);
 const toString = (val: any) => (val || String()).toString();
 const isEmpty = (el: any) => el.length === 0;
 const intersperse = (val: any) => (vals: any) =>
   vals.reduce(
     (s: any, c: any, i: any) => (isEmpty(s) ? [c] : [...s, val(i), c]),
-    []
+    [],
   );
 
 const fillWith = (el: any) => (length: any) => (str: any) =>
@@ -59,29 +62,31 @@ const copyToObject = (func: any) => (arr: any) =>
 const generateHeadings = (keys: any) => copyToObject((key: any) => key)(keys);
 const generateSkeleton = (keys: any) => copyToObject(() => "")(keys);
 
-const line = (
-  key: any,
-  Cell: any,
-  Skeleton: any,
-  { line, left, right, cross, padding }: any
-) => (cells: any, index = "") => {
-  const fillWithLine = fillWith(line);
+const line =
+  (
+    key: any,
+    Cell: any,
+    Skeleton: any,
+    { line, left, right, cross, padding }: any,
+  ) =>
+  (cells: any, index = "") => {
+    const fillWithLine = fillWith(line);
 
-  const columns = cells.map(({ width, key, value }: any, i: any) => (
-    <Cell key={key + String(i)}>
-      {line.repeat(padding)}
-      {fillWithLine(width - padding)(toString(value))}
-    </Cell>
-  ));
+    const columns = cells.map(({ width, key, value }: any, i: any) => (
+      <Cell key={key + String(i)}>
+        {line.repeat(padding)}
+        {fillWithLine(width - padding)(toString(value))}
+      </Cell>
+    ));
 
-  return (
-    <Box key={key + String(index)}>
-      <Skeleton>{left}</Skeleton>
-      {intersperse((i: any) => <Skeleton key={i}>{cross}</Skeleton>)(columns)}
-      <Skeleton>{right}</Skeleton>
-    </Box>
-  );
-};
+    return (
+      <Box key={key + String(index)}>
+        <Skeleton>{left}</Skeleton>
+        {intersperse((i: any) => <Skeleton key={i}>{cross}</Skeleton>)(columns)}
+        <Skeleton>{right}</Skeleton>
+      </Box>
+    );
+  };
 
 const Table = ({ data, padding, header, cell, skeleton }: any) => {
   const topLine = line("top", skeleton, skeleton, {
@@ -89,35 +94,35 @@ const Table = ({ data, padding, header, cell, skeleton }: any) => {
     left: "┌",
     right: "┐",
     cross: "┬",
-    padding
+    padding,
   });
   const bottomLine = line("bottom", skeleton, skeleton, {
     line: "─",
     left: "└",
     right: "┘",
     cross: "┴",
-    padding
+    padding,
   });
   const midLine = line("mid", skeleton, skeleton, {
     line: "─",
     left: "├",
     right: "┤",
     cross: "┼",
-    padding
+    padding,
   });
   const headers = line("header", header, skeleton, {
     line: " ",
     left: "│",
     right: "│",
     cross: "│",
-    padding
+    padding,
   });
   const row = line("row", cell, skeleton, {
     line: " ",
     left: "│",
     right: "│",
     cross: "│",
-    padding
+    padding,
   });
 
   const keys = union(...data.map(Object.keys));
@@ -146,7 +151,7 @@ Table.propTypes = {
   padding: PropTypes.number,
   header: PropTypes.func,
   cell: PropTypes.func,
-  skeleton: PropTypes.func
+  skeleton: PropTypes.func,
 };
 
 Table.defaultProps = {
@@ -154,7 +159,7 @@ Table.defaultProps = {
   padding: 1,
   header: Header,
   cell: Cell,
-  skeleton: Skeleton
+  skeleton: Skeleton,
 };
 
 export { Table, Header, Cell, Skeleton };

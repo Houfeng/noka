@@ -7,5 +7,5 @@ import { ILoaderOptions } from "./ILoaderOptions";
  */
 export type ILoaderConstructor = new (
   app: IApplication,
-  options: ILoaderOptions
+  options: ILoaderOptions,
 ) => ILoader;

@@ -16,24 +16,24 @@ async function input() {
       message: "Enter the application name:",
       name: "name",
       default: basename(process.cwd()),
-      validate: value => !!value
+      validate: (value) => !!value,
     },
     {
       type: "input",
       message: "Enter the application version:",
       name: "version",
       default: "1.0.0",
-      validate: value => !!value
-    }
+      validate: (value) => !!value,
+    },
   ]);
 }
 
 async function renameFiles(files: string[], extname: string) {
   return Promise.all(
-    files.map(oldPath => {
+    files.map((oldPath) => {
       const newPath = oldPath.slice(0, oldPath.length - extname.length);
       return rename(oldPath, newPath);
-    })
+    }),
   );
 }
 
@@ -47,7 +47,7 @@ export async function init(template: string) {
   // 下载模板
   logger.info("Initializing app ...");
   template = template || "default";
-  const pkgName = `noka-app${template ? '-' : ''}${template}`;
+  const pkgName = `noka-app${template ? "-" : ""}${template}`;
   await initTemplate(pkgName, process.cwd());
   // 更新信息
   const pkgFile = resolve(process.cwd(), "./package.json");

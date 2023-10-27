@@ -10,28 +10,28 @@ const defaultOptions: any = {
       type: "file",
       categories: ["*"],
       level: [Level.warn, Level.error],
-      location: "./error-{yyyy-MM-dd}.log"
+      location: "./error-{yyyy-MM-dd}.log",
     },
     app: {
       type: "file",
       categories: ["app"],
       level: [Level.debug, Level.info],
-      location: "./app-{yyyy-MM-dd}.log"
+      location: "./app-{yyyy-MM-dd}.log",
     },
     ctx: {
       type: "file",
       categories: ["ctx"],
       level: [Level.debug, Level.info],
-      location: "./ctx-{yyyy-MM-dd}.log"
+      location: "./ctx-{yyyy-MM-dd}.log",
     },
     access: {
       type: "file",
       categories: ["access"],
       level: [Level.info],
       format: "[{time}] - {method} {url} {status} {rt}ms {hostname} #{pid}",
-      location: "./access-{yyyy-MM-dd}.log"
-    }
-  }
+      location: "./access-{yyyy-MM-dd}.log",
+    },
+  },
 };
 
 /**
@@ -55,7 +55,7 @@ export class LoggerLoader<T = any> extends AbstractLoader<T> {
     const options = mix({ root: "~/logs", ...defaultOptions }, this.options);
     options.root = this.resolvePath(options.root);
     if (options.writers && this.onlyConsole) {
-      Object.keys(options.writers).forEach(key => {
+      Object.keys(options.writers).forEach((key) => {
         const writerConf = options.writers[key];
         if (!writerConf) return;
         writerConf.type = "console";

@@ -13,7 +13,7 @@ export class HeadersLoader<T = any> extends AbstractLoader<T> {
   public async load() {
     const headers = { ...defaultOptions, ...this.options };
     this.server.use(async (ctx, next) => {
-      for (let key in headers) ctx.set(key, headers[key]);
+      for (const key in headers) ctx.set(key, headers[key]);
       await next();
     });
     this.app.logger.info("Headers ready");

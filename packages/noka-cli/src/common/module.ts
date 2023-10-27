@@ -31,7 +31,7 @@ export async function getVersionInfo(name: string, version: string) {
 }
 
 export function saveFile(filename: string, readStream: Stream) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     const writeStream = createWriteStream(filename);
     writeStream.on("finish", () => {
       setTimeout(resolve, 500);
@@ -41,14 +41,14 @@ export function saveFile(filename: string, readStream: Stream) {
 }
 
 export function createStream(url: string) {
-  return fetch(url).then(res => {
+  return fetch(url).then((res) => {
     return res.body;
   });
 }
 
 export function mkdir(dir: string) {
   return new Promise((resolve, reject) => {
-    mkdirp(dir, err => (err ? reject(err) : resolve(dir)));
+    mkdirp(dir, (err) => (err ? reject(err) : resolve(dir)));
   });
 }
 
@@ -73,12 +73,9 @@ export async function extract(filename: string, dist: string, upIndex: number) {
   return decompress(filename, dist, {
     plugins: [decompressTargz()],
     map: (file: any) => {
-      file.path = file.path
-        .split("/")
-        .slice(upIndex)
-        .join("/");
+      file.path = file.path.split("/").slice(upIndex).join("/");
       return file;
-    }
+    },
   });
 }
 

@@ -23,14 +23,14 @@ export class ViewLoader<T = any> extends AbstractLoader<T, IViewLoaderOptions> {
     const viewMap: any = {};
     const env = new Environment(new FileSystemLoader(viewRoot));
     await Promise.all(
-      viewFiles.map(async viewFile => {
+      viewFiles.map(async (viewFile) => {
         const text = await readText(resolve(viewRoot, viewFile));
         // @types/nunjucks 3.1.1 没有第三个 path 参数的类型定义
         const relativePath: any = viewFile;
         const template = compile(text, env, relativePath);
         const viewName = viewFile.slice(0, viewFile.length - extname.length);
         viewMap[viewName] = (data: any) => template.render(data);
-      })
+      }),
     );
     this.container.registerValue(VIEWS_ENTITY_KEY, viewMap);
     this.watchBy(viewPattern, { cwd: viewRoot });

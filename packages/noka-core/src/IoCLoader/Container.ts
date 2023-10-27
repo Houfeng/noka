@@ -10,7 +10,6 @@ import { isFunction } from "util";
  * IoC 容器类
  */
 export class Container implements IContainer {
-
   /**
    * 构造一个容器实例
    */
@@ -50,7 +49,7 @@ export class Container implements IContainer {
    * @param types 类型数组
    */
   public registerTypes(types: any[]): void {
-    types.forEach(type => {
+    types.forEach((type) => {
       const info = getProviderInfo(type);
       if (!info || !info.name) return;
       this.registerType(info.name, type);
@@ -116,7 +115,7 @@ export class Container implements IContainer {
   public inject(instance: any) {
     const propInjectInfos = getPropInjectInfos(instance);
     propInjectInfos.forEach((info: IInjectInfo) =>
-      this.injectProp(instance, info)
+      this.injectProp(instance, info),
     );
   }
 

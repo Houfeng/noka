@@ -9,7 +9,7 @@ export function check() {
     margin: 0,
     align: "center",
     borderColor: "yellow",
-    borderStyle: "single"
+    borderStyle: "single",
   };
   const isGlobal = true;
   updateNotifier({ pkg, updateCheckInterval }).notify({ isGlobal, boxenOpts });

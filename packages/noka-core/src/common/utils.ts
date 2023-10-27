@@ -26,10 +26,10 @@ export function uuid(): string {
  * 合并两个对象
  * @param dst 目标对象
  * @param src 来源对象
- * @param igonres 忽略列表
+ * @param ignoreKeys 忽略列表
  */
-export function mix(dst: any, src: any, igonres?: string[]) {
-  return utils.mix(dst, src, igonres);
+export function mix(dst: any, src: any, ignoreKeys?: string[]) {
+  return utils.mix(dst, src, ignoreKeys);
 }
 
 /**
@@ -50,7 +50,7 @@ export function readText(filename: string) {
  */
 export function writeText(filename: string, text: string) {
   return new Promise<void>((resolve, reject) => {
-    writeFile(filename, text, err => {
+    writeFile(filename, text, (err) => {
       return err ? reject(err) : resolve();
     });
   });
@@ -62,6 +62,6 @@ export function writeText(filename: string, text: string) {
  */
 export function mkdir(dir: string) {
   return new Promise<string>((resolve, reject) => {
-    mkdirp(dir, err => (err ? reject(err) : resolve(dir)));
+    mkdirp(dir, (err) => (err ? reject(err) : resolve(dir)));
   });
 }

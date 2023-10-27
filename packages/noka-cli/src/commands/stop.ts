@@ -6,7 +6,7 @@ export async function stop($1: string, name: string, all: string) {
   if (all) {
     const handled: any = {};
     const apps = await pm.list();
-    for (let app of apps) {
+    for (const app of apps) {
       if (handled[app.name]) continue;
       await pm.stop(app.name);
       handled[app.name] = true;

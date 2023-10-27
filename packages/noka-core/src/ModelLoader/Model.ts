@@ -3,7 +3,7 @@ import { Provider, IProviderOptions } from "../IoCLoader";
 /**
  * 模型选项
  */
-export interface IModelOptions extends IProviderOptions {}
+export type IModelOptions = IProviderOptions;
 
 /**
  * 模型注解

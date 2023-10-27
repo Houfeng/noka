@@ -14,42 +14,42 @@ import { BodyLoader } from "../BodyLoader";
 export const builtLoaders: ILoaderInfoMap = {
   config: {
     loader: ConfigLoader,
-    options: { path: "./configs/config" }
+    options: { path: "./configs/config" },
   },
   logger: {
-    loader: LoggerLoader
+    loader: LoggerLoader,
   },
   headers: {
-    loader: HeadersLoader
+    loader: HeadersLoader,
   },
   setup: {
     loader: SetupLoader,
-    options: { path: "./:src/setups/**/*:ext" }
+    options: { path: "./:src/setups/**/*:ext" },
   },
   body: {
-    loader: BodyLoader
+    loader: BodyLoader,
   },
   model: {
     loader: ModelLoader,
-    options: { path: "./:src/models/**/*:ext" }
+    options: { path: "./:src/models/**/*:ext" },
   },
   service: {
     loader: ServiceLoader,
-    options: { path: "./:src/services/**/*:ext" }
+    options: { path: "./:src/services/**/*:ext" },
   },
   session: {
-    loader: SessionLoader
+    loader: SessionLoader,
   },
   controller: {
     loader: ControllerLoader,
-    options: { path: "./:src/controllers/**/*:ext" }
+    options: { path: "./:src/controllers/**/*:ext" },
   },
   view: {
     loader: ViewLoader,
-    options: { path: "./views" }
+    options: { path: "./views" },
   },
   static: {
     loader: StaticLoader,
-    options: { path: "./assets" }
-  }
+    options: { path: "./assets" },
+  },
 };

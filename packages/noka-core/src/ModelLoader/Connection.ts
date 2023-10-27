@@ -10,7 +10,7 @@ import { Connection } from "typeorm";
 function connInjectGetter(options: IInjectGetterOptions) {
   const { container, info } = options;
   const connList: Connection[] = container.get(MODEL_CONN_ENTITY_KEY);
-  return connList.find(item => info.name === item.name) || connList[0];
+  return connList.find((item) => info.name === item.name) || connList[0];
 }
 
 /**
@@ -28,7 +28,7 @@ export function Conn(name?: string) {
 function repoInjectGetter(options: IInjectGetterOptions) {
   const { container, info } = options;
   const connList: Connection[] = container.get(MODEL_CONN_ENTITY_KEY);
-  const conn = connList.find(item => info.name === item.name) || connList[0];
+  const conn = connList.find((item) => info.name === item.name) || connList[0];
   return conn ? conn.getRepository(info.options.entity) : null;
 }
 

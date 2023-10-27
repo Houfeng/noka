@@ -17,7 +17,7 @@ export function exec(script: string[] | string, opts?: any) {
   opts.builtIn = true;
   script = script || "";
   return new Promise((resolve, reject) => {
-    let childProcess = shify(script, opts);
+    const childProcess = shify(script, opts);
     if (opts.onStart) opts.onStart(childProcess);
     childProcess.on("exit", (code: number) => {
       if (code !== 0) {
@@ -32,8 +32,8 @@ export function exec(script: string[] | string, opts?: any) {
 export async function resultOfExec(script: string[] | string, opts?: any) {
   const helper = new BufferHelper();
   const onStart = (child: ChildProcess) => {
-    child.stdout.on("data", chunk => helper.concat(chunk));
-    child.stderr.on("data", chunk => helper.concat(chunk));
+    child.stdout.on("data", (chunk) => helper.concat(chunk));
+    child.stderr.on("data", (chunk) => helper.concat(chunk));
   };
   await exec(script, { ...opts, stdio: "pipe", onStart });
   return helper.toBuffer().toString();

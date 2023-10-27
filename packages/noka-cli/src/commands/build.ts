@@ -22,11 +22,11 @@ export async function build(env: string, $1: string) {
   const copy = findCommand(__dirname, "copyfiles");
   const command = [
     `${copy} --up 1 ${appInfo.srcPath}/**/*.* ${appInfo.distPath}`,
-    `${tsc} --pretty`
+    `${tsc} --pretty`,
   ];
   await exec(command, {
     cwd: appInfo.root,
-    env: { NOKA_ENV: env }
+    env: { NOKA_ENV: env },
   });
   await del([`${appInfo.distPath}/**/*.ts`, `!${appInfo.distPath}/**/*.d.ts`]);
   logger.info("finished");

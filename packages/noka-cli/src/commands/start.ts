@@ -18,8 +18,8 @@ export async function start(env: string, $1: string, name: string) {
     env: {
       ...process.env,
       NOKA_ROOT: appInfo.root,
-      NOKA_ENV: env
-    }
+      NOKA_ENV: env,
+    },
   });
   logger.info("The application is started");
 }

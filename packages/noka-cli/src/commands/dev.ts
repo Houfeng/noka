@@ -19,6 +19,6 @@ export async function dev(env: string, $1: string) {
   const command = `${tsnd} ${appInfo.tsEntry}`;
   await exec(command, {
     cwd: appInfo.root,
-    env: { NOKA_ENV: env }
+    env: { NOKA_ENV: env },
   });
 }

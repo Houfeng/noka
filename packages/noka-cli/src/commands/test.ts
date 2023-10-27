@@ -21,7 +21,7 @@ export async function test(env: string, $1: string) {
   const command = `${mocha} -r ${tsRegister} ${testFiels}`;
   await exec(command, {
     cwd: appInfo.root,
-    env: { NOKA_ENV: env }
+    env: { NOKA_ENV: env },
   });
   logger.info("finished");
 }

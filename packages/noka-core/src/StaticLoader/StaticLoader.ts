@@ -21,7 +21,7 @@ export class StaticLoader<T = any> extends AbstractLoader<T> {
     this.server.use(async (ctx, next) => {
       await next();
       if (ctx.preventCache) return;
-      const noopNext: any = () => { };
+      const noopNext: any = () => {};
       await compose([conditional(), etag()])(ctx, noopNext);
     });
     this.server.use(serve(staticRoot));

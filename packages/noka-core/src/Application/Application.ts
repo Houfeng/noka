@@ -126,7 +126,7 @@ export class Application extends EventEmitter implements IApplication {
    */
   protected isPath(str: string) {
     if (!str) return false;
-    return str.startsWith("/") || str.startsWith(".") || /^[a-z]+\:/i.test(str);
+    return str.startsWith("/") || str.startsWith(".") || /^[a-z]+:/i.test(str);
   }
 
   /**
@@ -159,10 +159,10 @@ export class Application extends EventEmitter implements IApplication {
   protected createAllLoaderInstances(): ILoader[] {
     const loaderInfoMap = {
       ...this.getBuiltInLoaders(),
-      ...this.config.loaders
+      ...this.config.loaders,
     };
     const loaderInstances: ILoader[] = [];
-    for (let name in loaderInfoMap) {
+    for (const name in loaderInfoMap) {
       if (CONF_RESERVEDS.includes(name)) {
         throw new Error(`Invalid Loader configuration name: ${name}`);
       }
@@ -236,7 +236,7 @@ export class Application extends EventEmitter implements IApplication {
    */
   public async launch(): Promise<IApplication> {
     const loaders = await this.createAllLoaderInstances();
-    for (let loader of loaders) await loader.load();
+    for (const loader of loaders) await loader.load();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     const port = await this.getPort();

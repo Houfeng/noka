@@ -6,12 +6,12 @@ const colors: { [name: string]: Function } = {
   log: (text: any) => text,
   info: chalk.green.bind(chalk),
   warn: chalk.yellow.bind(chalk),
-  error: chalk.red.bind(chalk)
+  error: chalk.red.bind(chalk),
 };
 
 function wrapConsole(originConsole: any) {
   const newConsole = Object.create(originConsole);
-  ["log", "info", "warn", "error"].forEach(name => {
+  ["log", "info", "warn", "error"].forEach((name) => {
     const func = newConsole[name];
     newConsole[name] = (formater: string, ...args: any[]) => {
       const text = format(formater, ...args);
