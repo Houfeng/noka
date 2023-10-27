@@ -44,6 +44,17 @@
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "5.49.0",
+    "@typescript-eslint/parser": "5.49.0",
+    "eslint": "8.18.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-config-typescript": "3.0.0",
+    "eslint-plugin-compat": "3.9.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "4.0.0",
+    "eslint-plugin-react": "7.30.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "prettier": "2.7.1",
     "noka-cli": "1.2.2",
     "noka-eslintrc": "0.1.0",
     "noka-tsconfig": "0.1.0",
