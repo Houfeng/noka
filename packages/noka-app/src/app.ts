@@ -1,6 +1,7 @@
 import { Application } from "noka";
 
-new Application()
+Application
+  .create()
   .launch()
   .then(({ root, port, logger }) => {
     logger.info("Root:", root);
