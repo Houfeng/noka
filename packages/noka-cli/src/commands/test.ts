@@ -17,8 +17,8 @@ export async function test(env: string, $1: string) {
   const mocha = findCommand(__dirname, "mocha");
   const tsNode = findCommand(__dirname, "ts-node");
   const tsRegister = resolve(tsNode, "../../ts-node/register");
-  const testFiels = resolve(appInfo.srcPath, "./**/*.spec.ts");
-  const command = `${mocha} -r ${tsRegister} ${testFiels}`;
+  const testFiles = resolve(appInfo.srcPath, "./**/*.spec.ts");
+  const command = `${mocha} -r ${tsRegister} ${testFiles}`;
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },

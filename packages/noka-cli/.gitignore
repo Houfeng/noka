@@ -1,10 +1,13 @@
 *.DS_Store
 *.log
-.vscode
 *.d.ts
-node_modules
-coverage
+*.db
+*.map
+.vscode/
+.husky/
+node_modules/
+coverage/
 dist/
 logs/
 lib/
-*.db
+types/

@@ -1,11 +1,14 @@
-.D_Store
 *.log
 *.d.ts
 *.db
+*.map
+.D_Store
 .travis.yml
-.vscode
+.vscode/
+.husky/
 node_modules/
 coverage/
 logs/
 dist/
 temp/
+types/

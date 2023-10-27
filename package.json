@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "",
   "scripts": {
+    "clean": "bash ./scripts/clean.sh",
     "start": "bash ./scripts/start.sh",
     "build": "bash ./scripts/build.sh",
     "lint": "bash ./scripts/lint.sh",
