@@ -1,14 +1,14 @@
-import * as PropTypes from "prop-types";
-import * as React from "react";
-import { Box, Color } from "ink";
+import PropTypes from "prop-types";
+import React from "react";
+import { Box, Text } from "ink";
 
-const Header = ({ children }: any) => <Color bold={true}>{children}</Color>;
+const Header = ({ children }: any) => <Text bold={true}>{children}</Text>;
 
 Header.propTypes = {
   children: PropTypes.any.isRequired
 };
 
-const Cell = ({ children }: any) => <Color>{children}</Color>;
+const Cell = ({ children }: any) => <Text>{children}</Text>;
 
 Cell.propTypes = {
   children: PropTypes.any.isRequired,
@@ -19,7 +19,7 @@ Cell.defaultProps = {
   focused: false
 };
 
-const Skeleton = ({ children }: any) => <Color>{children}</Color>;
+const Skeleton = ({ children }: any) => <Text>{children}</Text>;
 
 Skeleton.propTypes = {
   children: PropTypes.any.isRequired

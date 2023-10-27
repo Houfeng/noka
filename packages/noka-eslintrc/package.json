@@ -1,0 +1,8 @@
+{
+  "name": "noka-eslintrc",
+  "version": "0.1.0",
+  "description": "",
+  "main": "./eslintrc.json",
+  "author": "Houfeng",
+  "license": "MIT"
+}

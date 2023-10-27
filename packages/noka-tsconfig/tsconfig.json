@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "declarationDir": "./types/",
+    "sourceMap": false,
+    "allowJs": false,
+    "declaration": true,
+    "declarationMap": true,
+    "noEmitOnError": true,
+    "module": "ESNext",
+    "target": "ES5",
+    "downlevelIteration": true,
+    "removeComments": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": false,
+    "moduleResolution": "Node",
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": false,
+    "noImplicitThis": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": false,
+    "noFallthroughCasesInSwitch": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true,
+    "stripInternal": true,
+    "lib": [
+      "ESNext",
+    ]
+  }
+}

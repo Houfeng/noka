@@ -1,4 +1,4 @@
-import * as mkdirp from "mkdirp";
+import mkdirp from "mkdirp";
 import fetch from "node-fetch";
 import { createWriteStream, existsSync, renameSync, unlinkSync } from "fs";
 import { homedir } from "os";
@@ -31,10 +31,10 @@ export async function getVersionInfo(name: string, version: string) {
 }
 
 export function saveFile(filename: string, readStream: Stream) {
-  return new Promise(reslove => {
+  return new Promise(resolve => {
     const writeStream = createWriteStream(filename);
     writeStream.on("finish", () => {
-      setTimeout(reslove, 500);
+      setTimeout(resolve, 500);
     });
     readStream.pipe(writeStream);
   });

@@ -1,0 +1,1 @@
+{"version":3,"file":"SetupLoader.d.ts","sourceRoot":"","sources":["../../src/SetupLoader/SetupLoader.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,cAAc,EAAE,MAAM,mBAAmB,CAAC;AACnD,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAK9C,MAAM,MAAM,cAAc,GAAG,CAAC,GAAG,CAAC,EAAE,YAAY,KAAK,OAAO,CAAC,GAAG,CAAC,GAAG,GAAG,CAAC;AAKxE,qBAAa,WAAY,SAAQ,cAAc,CAAC,cAAc,CAAC;IAIvD,IAAI;CAUX"}

@@ -1,27 +1,9 @@
 {
+  "extends": "noka-tsconfig/tsconfig.json",
   "compilerOptions": {
+    "baseUrl": "./",
     "outDir": "./dist/",
-    "rootDir": "./src/",
-    "sourceMap": false,
-    "declaration": true,
-    "noImplicitAny": false,
-    "module": "commonjs",
-    "target": "es2017",
-    "removeComments": true,
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": false,
-    "noFallthroughCasesInSwitch": true,
-    "maxNodeModuleJsDepth": 4,
-    "pretty": true,
+    "declarationDir": "./types/",
     "jsx": "react",
-    "lib": [
-      "esnext"
-    ]
-  },
-  "include": [
-    "./src/**/*.ts",
-    "./src/**/*.tsx"
-  ]
+  }
 }

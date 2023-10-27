@@ -1,0 +1,8 @@
+{
+  "name": "noka-tsconfig",
+  "version": "0.1.0",
+  "main": "./tsconfig.json",
+  "description": "Noka tsconfig",
+  "author": "Houfeng",
+  "license": "MIT"
+}

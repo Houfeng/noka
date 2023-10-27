@@ -1,0 +1,1 @@
+{"version":3,"file":"IRouteInfo.d.ts","sourceRoot":"","sources":["../../src/ControllerLoader/IRouteInfo.ts"],"names":[],"mappings":"AAAA,MAAM,WAAW,cAAc;IAC7B,IAAI,EAAE,MAAM,GAAG,MAAM,EAAE,CAAC;IACxB,IAAI,EAAE,MAAM,CAAC;IACb,IAAI,EAAE,MAAM,CAAC;IACb,UAAU,EAAE,MAAM,CAAC;IACnB,MAAM,EAAE,MAAM,CAAC;CAChB"}

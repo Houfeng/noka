@@ -1,0 +1,6 @@
+packages:
+  - "./packages/noka-core/"
+  - "./packages/noka-cli/"
+  - "./packages/noka-tsconfig/"
+  - "./packages/noka-eslintrc/"
+  - "./packages/noka-app/"

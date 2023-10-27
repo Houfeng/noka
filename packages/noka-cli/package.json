@@ -39,7 +39,7 @@
     "decompress-targz": "^4.1.1",
     "del": "^4.1.1",
     "globby": "^9.2.0",
-    "ink": "^2.3.0",
+    "ink": "^3.2.0",
     "ink-big-text": "^1.0.1",
     "ink-gradient": "^1.0.0",
     "inquirer": "^6.3.1",
@@ -48,13 +48,18 @@
     "node-fetch": "^2.6.0",
     "pm2": "^3.5.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.6",
+    "react": "^18.2.0",
     "shify": "^3.0.6",
     "ts-node": "^8.3.0",
     "ts-node-dev": "^1.0.0-pre.40",
-    "tslint": "^5.16.0",
-    "tslint-config-noka": "^1.0.0",
-    "typescript": "^3.5.2",
+    "tslib": "*",
     "update-notifier": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/prop-types": "15.7.9",
+    "@types/react": "18.2.33",
+    "noka-eslintrc": "0.1.0",
+    "noka-tsconfig": "0.1.0",
+    "typescript": "^5.2.2"
   }
 }

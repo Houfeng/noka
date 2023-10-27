@@ -1,4 +1,4 @@
-import * as pm2 from "pm2";
+import pm2 from "pm2";
 
 export function connect() {
   return new Promise<void>((resolve, reject) => {

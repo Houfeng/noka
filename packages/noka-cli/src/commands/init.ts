@@ -1,4 +1,4 @@
-import * as globby from "globby";
+import globby from "globby";
 import { basename, resolve } from "path";
 import { EOL } from "os";
 import { exec } from "../common/exec";

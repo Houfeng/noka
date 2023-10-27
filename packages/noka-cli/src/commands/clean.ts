@@ -1,4 +1,4 @@
-import * as del from "del";
+import del from "del";
 import { AppInfo } from "../common/AppInfo";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
