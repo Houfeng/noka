@@ -161,7 +161,7 @@ export class Application extends EventEmitter implements IApplication {
       ...this.getBuiltInLoaders(),
       ...this.config.loaders
     };
-    const loaderIntances: ILoader[] = [];
+    const loaderInstances: ILoader[] = [];
     for (let name in loaderInfoMap) {
       if (CONF_RESERVEDS.includes(name)) {
         throw new Error(`Invalid Loader configuration name: ${name}`);
@@ -172,9 +172,9 @@ export class Application extends EventEmitter implements IApplication {
         (isObject(value) ? value : { loader: this.importLoader(value) })
       );
       const instance = this.createLoaderInstance(loaderInfo, name);
-      loaderIntances.push(instance);
+      loaderInstances.push(instance);
     }
-    return loaderIntances;
+    return loaderInstances;
   }
 
   /**
