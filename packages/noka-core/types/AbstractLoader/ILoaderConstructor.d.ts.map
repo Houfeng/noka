@@ -1,1 +1,0 @@
-{"version":3,"file":"ILoaderConstructor.d.ts","sourceRoot":"","sources":["../../src/AbstractLoader/ILoaderConstructor.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,YAAY,EAAE,MAAM,gBAAgB,CAAC;AAC9C,OAAO,EAAE,OAAO,EAAE,MAAM,WAAW,CAAC;AACpC,OAAO,EAAE,cAAc,EAAE,MAAM,kBAAkB,CAAC;AAKlD,MAAM,MAAM,kBAAkB,GAAG,KAC/B,GAAG,EAAE,YAAY,EACjB,OAAO,EAAE,cAAc,KACpB,OAAO,CAAC"}

@@ -1,1 +1,0 @@
-{"version":3,"file":"ModelLoader.d.ts","sourceRoot":"","sources":["../../src/ModelLoader/ModelLoader.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,SAAS,EAAE,MAAM,cAAc,CAAC;AAOzC,qBAAa,WAAW,CAAC,CAAC,GAAG,GAAG,CAAE,SAAQ,SAAS,CAAC,CAAC,CAAC;IACpD,SAAS,KAAK,iBAAiB;;;;;;MAQ9B;IAED,SAAS,CAAC,cAAc,CAAC,UAAU,EAAE,GAAG;IAkBlC,IAAI;CAUX"}

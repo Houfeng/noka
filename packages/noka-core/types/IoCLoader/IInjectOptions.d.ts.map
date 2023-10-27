@@ -1,1 +1,0 @@
-{"version":3,"file":"IInjectOptions.d.ts","sourceRoot":"","sources":["../../src/IoCLoader/IInjectOptions.ts"],"names":[],"mappings":"AAAA,OAAO,EAAE,aAAa,EAAE,MAAM,gBAAgB,CAAC;AAK/C,MAAM,WAAW,cAAc;IAC7B,MAAM,CAAC,EAAE,aAAa,CAAC;IACvB,CAAC,IAAI,EAAE,MAAM,GAAG,GAAG,CAAC;CACrB"}

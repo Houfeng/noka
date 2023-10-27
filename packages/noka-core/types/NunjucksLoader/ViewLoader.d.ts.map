@@ -1,1 +1,0 @@
-{"version":3,"file":"ViewLoader.d.ts","sourceRoot":"","sources":["../../src/NunjucksLoader/ViewLoader.ts"],"names":[],"mappings":"AACA,OAAO,EAAE,cAAc,EAAE,MAAM,mBAAmB,CAAC;AAGnD,OAAO,EAAE,kBAAkB,EAAE,MAAM,sBAAsB,CAAC;AAQ1D,qBAAa,UAAU,CAAC,CAAC,GAAG,GAAG,CAAE,SAAQ,cAAc,CAAC,CAAC,EAAE,kBAAkB,CAAC;IAI/D,IAAI;CAsBlB"}
