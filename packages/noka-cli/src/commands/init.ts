@@ -47,7 +47,7 @@ export async function init(template: string) {
   // 下载模板
   logger.info("Initializing app ...");
   template = template || "default";
-  const pkgName = `noka-template-${template}`;
+  const pkgName = `noka-app${template ? '-' : ''}${template}`;
   await initTemplate(pkgName, process.cwd());
   // 更新信息
   const pkgFile = resolve(process.cwd(), "./package.json");
@@ -58,6 +58,6 @@ export async function init(template: string) {
   await renameFiles(await globby("./**/*.rename", { dot: true }), ".rename");
   // 安装依赖
   logger.info("Installing dependents ...");
-  await exec("npm i");
+  await exec("pnpm i");
   logger.info("finished");
 }

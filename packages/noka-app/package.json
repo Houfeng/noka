@@ -41,12 +41,13 @@
   },
   "dependencies": {
     "noka": "1.1.2",
-    "tslib": "*"
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "noka-cli": "1.2.2",
     "noka-eslintrc": "0.1.0",
     "noka-tsconfig": "0.1.0",
+    "pnpm": "8.7.4",
     "typescript": "5.2.2"
   }
 }
