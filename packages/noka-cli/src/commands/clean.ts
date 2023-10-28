@@ -9,6 +9,10 @@ export async function clean($1: string) {
   showBrand();
   logger.info("Clean up the build results ...");
   const appInfo = new AppInfo({ $1 });
-  await del(appInfo.distPath);
+  await del([
+    appInfo.distPath,
+    `${appInfo.root}/types/`,
+    `${appInfo.root}/release/`,
+  ]);
   logger.info("finished");
 }

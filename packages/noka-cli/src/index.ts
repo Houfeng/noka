@@ -61,6 +61,10 @@ cmdline
   .root.command(["build"])
   .action(build, "*")
 
+  // release
+  .root.command(["release"])
+  .action(build, "*")
+
   // start
   .root.command(["start"])
   .option(["-e", "--env"], "string")
