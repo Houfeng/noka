@@ -2,7 +2,7 @@ set -e
 
 
 # core
-CORE=./packages/noka-core
+CORE=./packages/noka
 echo ------------------------------------------------------
 echo PROJECT: $CORE
 echo ------------------------------------------------------
