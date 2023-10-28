@@ -101,7 +101,7 @@ export class LoggerLoader extends AbstractLoader {
    */
   public async load() {
     const options = this.getOptions();
-    await Logger.init(options);
+    await Logger.init({ ...options, root: options?.path });
     const getLogger = (category?: string) => Logger.get(category);
     this.app.container.register(LOGGER_ENTITY_KEY, {
       type: "value",
