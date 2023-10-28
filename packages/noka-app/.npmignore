@@ -4,6 +4,7 @@
 *.db
 .travis.yml
 .vscode
+.prettierrc
 node_modules/
 coverage/
 logs/

@@ -8,7 +8,7 @@ echo PROJECT: $CORE
 echo ------------------------------------------------------
 rm -rf $CORE/dist/
 tsc -p $CORE/tsconfig.json
-copyfiles --up 1 $CORE/src/**/*.{json,yml,html,css,md} $CORE/dist/
+copyfiles --up 3 $CORE/src/**/*.{json,yml,html,css,md} $CORE/dist/
 
 
 # cli
@@ -18,13 +18,13 @@ echo PROJECT: $CLI
 echo ------------------------------------------------------
 rm -rf $CLI/dist/
 tsc -p $CLI/tsconfig.json
-
+copyfiles --up 3 $CLI/src/**/*.txt $CLI/dist/
 
 # app
-# APP=./packages/noka-app
-# echo ------------------------------------------------------
-# echo PROJECT: $APP
-# echo ------------------------------------------------------
-# rm -rf $APP/dist/
-# cd $APP
-# nk build
+APP=./packages/noka-app
+echo ------------------------------------------------------
+echo PROJECT: $APP
+echo ------------------------------------------------------
+rm -rf $APP/dist/
+cd $APP
+nk build

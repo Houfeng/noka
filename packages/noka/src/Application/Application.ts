@@ -22,7 +22,6 @@ import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
 export class Application extends EventEmitter implements IApplication {
-
   static create(options: IApplicationOptions = {}) {
     return new Application(options);
   }

@@ -12,8 +12,8 @@ export async function lint($1: string) {
   if (!existsSync(appInfo.tsConfigFile)) {
     throw new Error("No compilation configuration found");
   }
-  const tslint = findCommand(__dirname, "tslint");
-  const command = `${tslint} --project ${appInfo.tsConfigFile} --fix`;
+  const eslint = findCommand(__dirname, "eslint");
+  const command = `${eslint} --project ${appInfo.tsConfigFile} --fix`;
   await exec(command, { cwd: appInfo.root });
   logger.info("finished");
 }
