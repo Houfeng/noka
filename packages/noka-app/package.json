@@ -27,7 +27,8 @@
   ],
   "author": {
     "name": "Houfeng",
-    "email": "admin@xhou.net"
+    "email": "houzhanfeng@gmail.com",
+    "url": "https://blog.houfeng.net"
   },
   "homepage": "http://noka.org",
   "bugs": {
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/mocha": "5.2.7",
+    "@types/node": "20.8.9",
     "noka-cli": "1.2.2",
     "noka-tsconfig": "0.1.0",
     "pnpm": "8.7.4",

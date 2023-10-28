@@ -3,7 +3,11 @@
   "version": "0.1.0",
   "description": "",
   "main": "./eslintrc.js",
-  "author": "Houfeng",
+  "author": {
+    "name": "Houfeng",
+    "email": "houzhanfeng@gmail.com",
+    "url": "https://blog.houfeng.net"
+  },
   "license": "MIT",
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "5.49.0",

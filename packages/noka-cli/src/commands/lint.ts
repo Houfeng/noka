@@ -13,7 +13,9 @@ export async function lint($1: string) {
     throw new Error("No compilation configuration found");
   }
   const eslint = findCommand(__dirname, "eslint");
-  const command = `${eslint} --project ${appInfo.tsConfigFile} --fix`;
-  await exec(command, { cwd: appInfo.root });
+  const cwd = appInfo.root;
+  const options = '--fix --no-error-on-unmatched-pattern';
+  const command = `${eslint} --ext .ts,.tsx ${cwd}/src/* ${options}`;
+  await exec(command, { cwd });
   logger.info("finished");
 }

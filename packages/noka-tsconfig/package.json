@@ -3,6 +3,10 @@
   "version": "0.1.0",
   "main": "./tsconfig.json",
   "description": "Noka tsconfig",
-  "author": "Houfeng",
+  "author": {
+    "name": "Houfeng",
+    "email": "houzhanfeng@gmail.com",
+    "url": "https://blog.houfeng.net"
+  },
   "license": "MIT"
 }
