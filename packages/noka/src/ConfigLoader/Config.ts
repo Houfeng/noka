@@ -1,6 +1,6 @@
 import { CONFIG_ENTITY_KEY } from "./constants";
 import { getByPath } from "../common/utils";
-import { Inject, InjectGetterOptions } from "../IOCContainer";
+import { Inject, InjectGetterOptions } from "../Container";
 
 /**
  * 配置注入 Getter 函数

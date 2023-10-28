@@ -1,4 +1,4 @@
-import { Provider, ProviderOptions } from "../IOCContainer";
+import { Provider, ProviderOptions } from "../Container";
 
 /**
  * 模型选项

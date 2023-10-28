@@ -1,4 +1,4 @@
-import { Inject, InjectGetterOptions } from "../IOCContainer";
+import { Inject, InjectGetterOptions } from "../Container";
 import { MODEL_CONN_ENTITY_KEY } from "./constants";
 import { Connection } from "typeorm";
 

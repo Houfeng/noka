@@ -1,6 +1,6 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
-import { Container } from "../IOCContainer";
+import { Container } from "../Container";
 import { ILogger } from "../LoggerLoader/ILogger";
 
 /**

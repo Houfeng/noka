@@ -1,5 +1,5 @@
 import { getByPath } from "../common/utils";
-import { Inject, InjectGetterOptions } from "../IOCContainer";
+import { Inject, InjectGetterOptions } from "../Container";
 import { isFunction } from "ntils";
 import { VIEWS_ENTITY_KEY } from "./constants";
 

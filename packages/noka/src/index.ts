@@ -1,6 +1,6 @@
 import "reflect-metadata";
 
-export * from "./IOCContainer";
+export * from "./Container";
 export * from "./Application";
 export * from "./AbstractLoader";
 export * from "./IoCLoader";

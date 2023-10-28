@@ -4,7 +4,7 @@ import { acquire } from "../common/oneport";
 import { BuiltInLoaders } from "./BuiltInLoaders";
 import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../ConfigLoader";
-import { Container } from "../IOCContainer";
+import { Container } from "../Container";
 import { dirname, extname, normalize, resolve } from "path";
 import { EventEmitter } from "events";
 import { existsSync } from "fs";
