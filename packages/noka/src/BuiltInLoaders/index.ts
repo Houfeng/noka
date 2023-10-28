@@ -32,24 +32,25 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   },
   logger: {
     loader: LoggerLoader,
+    options: { path: ":home/logs" },
   },
   headers: {
     loader: HeadersLoader,
   },
   setup: {
     loader: SetupLoader,
-    options: { path: "./:src/setups/**/*:ext" },
+    options: { path: "./:main/setups/**/*:ext" },
   },
   body: {
     loader: BodyLoader,
   },
   model: {
     loader: ModelLoader,
-    options: { path: "./:src/models/**/*:ext" },
+    options: { path: "./:main/models/**/*:ext" },
   },
   service: {
     loader: ServiceLoader,
-    options: { path: "./:src/services/**/*:ext" },
+    options: { path: "./:main/services/**/*:ext" },
   },
   session: {
     loader: SessionLoader,
@@ -64,6 +65,6 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   },
   controller: {
     loader: ControllerLoader,
-    options: { path: "./:src/controllers/**/*:ext" },
+    options: { path: "./:main/controllers/**/*:ext" },
   },
 };

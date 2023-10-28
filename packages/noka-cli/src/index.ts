@@ -15,6 +15,7 @@ import { startup } from "./commands/startup";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
 import { showBrand } from "./common/brand";
+import { release } from "./commands/release";
 
 upgrade.check();
 const pkg = require("../package.json");
@@ -63,7 +64,7 @@ cmdline
 
   // release
   .root.command(["release"])
-  .action(build, "*")
+  .action(release, "*")
 
   // start
   .root.command(["start"])

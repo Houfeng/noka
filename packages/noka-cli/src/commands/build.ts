@@ -30,9 +30,6 @@ export async function build(env: string, $1: string) {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
   });
-  await del([
-    `${appInfo.distPath}/**/*.ts`,
-    `${appInfo.distPath}/**/*.map`,
-  ]);
+  await del([`${appInfo.distPath}/**/*.ts`, `${appInfo.distPath}/**/*.map`]);
   logger.info("finished");
 }

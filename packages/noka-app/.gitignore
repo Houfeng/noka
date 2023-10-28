@@ -12,3 +12,4 @@ logs/
 dist/
 temp/
 types/
+release/

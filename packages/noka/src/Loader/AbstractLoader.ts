@@ -61,8 +61,13 @@ export abstract class AbstractLoader<
   protected parsePath(path: string) {
     if (!path) return;
     const ext = extname(this.app.entry);
-    const src = ext === ".ts" ? "src" : "dist";
-    return normalize(path.replace(":src", src).replace(":ext", ext));
+    const main = ext === ".ts" ? "src" : "dist";
+    return normalize(
+      path
+        .replace(":main", main)
+        .replace(":ext", ext)
+        .replace(":home", this.app.home),
+    );
   }
 
   /**

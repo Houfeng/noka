@@ -84,7 +84,7 @@ export class LoggerLoader extends AbstractLoader {
    * 获取日志选项
    */
   protected getOptions() {
-    const options = mix({ path: "~/logs", ...defaultOptions }, this.options);
+    const options = mix({ path: ":home/logs", ...defaultOptions }, this.options);
     options.path = this.resolvePath(options.path);
     if (options.writers && this.onlyConsole) {
       Object.keys(options.writers).forEach((key) => {

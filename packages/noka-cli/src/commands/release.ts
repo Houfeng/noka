@@ -1,5 +1,6 @@
 /** @format */
 
+import del from "del";
 import { AppInfo } from "../common/AppInfo";
 import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
@@ -16,18 +17,17 @@ export function mkdir(dir: string) {
 }
 
 export async function release(env: string, $1: string) {
-  showBrand()
-  build(env, $1);
+  showBrand();
+  await build(env, $1);
   logger.info("Prepare to release ...");
   const appInfo = new AppInfo({ $1 });
-  await mkdir(resolve(appInfo.root, './release'));
+  await mkdir(resolve(appInfo.root, "./release"));
   const copy = findCommand(__dirname, "copyfiles");
-  const command = [
-    `${copy} --up 1 -e node_modules ${appInfo.root}/**/*.* ${appInfo.root}/release/`,
-  ];
+  const command = [`${copy} --up 0 -e node_modules/ ./**/*.* ./release/`];
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
   });
+  await del([`${appInfo.root}/release/src/`, `${appInfo.root}/release/temp/`]);
   logger.info("finished");
 }
