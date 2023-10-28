@@ -22,5 +22,5 @@ export async function dev(env: string, $1: string) {
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
-  }); 
+  });
 }
