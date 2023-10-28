@@ -1,4 +1,4 @@
-import { Context } from "koa";
+import { ParameterizedContext } from "koa";
 import { getByPath, writeText, mkdir } from "../../common/utils";
 import { getContextMeta } from "./ContextInjector";
 import { getRouteMappingItems, RouteMappingInfo } from "./RouteMapping";
@@ -83,7 +83,7 @@ export class ControllerLoader extends IoCLoader {
     const { path, verb, method } = routeMapping;
     const httpMethods = this.getHttpMethods(verb);
     const routePath = normalize(`/${controllerMeta.path}/${path}`);
-    const routeHandler = async (ctx: any, next: Function) => {
+    const routeHandler = async (ctx: ParameterizedContext<any, {}>, next: Function) => {
       const controllerInstance = new controller();
       this.container.inject(controllerInstance);
       ctx.body = await this.invokeControllerMethod(ctx, controllerInstance, method);
@@ -107,7 +107,7 @@ export class ControllerLoader extends IoCLoader {
    * @param method 控制器方法
    */
   protected async invokeControllerMethod(
-    context: Context,
+    context: ParameterizedContext<any, {}>,
     controllerInstance: any,
     method: string,
   ) {

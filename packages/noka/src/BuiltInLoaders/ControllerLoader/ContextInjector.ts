@@ -17,8 +17,8 @@ export type ContextMappingMeta = {
  */
 export function Context(name = ".") {
   return (target: any, member: string, index: number) => {
-    const type = "ctx",
-      list = getContextMeta(target, member);
+    const type = "ctx";
+    const list = getContextMeta(target, member);
     list.push({ type, name, index });
     Reflect.metadata(metadataKey, list)(target, member);
   };

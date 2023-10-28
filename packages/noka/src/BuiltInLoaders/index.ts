@@ -11,7 +11,7 @@ import { SetupLoader } from "./SetupLoader";
 import { StaticLoader } from "./StaticLoader";
 import { ViewLoader } from "./ViewLoader";
 import { BodyLoader } from "./BodyLoader";
-import { LoaderConfigInfo } from "src/Loader";
+import { LoaderConfigInfo } from "../Loader";
 
 export * from "./IoCLoader";
 export * from "./ControllerLoader";

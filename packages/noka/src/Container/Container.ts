@@ -73,7 +73,7 @@ export class Container implements ContainerType {
     if (!name) throw new Error("Invalid entity name");
     const entity: EntityInfo<T> = this.entities.get(name);
     // 0. 不存在的 name，返回 undefined
-    if (!entity) return;
+    if (!entity) throw new Error(`Entity not found: ${String(name)}`);
     // 1. 如果注册为值直接返回 value
     if (isValueEntity(entity)) {
       if (!entity.injected) this.inject(entity.value);
