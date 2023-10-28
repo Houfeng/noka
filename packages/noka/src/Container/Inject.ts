@@ -14,6 +14,7 @@ export type InjectOptions = {
     instance: unknown,
     originValue: unknown,
   ) => unknown;
+  extra?: unknown;
 };
 
 /**

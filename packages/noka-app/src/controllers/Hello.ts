@@ -1,6 +1,6 @@
 /** @format */
 
-import { Controller, Get, Inject, Render, Body, Post } from "noka";
+import { Controller, Get, Inject, Body, Post, View } from "noka";
 import { ItemService } from "../services/Hello";
 
 @Controller("/")
@@ -10,7 +10,7 @@ export class HelloController {
 
   @Get("/")
   @Post("/")
-  @Render("index")
+  @View("index")
   async index(@Body("remove") removeId: string, @Body("create") add: string) {
     if (add) await this.itemService.create();
     if (removeId) await this.itemService.remove(removeId);

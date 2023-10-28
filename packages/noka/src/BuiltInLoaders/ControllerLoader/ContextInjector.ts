@@ -1,9 +1,11 @@
-import { CTL_PARAMETER } from "./constants";
+
+export const metadataKey = Symbol("Context");
+
 
 /**
  * 请求上下文注入映射信息
  */
-export interface ICtxMappingInfo {
+export type ContextMappingMeta = {
   type: string;
   name: string;
   index: number;
@@ -13,64 +15,67 @@ export interface ICtxMappingInfo {
  * 从 ctx 上获取内容
  * @param name JSON Path
  */
-export function Ctx(name = ".") {
+export function Context(name = ".") {
   return (target: any, member: string, index: number) => {
     const type = "ctx",
-      list = getCtxInfos(target, member);
+      list = getContextMeta(target, member);
     list.push({ type, name, index });
-    Reflect.metadata(CTL_PARAMETER, list)(target, member);
+    Reflect.metadata(metadataKey, list)(target, member);
   };
 }
+export const Ctx = Context;
 
 /**
  * 请求对象
  */
-export const Req = () => Ctx("request");
+export const Request = () => Context("request");
+export const Req = Request;
 
 /**
  * 响应对象
  */
-export const Res = () => Ctx("response");
+export const Response = () => Context("response");
+export const Res = Response;
 
 /**
  * Cookie 信息
  */
-export const Cookie = () => Ctx("cookies");
+export const Cookie = () => Context("cookies");
 
 /**
  * 路由参数
  * @param name 路由参数名
  */
 export const Param = (name?: string) =>
-  name ? Ctx(`params.${name}`) : Ctx("params");
+  name ? Context(`params.${name}`) : Context("params");
 
 /**
  * 获取请求主体
  * @param name 请求主体参数
  */
 export const Body = (name?: string) =>
-  name ? Ctx(`request.body.${name}`) : Ctx("request.body");
+  name ? Context(`request.body.${name}`) : Context("request.body");
 
 /**
  * 获取查询参数
  * @param name 查询参数名
  */
 export const Query = (name?: string) =>
-  name ? Ctx(`query.${name}`) : Ctx("query");
+  name ? Context(`query.${name}`) : Context("query");
 
 /**
  * 获取请求头参数
  * @param name 查询参数名
  */
 export const Header = (name?: string) =>
-  name ? Ctx(`headers.${name}`) : Ctx("headers");
+  name ? Context(`headers.${name}`) : Context("headers");
 
 /**
  * 获取控制器方法的参数注入信息
  * @param target 控制器
  * @param member 控制器方法名
  */
-export function getCtxInfos(target: any, member: string) {
-  const list = Reflect.getMetadata(CTL_PARAMETER, target, member) || [];
-  return list as ICtxMappingInfo[];
+export function getContextMeta(target: any, member: string) {
+  const list = Reflect.getMetadata(metadataKey, target, member) || [];
+  return list as ContextMappingMeta[];
 }

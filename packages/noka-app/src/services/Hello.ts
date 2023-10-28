@@ -1,11 +1,11 @@
 /** @format */
 
-import { Provider, Repository, Repo } from "noka";
+import { Provider, Repository, EntityRepo } from "noka";
 import { Item } from "../models/Item";
 
 @Provider("itemService")
 export class ItemService {
-  @Repo(Item)
+  @EntityRepo(Item)
   repo: Repository<Item>;
 
   async create() {

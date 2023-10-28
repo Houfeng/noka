@@ -16,8 +16,10 @@ import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
-import { ILogger } from "../BuiltInLoaders/LoggerLoader/ILogger";
-import { LOGGER_ENTITY_KEY } from "../BuiltInLoaders/LoggerLoader/constants";
+import {
+  LoggerInterface,
+  LOGGER_ENTITY_KEY,
+} from "../BuiltInLoaders/LoggerLoader";
 import { isNull, isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
 
@@ -69,7 +71,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
    */
   public get logger() {
     const getLogger =
-      this.container.get<(key: string) => ILogger>(LOGGER_ENTITY_KEY);
+      this.container.get<(key: string) => LoggerInterface>(LOGGER_ENTITY_KEY);
     return getLogger && getLogger("app");
   }
 

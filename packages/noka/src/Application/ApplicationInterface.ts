@@ -3,7 +3,7 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import { Container } from "../Container";
-import { ILogger } from "../BuiltInLoaders/LoggerLoader/ILogger";
+import { LoggerInterface } from "../BuiltInLoaders/LoggerLoader";
 
 /**
  * 全局应用接口定义
@@ -47,7 +47,7 @@ export interface ApplicationInterface {
   /**
    * 日志对象
    */
-  readonly logger: ILogger;
+  readonly logger: LoggerInterface;
 
   /**
    * 应用端口

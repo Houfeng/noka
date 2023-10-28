@@ -9,7 +9,7 @@ import { ServiceLoader } from "./ServiceLoader";
 import { SessionLoader } from "./SessionLoader";
 import { SetupLoader } from "./SetupLoader";
 import { StaticLoader } from "./StaticLoader";
-import { ViewLoader } from "./NunjucksLoader";
+import { ViewLoader } from "./ViewLoader";
 import { BodyLoader } from "./BodyLoader";
 import { LoaderConfigInfo } from "src/Loader";
 
@@ -17,7 +17,7 @@ export * from "./IoCLoader";
 export * from "./ControllerLoader";
 export * from "./ServiceLoader";
 export * from "./ConfigLoader";
-export * from "./NunjucksLoader";
+export * from "./ViewLoader";
 export * from "./SessionLoader";
 export * from "./ModelLoader";
 export * from "./LoggerLoader";

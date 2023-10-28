@@ -44,33 +44,34 @@ export class ViewLoader<
     );
     this.container.register(VIEWS_ENTITY_KEY, { type: 'value', value: viewMap });
     this.watchBy(viewPattern, { cwd: viewRoot });
+    this.app.logger.info('View root:', viewRoot);
     this.app.logger.info("View ready");
   }
 }
 
 
 /**
- * 视图注入 Getter 函数
+ * 视图注入处理函数
  * @param options 注入选项
  */
-export function renderInjectHandler(
+export function viewInjectHandler(
   container: ContainerType,
   meta: InjectPropMetadata,
   instance: unknown,
-  method: unknown
+  originMethod: unknown
 ) {
   const views = container.get(VIEWS_ENTITY_KEY);
   const render = getByPath(views, String(meta.name));
-  return !method || !isFunction(method)
+  return !originMethod || !isFunction(originMethod)
     ? render
     : async (...args: any[]) =>
-      render(await method.call(instance, ...args));
+      render(await originMethod.call(instance, ...args));
 }
 
 /**
- * 或 controller 注入渲染器
- * @param path 配置项的 JSON Path
+ * 或 controller 注入视图
+ * @param name 视图名称
  */
-export function Render(path: string) {
-  return Inject(path, { handle: renderInjectHandler });
+export function View(name: string) {
+  return Inject(name, { handle: viewInjectHandler });
 }

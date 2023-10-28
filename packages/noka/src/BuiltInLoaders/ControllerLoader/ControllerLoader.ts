@@ -1,11 +1,46 @@
 import { Context } from "koa";
 import { getByPath, writeText, mkdir } from "../../common/utils";
-import { getControllerInfo, IControllerInfo } from "./Controller";
-import { getCtxInfos } from "./Context";
-import { getMappingInfos, IMappingInfo } from "./Mapping";
+import { getContextMeta } from "./ContextInjector";
+import { getRouteMappingItems, RouteMappingInfo } from "./RouteMapping";
 import { IoCLoader } from "../IoCLoader";
 import { normalize, resolve } from "path";
-import { IRouteDumpInfo } from "./IRouteInfo";
+
+export type DebugRouteInfo = {
+  verb: string | string[];
+  path: string;
+  file: string;
+  controller: string;
+  method: string;
+}
+
+
+const metadataKey = Symbol('Controller');
+
+/**
+ * 控制器信息
+ */
+export type ControllerMetadata = {
+  path: string;
+}
+
+/**
+ * 控制器注解，可用来声明一个 Controller 类
+ * @param path 请求路径，可少略，默认为 `/`
+ */
+export function Controller(path = "/") {
+  return (target: any) => {
+    Reflect.metadata(metadataKey, { path })(target);
+  };
+}
+
+/**
+ * 获取控制器信息
+ * @param target 对应的 controller 类
+ */
+export function getControllerMeta(target: any): ControllerMetadata {
+  return Reflect.getMetadata(metadataKey, target);
+}
+
 
 /**
  * Controller 加载器
@@ -19,90 +54,80 @@ export class ControllerLoader extends IoCLoader {
     return Array.isArray(verb) ? verb : [verb];
   }
 
-  /**
-   * dump 信息列表
-   */
-  protected dumpList: IRouteDumpInfo[] = [];
+  protected debugRouteItems: DebugRouteInfo[] = [];
 
-  /**
-   * dump 运行时信息
-   * @param info dump 信息
-   */
-  protected dump(info: IRouteDumpInfo) {
+  protected appendDebugRouteItems(info: DebugRouteInfo) {
     if (!this.isDevelopment) return;
-    this.dumpList.push(info);
+    this.debugRouteItems.push(info);
   }
 
-  /**
-   * 保存 dump 信息
-   */
-  protected async saveDump() {
-    if (!this.isDevelopment || this.dumpList.length < 1) return;
+  protected async dumpDebugRouteItemsToFile() {
+    if (!this.isDevelopment || this.debugRouteItems.length < 1) return;
     await mkdir(this.tempDir);
     const dumpFile = resolve(this.tempDir, "./controllers.json");
-    return writeText(dumpFile, JSON.stringify(this.dumpList, null, "  "));
+    return writeText(dumpFile, JSON.stringify(this.debugRouteItems, null, "  "));
   }
 
   /**
    * 注册一个路由映射
    * @param app 应用实例
-   * @param ctlType 控制器类
-   * @param ctlInfo 控制器信息
-   * @param mapInfo 映射信息
+   * @param controller 控制器类
+   * @param controllerMeta 控制器信息
+   * @param routeMapping 映射信息
    */
-  protected regRoute(
-    ctlType: any,
-    ctlInfo: IControllerInfo,
-    mapInfo: IMappingInfo,
+  protected registerRoute(
+    controller: any,
+    controllerMeta: ControllerMetadata,
+    routeMapping: RouteMappingInfo,
   ) {
-    const { path, verb, method } = mapInfo;
+    const { path, verb, method } = routeMapping;
     const httpMethods = this.getHttpMethods(verb);
-    const routePath = normalize(`/${ctlInfo.path}/${path}`);
+    const routePath = normalize(`/${controllerMeta.path}/${path}`);
     const routeHandler = async (ctx: any, next: Function) => {
-      const ctlInstance = new ctlType();
-      this.container.inject(ctlInstance);
-      ctx.body = await this.invokeCtlMethod(ctx, ctlInstance, method);
-      ctx.preventCahce = true;
+      const controllerInstance = new controller();
+      this.container.inject(controllerInstance);
+      ctx.body = await this.invokeControllerMethod(ctx, controllerInstance, method);
+      ctx.preventCache = true;
       await next();
     };
     this.app.router.register(routePath, httpMethods, routeHandler);
-    this.dump({
+    this.appendDebugRouteItems({
       verb,
       path: routePath,
-      file: ctlType.file,
-      controller: ctlType.name,
+      file: controller.__file__,
+      controller: controller.name,
       method,
     });
   }
 
   /**
    * 执行控制器方法
-   * @param ctx 请求上下文
-   * @param ctlInstance 控制器实例
+   * @param context 请求上下文
+   * @param controllerInstance 控制器实例
    * @param method 控制器方法
    */
-  protected async invokeCtlMethod(
-    ctx: Context,
-    ctlInstance: any,
+  protected async invokeControllerMethod(
+    context: Context,
+    controllerInstance: any,
     method: string,
   ) {
-    const parameters = getCtxInfos(ctlInstance, method)
+    const parameters = getContextMeta(controllerInstance, method)
       .sort((a, b) => (a.index || 0) - (b.index || 0))
-      .map((info) => getByPath(ctx, info.name));
-    return ctlInstance[method](...parameters);
+      .map((info) => getByPath(context, info.name));
+    return controllerInstance[method](...parameters);
   }
 
   /**
    * 注册 Controller
    * @param app 应用实例
-   * @param ctlType 控制器类
+   * @param controller 控制器类
    */
-  protected regCtlType(ctlType: any) {
-    const ctlInfo = getControllerInfo(ctlType);
-    const mapppingInfos = getMappingInfos(ctlType);
-    if (!ctlInfo || !mapppingInfos || mapppingInfos.length < 1) return;
-    mapppingInfos.forEach((mapInfo: IMappingInfo) => {
-      this.regRoute(ctlType, ctlInfo, mapInfo);
+  protected registerController(controller: unknown) {
+    const controllerMeta = getControllerMeta(controller);
+    const routeMappingItems = getRouteMappingItems(controller);
+    if (!controllerMeta || !routeMappingItems || routeMappingItems.length < 1) return;
+    routeMappingItems.forEach((routeMapping: RouteMappingInfo) => {
+      this.registerRoute(controller, controllerMeta, routeMapping);
     });
   }
 
@@ -111,8 +136,10 @@ export class ControllerLoader extends IoCLoader {
    */
   public async load() {
     await super.load();
-    this.content.forEach((ctlType: any) => this.regCtlType(ctlType));
-    await this.saveDump();
+    this.content.forEach((controller) => {
+      this.registerController(controller)
+    });
+    await this.dumpDebugRouteItemsToFile();
     this.app.logger.info("Controller ready");
   }
 }

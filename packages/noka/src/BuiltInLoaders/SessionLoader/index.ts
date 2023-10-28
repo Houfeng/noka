@@ -1,9 +1,9 @@
 import session from "koa-session";
 import { AbstractLoader } from "../../Loader";
 import { pkg, uuid } from "../../common/utils";
-import { Ctx } from "../ControllerLoader";
+import { Context } from "../ControllerLoader";
 
-export const Session = () => Ctx("session");
+export const Session = () => Context("session");
 
 const defaultOptions: any = {
   key: pkg.displayName.toUpperCase(),
