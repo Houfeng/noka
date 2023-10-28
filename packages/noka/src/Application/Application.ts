@@ -2,7 +2,7 @@ import Koa from "koa";
 import Router from "koa-router";
 import { acquire } from "../common/oneport";
 import { builtLoaders } from "./builtInLoaders";
-import { CONF_RESERVEDS, ENV_NAME } from "./constants";
+import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../ConfigLoader";
 import { Container } from "../IoCLoader";
 import { dirname, extname, normalize, resolve } from "path";
@@ -15,8 +15,8 @@ import { ILoader } from "../AbstractLoader/ILoader";
 import { ILoaderConstructor } from "../AbstractLoader/ILoaderConstructor";
 import { ILoaderInfo, ILoaderInfoMap } from "../AbstractLoader/ILoaderInfo";
 import { ILogger } from "../LoggerLoader/ILogger";
-import { isObject, isNullOrUndefined } from "util";
 import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
+import { isObject, isNull } from "ntils"
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -167,7 +167,7 @@ export class Application extends EventEmitter implements IApplication {
     };
     const loaderInstances: ILoader[] = [];
     for (const name in loaderInfoMap) {
-      if (CONF_RESERVEDS.includes(name)) {
+      if (CONF_RESERVE_KEYS.includes(name)) {
         throw new Error(`Invalid Loader configuration name: ${name}`);
       }
       const value = loaderInfoMap[name];
@@ -228,7 +228,7 @@ export class Application extends EventEmitter implements IApplication {
    * 是否是开发模式
    */
   public get isDevelopment() {
-    if (isNullOrUndefined(this.__isDevelopment)) {
+    if (isNull(this.__isDevelopment)) {
       const ext = extname(this.entry);
       this.__isDevelopment = ext === ".ts";
     }

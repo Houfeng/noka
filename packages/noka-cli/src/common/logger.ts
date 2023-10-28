@@ -9,14 +9,14 @@ const colors: { [name: string]: Function } = {
   error: chalk.red.bind(chalk),
 };
 
-function wrapConsole(originConsole: any) {
+function makeConsole(originConsole: any) {
   const newConsole = Object.create(originConsole);
   ["log", "info", "warn", "error"].forEach((name) => {
     const func = newConsole[name];
-    newConsole[name] = (formater: string, ...args: any[]) => {
-      const text = format(formater, ...args);
+    newConsole[name] = (formatText: string, ...args: any[]) => {
+      const text = format(formatText, ...args);
       if (text.includes(EOL)) {
-        return func.call(newConsole, formater, ...args);
+        return func.call(newConsole, formatText, ...args);
       }
       const time = `[${new Date().toLocaleString()}]`;
       return func.call(newConsole, chalk.blue(time), colors[name](text));
@@ -25,4 +25,4 @@ function wrapConsole(originConsole: any) {
   return newConsole as Console;
 }
 
-export const logger = wrapConsole(console);
+export const logger = makeConsole(console);

@@ -4,9 +4,10 @@
   "description": "",
   "scripts": {
     "clean": "bash ./scripts/clean.sh",
-    "start": "bash ./scripts/start.sh",
+    "dev": "bash ./scripts/dev.sh",
     "build": "bash ./scripts/build.sh",
     "lint": "bash ./scripts/lint.sh",
+    "link": "bash ./scripts/link.sh",
     "test": "bash ./scripts/test.sh",
     "publish": "bash ./scripts/publish.sh",
     "postinstall": "husky install"

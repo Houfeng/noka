@@ -76,7 +76,7 @@ export class AppInfo {
    * 配置信息
    */
   public get config() {
-    const { Parser } = require("confman");
+    const { Parser } = require("confman/index");
     const configParser = new Parser({ env: this.env });
     const configFile = resolve(this.root, "./configs/config");
     const configObject = configParser.load(configFile);

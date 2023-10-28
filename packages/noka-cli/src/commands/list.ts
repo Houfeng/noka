@@ -1,6 +1,5 @@
 import * as pm from "../common/pm";
 import { logger } from "../common/logger";
-import { showTable } from "../common/table";
 
 export async function list() {
   const apps = await pm.list();
@@ -10,7 +9,7 @@ export async function list() {
       app.cpu = app.cpu + "%";
       app.memory = (app.memory / 1024 / 1024).toFixed(2) + " MB";
     });
-    showTable(apps);
+    console.table(apps);
   } else {
     logger.info("No application");
   }
