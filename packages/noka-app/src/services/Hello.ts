@@ -3,7 +3,7 @@
 import { Provider, Repository, EntityRepo } from "noka";
 import { Item } from "../models/Item";
 
-@Provider("itemService")
+@Provider()
 export class ItemService {
   @EntityRepo(Item)
   repo: Repository<Item>;

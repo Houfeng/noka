@@ -26,9 +26,8 @@ export class ViewLoader<
    */
   public async load() {
     const { path, extname = ".html" } = this.options;
-    const viewRoot = normalize(resolve(this.root, path));
+    const viewRoot = normalize(resolve(this.app.root, path));
     if (!existsSync(viewRoot)) return;
-    this.app.logger?.info('View root:', viewRoot);
     const viewPattern = `./**/*${extname}`;
     const viewFiles = await globby(viewPattern, { cwd: viewRoot });
     const viewMap: Record<string, (data: any) => string> = {};
@@ -43,7 +42,10 @@ export class ViewLoader<
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
-    this.container.register(VIEWS_ENTITY_KEY, { type: 'value', value: viewMap });
+    this.app.container.register(VIEWS_ENTITY_KEY, {
+      type: 'value',
+      value: viewMap
+    });
     this.watchBy(viewPattern, { cwd: viewRoot });
     this.app.logger?.info("View ready");
   }

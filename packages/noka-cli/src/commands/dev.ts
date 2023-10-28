@@ -18,9 +18,9 @@ export async function dev(env: string, $1: string) {
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.tsEntry)) throw new Error("No entry file found");
   const tsnd = findCommand(__dirname, "tsnd");
-  const command = `${tsnd} ${appInfo.tsEntry}`;
+  const command = `${tsnd} --debounce 3000 ${appInfo.tsEntry}`;
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
-  });
+  }); 
 }

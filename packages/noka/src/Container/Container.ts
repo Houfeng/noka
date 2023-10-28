@@ -80,6 +80,7 @@ export class Container implements ContainerType {
     // 1. 如果注册为值直接返回 value
     if (isValueEntity(entity)) {
       if (!entity.injected) this.inject(entity.value);
+      entity.injected = true;
       return entity.value;
     }
     // 2.1. 如果注册为工厂函数，且启用了缓存，将执行结果缓存并返回，再次获取直接返回缓存

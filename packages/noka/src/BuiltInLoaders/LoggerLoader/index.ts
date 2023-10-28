@@ -103,8 +103,11 @@ export class LoggerLoader extends AbstractLoader {
     const options = this.getOptions();
     await Logger.init(options);
     const getLogger = (category?: string) => Logger.get(category);
-    this.container.register(LOGGER_ENTITY_KEY, { type: "value", value: getLogger });
-    this.server.use(async (ctx, next) => {
+    this.app.container.register(LOGGER_ENTITY_KEY, {
+      type: "value",
+      value: getLogger
+    });
+    this.app.server.use(async (ctx, next) => {
       ctx.logger = await getLogger("ctx");
       const startTime = Date.now();
       await next();
@@ -114,7 +117,7 @@ export class LoggerLoader extends AbstractLoader {
       const fields = { method, url, status, rt, ua };
       getLogger("access").write(Level.info, fields);
     });
-    this.server.on("error", (err, ctx) => {
+    this.app.server.on("error", (err, ctx) => {
       const { method, url, status, headers } = ctx;
       const ua = `"${headers["user-agent"]}"`;
       ctx.logger.error(method, url, ua, status, EOL, err);

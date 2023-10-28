@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 import { AbstractLoader } from "../../Loader";
 export * from 'typeorm';
 
-const DATA_SOURCE_ENTITY_KEY = Symbol('Data');
+const DATA_SOURCE_ENTITY_KEY = Symbol('Model');
 
 export type ModelLoaderOptions = LoaderOptions & DataSourceOptions
 
@@ -22,17 +22,16 @@ const defaultDataSourceOptions = {
  */
 export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
   async load() {
-    //await super.load();
+    await super.load();
     const { path, ...others } = this.options;
     const modelRoot = this.resolvePath(path);
     if (!existsSync(modelRoot)) return;
-    this.app.logger?.info('Model root:', modelRoot);
     const source = new DataSource({
       ...defaultDataSourceOptions,
       ...others,
       entities: [modelRoot],
     });
-    this.container.register(DATA_SOURCE_ENTITY_KEY, {
+    this.app.container.register(DATA_SOURCE_ENTITY_KEY, {
       type: "value",
       value: source
     });

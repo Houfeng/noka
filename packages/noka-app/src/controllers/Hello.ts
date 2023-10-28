@@ -5,7 +5,7 @@ import { ItemService } from "../services/Hello";
 
 @Controller("/")
 export class HelloController {
-  @Inject("itemService")
+  @Inject("ItemService")
   itemService: ItemService;
 
   @Get("/")

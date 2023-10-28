@@ -11,7 +11,7 @@ export class BodyLoader extends AbstractLoader {
    */
   public async load() {
     const options = { multipart: true, ...this.options };
-    this.server.use(koaBody(options));
+    this.app.server.use(koaBody(options));
     this.app.logger?.info("Body ready");
   }
 }

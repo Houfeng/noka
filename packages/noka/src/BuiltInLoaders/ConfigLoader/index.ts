@@ -32,9 +32,12 @@ export class ConfigLoader extends AbstractLoader {
     const { root } = this.app;
     const { path } = this.options;
     const configPath = resolve(root, path);
-    const configParser = new Parser({ env: this.env });
+    const configParser = new Parser({ env: this.app.env });
     const configObject = await configParser.load(configPath);
-    this.container.register(CONFIG_ENTITY_KEY, { type: 'value', value: configObject });
+    this.app.container.register(CONFIG_ENTITY_KEY, {
+      type: 'value',
+      value: configObject,
+    });
     this.watchBy([`${configPath}.*`, `${configPath}/**/*.*`]);
   }
 }

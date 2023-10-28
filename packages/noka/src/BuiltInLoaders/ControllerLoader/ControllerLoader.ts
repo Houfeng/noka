@@ -83,10 +83,15 @@ export class ControllerLoader extends IoCLoader {
     const { path, verb, method } = routeMapping;
     const httpMethods = this.getHttpMethods(verb);
     const routePath = normalize(`/${controllerMeta.path}/${path}`);
-    const routeHandler = async (ctx: ParameterizedContext<any, {}>, next: Function) => {
+    const routeHandler = async (
+      ctx: ParameterizedContext<any, {}>,
+      next: Function
+    ) => {
       const controllerInstance = new controller();
-      this.container.inject(controllerInstance);
-      ctx.body = await this.invokeControllerMethod(ctx, controllerInstance, method);
+      this.app.container.inject(controllerInstance);
+      ctx.body = await this.invokeControllerMethod(
+        ctx, controllerInstance, method
+      );
       ctx.preventCache = true;
       await next();
     };
@@ -125,7 +130,9 @@ export class ControllerLoader extends IoCLoader {
   protected registerController(controller: unknown) {
     const controllerMeta = getControllerMeta(controller);
     const routeMappingItems = getRouteMappingItems(controller);
-    if (!controllerMeta || !routeMappingItems || routeMappingItems.length < 1) return;
+    if (!controllerMeta
+      || !routeMappingItems
+      || routeMappingItems.length < 1) return;
     routeMappingItems.forEach((routeMapping: RouteMappingInfo) => {
       this.registerRoute(controller, controllerMeta, routeMapping);
     });

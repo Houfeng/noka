@@ -21,8 +21,8 @@ export class SessionLoader extends AbstractLoader {
    */
   public async load() {
     const options = { ...defaultOptions, ...this.options };
-    this.server.keys = options.keys || SIGN_KEYS;
-    this.server.use(session(options, this.server));
+    this.app.server.keys = options.keys || SIGN_KEYS;
+    this.app.server.use(session(options, this.app.server));
     this.app.logger?.info("Session ready");
   }
 }

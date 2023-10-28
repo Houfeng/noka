@@ -18,12 +18,12 @@ export class IoCLoader<
     this.content.forEach(value => {
       const meta = getProviderMetadata(value);
       if (meta?.name && meta?.options?.static) {
-        this.container.register(meta.name, {
+        this.app.container.register(meta.name, {
           type: "value",
           value: value,
         });
       } else if (meta) {
-        this.container.register(meta?.name, {
+        this.app.container.register(meta?.name, {
           type: "class",
           value: value as EntityConstructor<any>,
           cacheable: meta.options?.singleton

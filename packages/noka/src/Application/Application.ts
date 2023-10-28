@@ -8,7 +8,6 @@ import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
 import { Container } from "../Container";
 import { dirname, extname, normalize, resolve } from "path";
-import { EventEmitter } from "events";
 import { existsSync } from "fs";
 import { homedir } from "os";
 import { ApplicationInterface } from "./ApplicationInterface";
@@ -26,7 +25,7 @@ import { ApplicationConfig } from "./ApplicationConfig";
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
-export class Application extends EventEmitter implements ApplicationInterface {
+export class Application implements ApplicationInterface {
   static create(options: ApplicationOptions = {}) {
     return new Application(options);
   }
@@ -35,9 +34,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) {
-    super();
-  }
+  constructor(protected options: ApplicationOptions = {}) { }
 
   /**
    * 当前环境标识
@@ -59,11 +56,15 @@ export class Application extends EventEmitter implements ApplicationInterface {
    */
   public readonly router = new Router();
 
+  protected __config: ApplicationConfig;
+
   /**
    * 应用配置对象
    */
   public get config(): ApplicationConfig {
-    return this.container.get(CONFIG_ENTITY_KEY, true) || {};
+    if (this.__config) return this.__config;
+    this.__config = this.container.get(CONFIG_ENTITY_KEY, true);
+    return this.__config || {};
   }
 
   /**
@@ -87,7 +88,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 目录中存在 package.json
    * @param dir 目录
    */
-  protected existsPackage(dir: string) {
+  protected isNodePackageDir(dir: string) {
     return existsSync(normalize(`${dir}/package.json`));
   }
 
@@ -103,7 +104,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
     if (this.options.root) return this.options.root;
     if (this.__root) return this.__root;
     let root = dirname(this.entry);
-    while (!this.isSystemRootDir(root) && !this.existsPackage(root)) {
+    while (!this.isSystemRootDir(root) && !this.isNodePackageDir(root)) {
       root = dirname(root);
     }
     if (this.isSystemRootDir(root) || root === ".") root = process.cwd();
@@ -186,7 +187,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
   /**
    * 获取应用端口
    */
-  protected async getPort() {
+  protected async resolvePort() {
     if (this.__port) return this.__port;
     const { port = this.config.port || (await acquire()) } = this.options;
     this.__port = port;
@@ -200,13 +201,17 @@ export class Application extends EventEmitter implements ApplicationInterface {
     return this.__port;
   }
 
+  protected __name: string;
+
   /**
    * 当前应用名称
    */
   public get name() {
+    if (this.__name) return this.__name;
     const pkgFile = resolve(this.root, "./package.json");
     const { name = this.config.name || require(pkgFile).name } = this.options;
-    return name;
+    this.__name = name;
+    return this.__name;
   }
 
   /**
@@ -238,12 +243,12 @@ export class Application extends EventEmitter implements ApplicationInterface {
   public async launch(): Promise<ApplicationInterface> {
     const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
     for (const loader of buildInLoaders) await loader.load();
-    // const configLoaders = this.createLoaderInstances(this.config.loaders);
-    // for (const loader of configLoaders) await loader.load();
+    const configLoaders = this.createLoaderInstances(this.config.loaders);
+    for (const loader of configLoaders) await loader.load();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
-    const port = await this.getPort();
-    this.server.listen(port);
+    await this.resolvePort();
+    this.server.listen(this.port);
     return this;
   }
 }

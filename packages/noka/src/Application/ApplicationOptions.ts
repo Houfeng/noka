@@ -6,7 +6,7 @@
 
 export interface ApplicationOptions {
   /**
-   * 应用根目录（默认为当前项目根目录）
+   * 应用根目录（默认为当前目录）
    */
   root?: string;
 

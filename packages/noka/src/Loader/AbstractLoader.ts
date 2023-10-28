@@ -10,11 +10,6 @@ import { readText, writeText } from "../common/utils";
 import { watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";
 
-type TSConfig = {
-  rootDir: string;
-  outDir: string;
-};
-
 type Exports = Record<string, unknown>;
 
 /**
@@ -34,41 +29,6 @@ export abstract class AbstractLoader<
   }
 
   /**
-   * Koa 实例
-   */
-  protected get server() {
-    return this.app.server;
-  }
-
-  /**
-   * IoC 容器
-   */
-  protected get container() {
-    return this.app.container;
-  }
-
-  /**
-   * 应用根目录
-   */
-  protected get root() {
-    return this.app.root;
-  }
-
-  /**
-   * 环境标识
-   */
-  protected get env() {
-    return this.app.env;
-  }
-
-  /**
-   * app 在 home 中的位置
-   */
-  protected get home() {
-    return this.app.home;
-  }
-
-  /**
    * 已加载的资源或类型列表
    */
   protected content: C[] = [];
@@ -77,16 +37,14 @@ export abstract class AbstractLoader<
    * 获取工程源码目录
    */
   protected get sourceDir(): string {
-    const tsconfig = this.importModule<TSConfig>("./tsconfig.json");
-    return (tsconfig && tsconfig.rootDir) || "src";
+    return this.resolvePath("./src");
   }
 
   /**
    * 获取工程构建结果目录
    */
   protected get distDir(): string {
-    const tsconfig = this.importModule<TSConfig>("./tsconfig.json");
-    return (tsconfig && tsconfig.outDir) || "dist";
+    return this.resolvePath("./dist");
   }
 
   /**
@@ -103,7 +61,7 @@ export abstract class AbstractLoader<
   protected parsePath(path: string) {
     if (!path) return;
     const ext = extname(this.app.entry);
-    const src = ext === ".ts" ? this.sourceDir : this.distDir;
+    const src = ext === ".ts" ? "src" : "dist";
     return normalize(path.replace(":src", src).replace(":ext", ext));
   }
 
@@ -120,23 +78,10 @@ export abstract class AbstractLoader<
   /**
    * 解析为对象路径
    * @param path 相对路径
-   * @param options 选项
    */
   protected resolvePath(path: string) {
-    if (!path) return;
-    path = normalize(path.replace("~/", this.home + "/"));
-    return resolve(this.root, this.parsePath(path));
-  }
-
-  /**
-   * 解析为对象路径
-   * @param paths 相对路径
-   * @param options 选项
-   */
-  protected resolvePaths(paths: string[] | string) {
-    return isArray(paths)
-      ? paths.map((path: string) => this.resolvePath(path))
-      : this.resolvePath(paths);
+    if (!path) return path;
+    return normalize(resolve(this.app.root, this.parsePath(path)));
   }
 
   /**
@@ -145,7 +90,7 @@ export abstract class AbstractLoader<
    * @param options 匹配选项
    */
   protected glob(paths: string | string[], options?: globby.GlobbyOptions) {
-    const cwd = this.root;
+    const cwd = this.app.root;
     return globby(this.parsePaths(paths), { cwd, ...options });
   }
 
