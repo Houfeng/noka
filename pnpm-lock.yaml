@@ -129,14 +129,14 @@ importers:
         specifier: 0.1.13
         version: 0.1.13
       sql.js:
-        specifier: 1.4.0
-        version: 1.4.0
+        specifier: 1.8.0
+        version: 1.8.0
       tslib:
         specifier: 2.6.2
         version: 2.6.2
       typeorm:
         specifier: 0.3.17
-        version: 0.3.17(sql.js@1.4.0)
+        version: 0.3.17(sql.js@1.8.0)
     devDependencies:
       '@types/chokidar':
         specifier: 2.1.3
@@ -1791,6 +1791,7 @@ packages:
   /chokidar@2.1.8:
     resolution: {integrity: sha512-ZmZUazfOzf0Nve7duiCKD23PFSCs4JPoYyccjUFF3aQkQadqBhfzhjkwBH2mNOG9cTBwhamM37EIsIkZw3nRgg==}
     deprecated: Chokidar 2 does not receive security updates since 2019. Upgrade to chokidar 3 with 15x fewer dependencies
+    requiresBuild: true
     dependencies:
       anymatch: 2.0.0
       async-each: 1.0.6
@@ -3229,6 +3230,7 @@ packages:
 
   /file-uri-to-path@1.0.0:
     resolution: {integrity: sha512-0Zt+s3L7Vf1biwWZ29aARiVYLx7iMGnEUl9x33fbB/j3jR81u/O2LbqK+Bm1CDSNDKVtJ/YjwY7TUd5SkeLQLw==}
+    requiresBuild: true
     dev: false
 
   /filename-regex@2.0.1:
@@ -3548,7 +3550,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 5.1.6
+      minimatch: 5.0.1
       once: 1.4.0
     dev: false
 
@@ -4957,13 +4959,6 @@ packages:
 
   /minimatch@5.0.1:
     resolution: {integrity: sha512-nLDxIFRyhDblz3qMuq+SoRZED4+miJ/G+tdDrjkkkRnjAsBexeGpgjLEQ0blJy7rHhR2b93rhQY4SvyWu9v03g==}
-    engines: {node: '>=10'}
-    dependencies:
-      brace-expansion: 2.0.1
-    dev: false
-
-  /minimatch@5.1.6:
-    resolution: {integrity: sha512-lKwV/1brpG6mBUFHtb7NUmtABCb2WZZmm2wNiOA5hAb8VdCS4B3dtMWyvcoViccwAW/COERjXLt0zP1zXUN26g==}
     engines: {node: '>=10'}
     dependencies:
       brace-expansion: 2.0.1
@@ -6550,8 +6545,8 @@ packages:
     resolution: {integrity: sha512-h/U+VScR2Ft+aXDjGTLtguUEIrYuOjTj79BAOElUvdahYMaaa7SNLjJpOIn+Uzt0hsgHfYvlbcno3e9yXOSo8Q==}
     dev: false
 
-  /sql.js@1.4.0:
-    resolution: {integrity: sha512-lm9x8M6O1kXjSieP/Z8Zayh+ksHN78TYX7pSh0UR1GjSVx5Kp1r+bo+l4s44rcpb0002i25f+QC4FYtfqr3lYQ==}
+  /sql.js@1.8.0:
+    resolution: {integrity: sha512-3HD8pSkZL+5YvYUI8nlvNILs61ALqq34xgmF+BHpqxe68yZIJ1H+sIVIODvni25+CcxHUxDyrTJUL0lE/m7afw==}
     dev: false
 
   /stack-utils@2.0.6:
@@ -7082,7 +7077,7 @@ packages:
       is-typed-array: 1.1.12
     dev: false
 
-  /typeorm@0.3.17(sql.js@1.4.0):
+  /typeorm@0.3.17(sql.js@1.8.0):
     resolution: {integrity: sha512-UDjUEwIQalO9tWw9O2A4GU+sT3oyoUXheHJy4ft+RFdnRdQctdQ34L9SqE2p7LdwzafHx1maxT+bqXON+Qnmig==}
     engines: {node: '>= 12.9.0'}
     hasBin: true
@@ -7152,7 +7147,7 @@ packages:
       mkdirp: 2.1.6
       reflect-metadata: 0.1.13
       sha.js: 2.4.11
-      sql.js: 1.4.0
+      sql.js: 1.8.0
       tslib: 2.6.2
       uuid: 9.0.1
       yargs: 17.7.2

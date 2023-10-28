@@ -59,7 +59,7 @@
     "nunjucks": "3.2.0",
     "oneport": "1.0.2",
     "reflect-metadata": "0.1.13",
-    "sql.js": "1.4.0",
+    "sql.js": "1.8.0",
     "tslib": "2.6.2",
     "typeorm": "0.3.17"
   },
