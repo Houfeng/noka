@@ -70,6 +70,7 @@ cmdline
   .root.command(["start"])
   .option(["-e", "--env"], "string")
   .option(["-n", "--name"], "string")
+  .option(["-c", "--cluster"], "string")
   .action(start, "*")
 
   // list

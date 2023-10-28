@@ -7,7 +7,7 @@ import { existsSync } from "fs";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
 
-export async function start(env: string, $1: string, name: string) {
+export async function start(env: string, $1: string, name: string, cluster: string) {
   showBrand();
   if (!env || env === "production") env = "prod";
   const appInfo = new AppInfo({ env, $1 });
@@ -16,7 +16,7 @@ export async function start(env: string, $1: string, name: string) {
     name: name || appInfo.name,
     script: appInfo.jsEntry,
     exec_mode: "cluster",
-    instances: cpus.length,
+    instances: cluster ? Number(cluster) : cpus.length,
     env: {
       ...process.env,
       NOKA_ROOT: appInfo.root,

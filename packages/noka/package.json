@@ -3,7 +3,7 @@
   "displayName": "Noka",
   "version": "1.1.2",
   "description": "A Web development framework",
-  "main": "./src/index.ts",
+  "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
   "publishConfig": {
     "main": "./dist/index.js",

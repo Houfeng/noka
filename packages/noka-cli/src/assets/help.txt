@@ -12,6 +12,7 @@ Commands:
   start               Start the application
     -e, --env         Application environment
     -n, --name        Application name
+    -c, --cluster     Cluster numbers
   stop                Stop application(s)
     -n, --name        Application name
     -a, --all         All applications
