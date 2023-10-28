@@ -1,11 +1,10 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { LoaderOptions } from '../../Loader/LoaderOptions';
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
-import { existsSync } from "fs";
 import { AbstractLoader } from "../../Loader";
 export * from 'typeorm';
 
-const DATA_SOURCE_ENTITY_KEY = Symbol('Model');
+const MODEL_ENTITY_KEY = Symbol('Model');
 
 export type ModelLoaderOptions = LoaderOptions & DataSourceOptions
 
@@ -24,18 +23,16 @@ export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
   async load() {
     await super.load();
     const { path, ...others } = this.options;
-    const modelRoot = this.resolvePath(path);
-    if (!existsSync(modelRoot)) return;
-    const source = new DataSource({
+    const dataSource = new DataSource({
       ...defaultDataSourceOptions,
       ...others,
-      entities: [modelRoot],
+      entities: [this.resolvePath(path)],
     });
-    this.app.container.register(DATA_SOURCE_ENTITY_KEY, {
+    this.app.container.register(MODEL_ENTITY_KEY, {
       type: "value",
-      value: source
+      value: dataSource
     });
-    await source.initialize();
+    await dataSource.initialize();
     this.app.logger?.info("Model ready");
   }
 }
@@ -48,7 +45,7 @@ export function entityRepoInjectHandler(
   container: ContainerType,
   meta: InjectPropMetadata,
 ) {
-  const source = container.get<DataSource>(DATA_SOURCE_ENTITY_KEY);
+  const source = container.get<DataSource>(MODEL_ENTITY_KEY);
   return source.getRepository(meta.options?.extra as Function);
 }
 
@@ -69,7 +66,7 @@ export function EntityRepo(entity: { new: () => any } | Function) {
 export function entityManagerInjectHandler(
   container: ContainerType,
 ) {
-  return container.get<DataSource>(DATA_SOURCE_ENTITY_KEY).manager;
+  return container.get<DataSource>(MODEL_ENTITY_KEY).manager;
 }
 
 /**

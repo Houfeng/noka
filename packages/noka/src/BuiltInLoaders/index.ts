@@ -54,10 +54,6 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   session: {
     loader: SessionLoader,
   },
-  controller: {
-    loader: ControllerLoader,
-    options: { path: "./:src/controllers/**/*:ext" },
-  },
   view: {
     loader: ViewLoader,
     options: { path: "./views", extname: ".html" },
@@ -65,5 +61,9 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   static: {
     loader: StaticLoader,
     options: { path: "./assets" },
+  },
+  controller: {
+    loader: ControllerLoader,
+    options: { path: "./:src/controllers/**/*:ext" },
   },
 };
