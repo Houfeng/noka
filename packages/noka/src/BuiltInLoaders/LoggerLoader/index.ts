@@ -34,7 +34,7 @@ export interface LoggerInterface {
 }
 
 
-export const LOGGER_ENTITY_KEY = Symbol("LOGGER_ENTITY_KEY");
+export const LOGGER_ENTITY_KEY = Symbol("Logger");
 
 const defaultOptions = {
   writers: {
@@ -120,6 +120,6 @@ export class LoggerLoader extends AbstractLoader {
       ctx.logger.error(method, url, ua, status, EOL, err);
       ctx.status = 500;
     });
-    this.app.logger.info("Logger ready");
+    this.app.logger?.info("Logger ready");
   }
 }

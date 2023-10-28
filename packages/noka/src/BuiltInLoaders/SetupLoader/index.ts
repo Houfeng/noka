@@ -12,6 +12,6 @@ export class SetupLoader extends AbstractLoader<{}, SetupFunction> {
         this.container.register(func.name, { type: 'value', value });
       }),
     );
-    this.app.logger.info("Setup ready");
+    this.app.logger?.info("Setup ready");
   }
 }

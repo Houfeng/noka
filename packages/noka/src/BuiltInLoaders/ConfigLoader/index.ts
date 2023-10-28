@@ -5,7 +5,7 @@ import { resolve } from "path";
 
 const { Parser } = require("confman/index");
 
-export const CONFIG_ENTITY_KEY = Symbol('config');
+export const CONFIG_ENTITY_KEY = Symbol('Config');
 
 /**
  * 配置注入处理函数

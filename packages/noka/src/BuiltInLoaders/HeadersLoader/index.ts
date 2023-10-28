@@ -18,6 +18,6 @@ export class HeadersLoader<
       for (const key in headers) ctx.set(key, headers[key]);
       await next();
     });
-    this.app.logger.info("Headers ready");
+    this.app.logger?.info("Headers ready");
   }
 }

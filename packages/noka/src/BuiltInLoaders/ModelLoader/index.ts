@@ -1,10 +1,11 @@
 import { DataSource, DataSourceOptions } from "typeorm";
-import { IoCLoader } from "../IoCLoader";
 import { LoaderOptions } from '../../Loader/LoaderOptions';
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
+import { existsSync } from "fs";
+import { AbstractLoader } from "../../Loader";
 export * from 'typeorm';
 
-const DATA_SOURCE_ENTITY_KEY = Symbol('DataSource');
+const DATA_SOURCE_ENTITY_KEY = Symbol('Data');
 
 export type ModelLoaderOptions = LoaderOptions & DataSourceOptions
 
@@ -19,22 +20,24 @@ const defaultDataSourceOptions = {
 /**
  * 模型加载器
  */
-export class ModelLoader extends IoCLoader<ModelLoaderOptions> {
+export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
   async load() {
-    await super.load();
-    const { path = "./:src/models/**/*:ext", ...others } = this.options;
+    //await super.load();
+    const { path, ...others } = this.options;
+    const modelRoot = this.resolvePath(path);
+    if (!existsSync(modelRoot)) return;
+    this.app.logger?.info('Model root:', modelRoot);
     const source = new DataSource({
       ...defaultDataSourceOptions,
       ...others,
-      entities: [this.resolvePath(path)],
+      entities: [modelRoot],
     });
     this.container.register(DATA_SOURCE_ENTITY_KEY, {
       type: "value",
       value: source
     });
     await source.initialize();
-    this.app.logger.info('Model root:', path);
-    this.app.logger.info("Model ready");
+    this.app.logger?.info("Model ready");
   }
 }
 

@@ -41,7 +41,7 @@ module.exports = {
     ],
     "max-statements": [
       "error",
-      25
+      50
     ],
     "max-params": [
       "error",

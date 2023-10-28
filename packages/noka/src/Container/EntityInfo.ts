@@ -31,17 +31,17 @@ export type EntityInfo<T = any> =
 export function isClassEntity<T>(
   entity: EntityInfo<T>,
 ): entity is ClassEntityInfo<T> {
-  return entity.type === "class";
+  return entity?.type === "class";
 }
 
 export function isValueEntity<T>(
   entity: EntityInfo<T>,
 ): entity is ValueEntityInfo<T> {
-  return entity.type === "class";
+  return entity?.type === "value";
 }
 
 export function isFactoryEntity<T>(
   entity: EntityInfo<T>,
 ): entity is FactoryEntityInfo<T> {
-  return entity.type === "class";
+  return entity?.type === "factory";
 }

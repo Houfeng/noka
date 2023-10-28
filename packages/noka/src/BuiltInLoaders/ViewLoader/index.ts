@@ -8,7 +8,7 @@ import { getByPath } from "../../common/utils";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { isFunction } from "ntils";
 
-const VIEWS_ENTITY_KEY = Symbol("VIEWS_ENTITY_KEY");
+const VIEWS_ENTITY_KEY = Symbol("View");
 
 export type ViewLoaderOptions = {
   path?: string;
@@ -28,6 +28,7 @@ export class ViewLoader<
     const { path, extname = ".html" } = this.options;
     const viewRoot = normalize(resolve(this.root, path));
     if (!existsSync(viewRoot)) return;
+    this.app.logger?.info('View root:', viewRoot);
     const viewPattern = `./**/*${extname}`;
     const viewFiles = await globby(viewPattern, { cwd: viewRoot });
     const viewMap: Record<string, (data: any) => string> = {};
@@ -44,8 +45,7 @@ export class ViewLoader<
     );
     this.container.register(VIEWS_ENTITY_KEY, { type: 'value', value: viewMap });
     this.watchBy(viewPattern, { cwd: viewRoot });
-    this.app.logger.info('View root:', viewRoot);
-    this.app.logger.info("View ready");
+    this.app.logger?.info("View ready");
   }
 }
 

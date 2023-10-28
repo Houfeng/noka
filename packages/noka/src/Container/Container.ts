@@ -69,11 +69,14 @@ export class Container implements ContainerType {
    * 通过类型名称创建一个实例
    * @param name 已注册的类型名称
    */
-  public get<T = unknown>(name: string | symbol) {
+  public get<T = unknown>(name: string | symbol, ignoreNotFoundError = false) {
     if (!name) throw new Error("Invalid entity name");
     const entity: EntityInfo<T> = this.entities.get(name);
     // 0. 不存在的 name，返回 undefined
-    if (!entity) throw new Error(`Entity not found: ${String(name)}`);
+    if (!entity && !ignoreNotFoundError) {
+      throw new Error(`Entity not found: ${String(name)}`);
+    }
+    if (!entity) return;
     // 1. 如果注册为值直接返回 value
     if (isValueEntity(entity)) {
       if (!entity.injected) this.inject(entity.value);
@@ -105,5 +108,6 @@ export class Container implements ContainerType {
       this.inject(instance);
       return instance;
     }
+    throw new Error(`Cannot create entity: ${JSON.stringify(entity)}`);
   }
 }

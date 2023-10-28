@@ -63,7 +63,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 应用配置对象
    */
   public get config(): ApplicationConfig {
-    return this.container.get(CONFIG_ENTITY_KEY) || {};
+    return this.container.get(CONFIG_ENTITY_KEY, true) || {};
   }
 
   /**
@@ -155,19 +155,17 @@ export class Application extends EventEmitter implements ApplicationInterface {
   }
 
   /**
-   * 获取所有 loaders
+   * 创建一组 Loader 实例
    */
-  protected createAllLoaderInstances(): LoaderInstance[] {
-    const composedLoaders = {
-      ...BuiltInLoaders,
-      ...this.config.loaders,
-    };
+  protected createLoaderInstances(
+    loaderConfigs: Record<string, string | LoaderConfigInfo<any>>,
+  ): LoaderInstance[] {
     const loaderInstances: LoaderInstance[] = [];
-    for (const loaderKey in composedLoaders) {
+    for (const loaderKey in loaderConfigs) {
       if (CONF_RESERVE_KEYS.includes(loaderKey)) {
         throw new Error(`Invalid Loader configuration name: ${loaderKey}`);
       }
-      const loaderValue = composedLoaders[loaderKey];
+      const loaderValue = loaderConfigs[loaderKey];
       if (!loaderValue) continue;
       const loadConfigInfo = (
         isString(loaderValue)
@@ -238,8 +236,10 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 启动当前应用实例
    */
   public async launch(): Promise<ApplicationInterface> {
-    const loaders = await this.createAllLoaderInstances();
-    for (const loader of loaders) await loader.load();
+    const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
+    for (const loader of buildInLoaders) await loader.load();
+    // const configLoaders = this.createLoaderInstances(this.config.loaders);
+    // for (const loader of configLoaders) await loader.load();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     const port = await this.getPort();

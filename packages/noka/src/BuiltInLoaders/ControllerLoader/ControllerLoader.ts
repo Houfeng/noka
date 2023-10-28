@@ -140,6 +140,6 @@ export class ControllerLoader extends IoCLoader {
       this.registerController(controller)
     });
     await this.dumpDebugRouteItemsToFile();
-    this.app.logger.info("Controller ready");
+    this.app.logger?.info("Controller ready");
   }
 }
