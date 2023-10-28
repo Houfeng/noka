@@ -5,6 +5,10 @@
   "description": "A Web development framework",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
+  "publishConfig": {
+    "main": "./dist/index.js",
+    "typings": "./types/index.d.ts"
+  },
   "scripts": {
     "clean": "bash ./scripts/clean.sh",
     "lint": "bash ./scripts/lint.sh",
