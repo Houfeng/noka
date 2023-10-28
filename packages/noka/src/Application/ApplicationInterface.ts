@@ -1,12 +1,12 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
-import { Container } from "../IoCLoader";
+import { Container } from "../IOCContainer";
 import { ILogger } from "../LoggerLoader/ILogger";
 
 /**
  * 全局应用接口定义
  */
-export interface IApplication {
+export interface ApplicationInterface {
   /**
    * 当前环境标识（取值 NOKA_ENV || NODE_ENV）
    */
@@ -58,7 +58,7 @@ export interface IApplication {
   readonly name: string;
 
   /**
-   * 应用的在 ~（Homde） 中的目录
+   * 应用在 ~（Home） 中的目录
    */
   readonly home: string;
 

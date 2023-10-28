@@ -5,7 +5,7 @@ const koaBody = require("koa-body");
 /**
  * 请求主体解析 loader
  */
-export class BodyLoader<T = any> extends AbstractLoader<T> {
+export class BodyLoader extends AbstractLoader {
   /**
    * 配置默认响应头
    */

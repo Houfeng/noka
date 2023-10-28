@@ -1,7 +1,6 @@
 import { ConfigLoader } from "../ConfigLoader";
 import { ControllerLoader } from "../ControllerLoader";
 import { HeadersLoader } from "../HeadersLoader";
-import { ILoaderInfoMap } from "../AbstractLoader";
 import { LoggerLoader } from "../LoggerLoader";
 import { ModelLoader } from "../ModelLoader";
 import { ServiceLoader } from "../ServiceLoader";
@@ -11,7 +10,7 @@ import { StaticLoader } from "../StaticLoader";
 import { ViewLoader } from "../NunjucksLoader";
 import { BodyLoader } from "../BodyLoader";
 
-export const builtLoaders: ILoaderInfoMap = {
+export const BuiltInLoaders = {
   config: {
     loader: ConfigLoader,
     options: { path: "./configs/config" },
@@ -46,7 +45,7 @@ export const builtLoaders: ILoaderInfoMap = {
   },
   view: {
     loader: ViewLoader,
-    options: { path: "./views" },
+    options: { path: "./views", extname: ".html" },
   },
   static: {
     loader: StaticLoader,

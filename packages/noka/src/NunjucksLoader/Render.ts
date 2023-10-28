@@ -1,14 +1,13 @@
 import { getByPath } from "../common/utils";
-import { IInjectGetterOptions } from "../IoCLoader/InjectGetter";
-import { Inject } from "../IoCLoader";
-import { isFunction } from "util";
+import { Inject, InjectGetterOptions } from "../IOCContainer";
+import { isFunction } from "ntils";
 import { VIEWS_ENTITY_KEY } from "./constants";
 
 /**
  * 视图注入 Getter 函数
  * @param options 注入选项
  */
-export function renderInjectGetter(options: IInjectGetterOptions) {
+export function renderInjectGetter(options: InjectGetterOptions) {
   const { container, info, originValue, instance } = options;
   const views = container.get(VIEWS_ENTITY_KEY);
   const render = getByPath(views, String(info.name));

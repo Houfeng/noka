@@ -12,7 +12,7 @@ const SIGN_KEYS: string[] = [uuid()];
 /**
  * Session 加载器
  */
-export class SessionLoader<T = any> extends AbstractLoader<T> {
+export class SessionLoader extends AbstractLoader {
   /**
    * 加载 Session
    */

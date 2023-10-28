@@ -1,15 +1,15 @@
 import { AbstractLoader } from "../AbstractLoader";
-import { IApplication } from "../Application";
+import { ApplicationInterface } from "../Application";
 
 /**
  * Setup 函数
  */
-export type ISetupFunction = (app?: IApplication) => Promise<any> | any;
+export type SetupFunction = (app?: ApplicationInterface) => Promise<any> | any;
 
 /**
  * Setup 加载器
  */
-export class SetupLoader extends AbstractLoader<ISetupFunction> {
+export class SetupLoader extends AbstractLoader<{}, SetupFunction> {
   /**
    * 执行加载
    */

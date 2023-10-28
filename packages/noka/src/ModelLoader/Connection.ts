@@ -1,5 +1,4 @@
-import { IInjectGetterOptions } from "../IoCLoader/InjectGetter";
-import { Inject } from "../IoCLoader/Inject";
+import { Inject, InjectGetterOptions } from "../IOCContainer";
 import { MODEL_CONN_ENTITY_KEY } from "./constants";
 import { Connection } from "typeorm";
 
@@ -7,7 +6,7 @@ import { Connection } from "typeorm";
  * 用于注入连接对象的 Getter 函数
  * @param options 注入选项
  */
-function connInjectGetter(options: IInjectGetterOptions) {
+function connInjectGetter(options: InjectGetterOptions) {
   const { container, info } = options;
   const connList: Connection[] = container.get(MODEL_CONN_ENTITY_KEY);
   return connList.find((item) => info.name === item.name) || connList[0];
@@ -25,7 +24,7 @@ export function Conn(name?: string) {
  * 用于注入连接对象的 Getter 函数
  * @param options 注入选项
  */
-function repoInjectGetter(options: IInjectGetterOptions) {
+function repoInjectGetter(options: InjectGetterOptions) {
   const { container, info } = options;
   const connList: Connection[] = container.get(MODEL_CONN_ENTITY_KEY);
   const conn = connList.find((item) => info.name === item.name) || connList[0];

@@ -9,6 +9,7 @@ export async function list() {
       app.cpu = app.cpu + "%";
       app.memory = (app.memory / 1024 / 1024).toFixed(2) + " MB";
     });
+    //eslint-disable-next-line
     console.table(apps);
   } else {
     logger.info("No application");

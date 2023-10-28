@@ -1,28 +1,28 @@
 import Koa from "koa";
 import Router from "koa-router";
 import { acquire } from "../common/oneport";
-import { builtLoaders } from "./builtInLoaders";
+import { BuiltInLoaders } from "./BuiltInLoaders";
 import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../ConfigLoader";
-import { Container } from "../IoCLoader";
+import { Container } from "../IOCContainer";
 import { dirname, extname, normalize, resolve } from "path";
 import { EventEmitter } from "events";
 import { existsSync } from "fs";
 import { homedir } from "os";
-import { IApplication } from "./IApplication";
-import { IApplicationOptions } from "./IApplicationOptions";
-import { ILoader } from "../AbstractLoader/ILoader";
-import { ILoaderConstructor } from "../AbstractLoader/ILoaderConstructor";
-import { ILoaderInfo, ILoaderInfoMap } from "../AbstractLoader/ILoaderInfo";
+import { ApplicationInterface } from "./ApplicationInterface";
+import { ApplicationOptions } from "./ApplicationOptions";
+import { LoaderInstance } from "../AbstractLoader/LoaderInstance";
+import { LoaderConstructor } from "../AbstractLoader/LoaderConstructor";
+import { LoaderConfigInfo } from "../AbstractLoader/LoadConfigInfo";
 import { ILogger } from "../LoggerLoader/ILogger";
 import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
-import { isObject, isNull } from "ntils"
+import { isObject, isNull } from "ntils";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
-export class Application extends EventEmitter implements IApplication {
-  static create(options: IApplicationOptions = {}) {
+export class Application extends EventEmitter implements ApplicationInterface {
+  static create(options: ApplicationOptions = {}) {
     return new Application(options);
   }
 
@@ -30,7 +30,7 @@ export class Application extends EventEmitter implements IApplication {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: IApplicationOptions = {}) {
+  constructor(protected options: ApplicationOptions = {}) {
     super();
   }
 
@@ -115,12 +115,12 @@ export class Application extends EventEmitter implements IApplication {
   /**
    * 内建的 loaders
    */
-  static loaders = builtLoaders;
+  static loaders = BuiltInLoaders;
 
   /**
    * 获取内建的 loaders
    */
-  protected getBuiltInLoaders(): ILoaderInfoMap {
+  protected getBuiltInLoaders() {
     return Application.loaders;
   }
 
@@ -137,7 +137,7 @@ export class Application extends EventEmitter implements IApplication {
    * 加载一个 loader
    * @param name loader 名称
    */
-  protected importLoader(name: string): ILoaderConstructor {
+  protected importLoader(name: string): LoaderConstructor {
     name = String(name);
     const { root } = this.options;
     const loaderPath = this.isPath(name) ? resolve(root, name) : name;
@@ -150,7 +150,10 @@ export class Application extends EventEmitter implements IApplication {
    * @param loaderInfo loader 信息
    * @param configKey 配置名称
    */
-  protected createLoaderInstance(loaderInfo: ILoaderInfo, configKey: string) {
+  protected createLoaderInstance(
+    loaderInfo: LoaderConfigInfo,
+    configKey: string,
+  ) {
     const { loader, options } = loaderInfo;
     const loaderConfig = this.config[configKey];
     if (loaderConfig === false) return;
@@ -160,19 +163,19 @@ export class Application extends EventEmitter implements IApplication {
   /**
    * 获取所有 loaders
    */
-  protected createAllLoaderInstances(): ILoader[] {
+  protected createAllLoaderInstances(): LoaderInstance[] {
     const loaderInfoMap = {
       ...this.getBuiltInLoaders(),
       ...this.config.loaders,
     };
-    const loaderInstances: ILoader[] = [];
+    const loaderInstances: LoaderInstance[] = [];
     for (const name in loaderInfoMap) {
       if (CONF_RESERVE_KEYS.includes(name)) {
         throw new Error(`Invalid Loader configuration name: ${name}`);
       }
       const value = loaderInfoMap[name];
       if (!value) continue;
-      const loaderInfo = <ILoaderInfo>(
+      const loaderInfo = <LoaderConfigInfo>(
         (isObject(value) ? value : { loader: this.importLoader(value) })
       );
       const instance = this.createLoaderInstance(loaderInfo, name);
@@ -238,7 +241,7 @@ export class Application extends EventEmitter implements IApplication {
   /**
    * 启动当前应用实例
    */
-  public async launch(): Promise<IApplication> {
+  public async launch(): Promise<ApplicationInterface> {
     const loaders = await this.createAllLoaderInstances();
     for (const loader of loaders) await loader.load();
     this.server.use(this.router.routes());

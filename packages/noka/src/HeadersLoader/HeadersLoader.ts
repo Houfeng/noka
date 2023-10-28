@@ -6,7 +6,9 @@ const defaultOptions: { [key: string]: string } = { Server: pkg.displayName };
 /**
  * 响应头加载器
  */
-export class HeadersLoader<T = any> extends AbstractLoader<T> {
+export class HeadersLoader<
+  T extends Record<string, string> = Record<string, string>,
+> extends AbstractLoader<T> {
   /**
    * 配置默认响应头
    */

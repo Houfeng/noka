@@ -37,7 +37,7 @@ const defaultOptions: any = {
 /**
  * 日志加载器
  */
-export class LoggerLoader<T = any> extends AbstractLoader<T> {
+export class LoggerLoader extends AbstractLoader {
   /**
    * 是否仅打印日志到 console
    */

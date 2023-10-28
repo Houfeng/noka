@@ -1,9 +1,9 @@
-export interface IEntity {
+export type IOCContainerEntity = {
   type: symbol;
   value: any;
-}
+};
 
-export interface IContainer {
+export interface IOCContainerInterface {
   /**
    * 所有已注册的可注入实体
    */
@@ -48,7 +48,7 @@ export interface IContainer {
   get<T>(name: string | symbol): T;
 
   /**
-   * 在实例上应用注入
+   * 在实例上应用注入
    * @param instance
    */
   inject(instance: any): void;

@@ -2,12 +2,12 @@ import { AbstractLoader } from "../AbstractLoader";
 import { CONFIG_ENTITY_KEY } from "./constants";
 import { resolve } from "path";
 
-const { Parser } = require("confman");
+const { Parser } = require("confman/index");
 
 /**
  * 配置加载器
  */
-export class ConfigLoader<T = any> extends AbstractLoader<T> {
+export class ConfigLoader extends AbstractLoader {
   /**
    * 加载应用配置
    */

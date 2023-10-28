@@ -3,27 +3,24 @@ import { IOC_PROVIDER } from "./constants";
 /**
  * provider 选项
  */
-export interface IProviderOptions {
+export type ProviderOptions = {
   singleton?: boolean;
   static?: boolean;
-}
+};
 
 /**
  * provider 信息
  */
-export interface IProviderInfo {
+export type ProviderInfo = {
   name: string | symbol;
-  options: IProviderOptions;
-}
+  options: ProviderOptions;
+};
 
 /**
  * 声明一个类，将其放入 IoC 容器内
  * @param name 名称
  */
-export function Provider(
-  name: string | symbol,
-  options: IProviderOptions = {},
-) {
+export function Provider(name: string | symbol, options: ProviderOptions = {}) {
   return (target: any) =>
     Reflect.metadata(IOC_PROVIDER, { name, options })(target);
 }
@@ -33,5 +30,5 @@ export function Provider(
  * @param target 类型
  */
 export function getProviderInfo(target: any) {
-  return Reflect.getMetadata(IOC_PROVIDER, target) as IProviderInfo;
+  return Reflect.getMetadata(IOC_PROVIDER, target) as ProviderInfo;
 }

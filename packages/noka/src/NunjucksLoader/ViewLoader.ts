@@ -10,7 +10,9 @@ import { VIEWS_ENTITY_KEY } from "./constants";
 /**
  * 静态资源 加载器
  */
-export class ViewLoader<T = any> extends AbstractLoader<T, IViewLoaderOptions> {
+export class ViewLoader<
+  T extends IViewLoaderOptions = IViewLoaderOptions,
+> extends AbstractLoader<{ path: string; extname: string }, T> {
   /**
    * 加载所有视图
    */

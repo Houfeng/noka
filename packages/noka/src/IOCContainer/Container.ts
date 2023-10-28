@@ -1,15 +1,13 @@
-import { defaultInjectGetter } from "./InjectGetter";
-import { getPropInjectInfos } from "./Inject";
+import { getPropInjectInfos, InjectInfo, defaultInjectGetter } from "./Inject";
 import { getProviderInfo } from "./Provider";
-import { IContainer, IEntity } from "./IContainer";
-import { IInjectInfo } from "./IInjectInfo";
+import { IOCContainerInterface, IOCContainerEntity } from "./ContainerType";
 import { IOC_ENTITY_CLS, IOC_ENTITY_OBJ, IOC_SINGLETON } from "./constants";
-import { isFunction } from "util";
+import { isFunction } from "ntils";
 
 /**
  * IoC 容器类
  */
-export class Container implements IContainer {
+export class Container implements IOCContainerInterface {
   /**
    * 构造一个容器实例
    */
@@ -93,7 +91,7 @@ export class Container implements IContainer {
    * @param instance 将要执行注入的实例
    * @param info 注入信息
    */
-  private injectProp(instance: any, info: IInjectInfo) {
+  private injectProp(instance: any, info: InjectInfo) {
     const getter = (info.options && info.options.getter) || defaultInjectGetter;
     const cacheKey = Symbol(String(info.member));
     const originValue = instance[info.member];
@@ -109,12 +107,12 @@ export class Container implements IContainer {
   }
 
   /**
-   * 在实例上应用注入
+   * 在实例上应用注入
    * @param instance
    */
   public inject(instance: any) {
     const propInjectInfos = getPropInjectInfos(instance);
-    propInjectInfos.forEach((info: IInjectInfo) =>
+    propInjectInfos.forEach((info: InjectInfo) =>
       this.injectProp(instance, info),
     );
   }
@@ -125,7 +123,7 @@ export class Container implements IContainer {
    */
   public get<T = any>(name: string | symbol) {
     if (!name) return;
-    const entity: IEntity = this.entities[name];
+    const entity: IOCContainerEntity = this.entities[name];
     // 不存在的 name，返回 undefined
     if (!entity) return;
     const { type, value } = entity;

@@ -1,12 +1,12 @@
 import { createConnections } from "typeorm";
 import { IoCLoader } from "../IoCLoader";
-import { isArray } from "util";
+import { isArray } from "ntils";
 import { MODEL_CONN_ENTITY_KEY } from "./constants";
 
 /**
  * 模型加载器
  */
-export class ModelLoader<T = any> extends IoCLoader<T> {
+export class ModelLoader extends IoCLoader {
   protected get defaultConnection() {
     return {
       type: "sqljs",
@@ -30,7 +30,7 @@ export class ModelLoader<T = any> extends IoCLoader<T> {
       conn.location = this.resolvePath(conn.location);
     }
     if (conn.type === "sqlite") {
-      conn.datebase = this.resolvePath(conn.datebase);
+      conn.database = this.resolvePath(conn.database);
     }
     return conn;
   }

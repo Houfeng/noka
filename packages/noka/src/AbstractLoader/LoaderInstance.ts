@@ -1,6 +1,6 @@
 /**
  * 加载器接口定义
  */
-export interface ILoader {
+export interface LoaderInstance {
   load(): Promise<void>;
 }

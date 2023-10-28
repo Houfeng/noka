@@ -1,26 +1,33 @@
 import globby from "globby";
 import { existsSync } from "fs";
 import { extname, normalize, resolve } from "path";
-import { IApplication } from "../Application/IApplication";
-import { ILoader } from "./ILoader";
-import { ILoaderOptions } from "./ILoaderOptions";
-import { isArray } from "util";
+import { ApplicationInterface } from "../Application/ApplicationInterface";
+import { LoaderInstance } from "./LoaderInstance";
+import { isArray, isString } from "ntils";
 import { readText, writeText } from "../common/utils";
 import { watch, WatchOptions } from "chokidar";
+import { LoaderOptions } from "./LoaderOptions";
+
+type TSConfig = {
+  rootDir: string;
+  outDir: string;
+};
+
+type Exports = Record<string, unknown>;
 
 /**
  * 资源加载器抽象基类
  */
 export abstract class AbstractLoader<
-  T = any,
-  O extends ILoaderOptions = ILoaderOptions,
-> implements ILoader
+  T extends LoaderOptions = LoaderOptions,
+  C = unknown,
+> implements LoaderInstance
 {
   /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
    */
-  constructor(protected app: IApplication, protected options: O) {
+  constructor(protected app: ApplicationInterface, protected options: T) {
     this.options = { ...options };
   }
 
@@ -62,13 +69,13 @@ export abstract class AbstractLoader<
   /**
    * 已加载的资源或类型列表
    */
-  protected content: T[] = [];
+  protected content: C[] = [];
 
   /**
    * 获取工程源码目录
    */
   protected get sourceDir(): string {
-    const tsconfig = this.importModule("./tsconfig.json");
+    const tsconfig = this.importModule<TSConfig>("./tsconfig.json");
     return (tsconfig && tsconfig.rootDir) || "src";
   }
 
@@ -76,7 +83,7 @@ export abstract class AbstractLoader<
    * 获取工程构建结果目录
    */
   protected get distDir(): string {
-    const tsconfig = this.importModule("./tsconfig.json");
+    const tsconfig = this.importModule<TSConfig>("./tsconfig.json");
     return (tsconfig && tsconfig.outDir) || "dist";
   }
 
@@ -144,7 +151,7 @@ export abstract class AbstractLoader<
    * 导入一个模块
    * @param moduleFile 模块路径
    */
-  protected importModule(moduleFile: string) {
+  protected importModule<M = Exports>(moduleFile: string): M {
     try {
       return require(this.resolvePath(moduleFile));
     } catch {
@@ -187,13 +194,14 @@ export abstract class AbstractLoader<
     const { root } = this.app;
     if (!existsSync(root)) return;
     const { path } = this.options;
+    if (!isString(path)) return;
     const moduleFiles = await this.glob(path);
     moduleFiles.forEach((moduleFile) => {
       const modules = this.importModule(moduleFile);
       if (!modules) return;
       Object.keys(modules).forEach((name) => {
-        const mod = modules[name];
-        mod.file = moduleFile;
+        const mod: any = modules[name];
+        mod.__file__ = moduleFile;
         this.content.push(mod);
       });
     });

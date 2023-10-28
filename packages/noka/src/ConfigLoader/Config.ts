@@ -1,13 +1,12 @@
 import { CONFIG_ENTITY_KEY } from "./constants";
 import { getByPath } from "../common/utils";
-import { IInjectGetterOptions } from "../IoCLoader/InjectGetter";
-import { Inject } from "../IoCLoader";
+import { Inject, InjectGetterOptions } from "../IOCContainer";
 
 /**
  * 配置注入 Getter 函数
  * @param options 注入选项
  */
-function configInjectGetter(options: IInjectGetterOptions) {
+function configInjectGetter(options: InjectGetterOptions) {
   const { container, info } = options;
   const configObject = container.get(CONFIG_ENTITY_KEY);
   return getByPath(configObject, String(info.name));

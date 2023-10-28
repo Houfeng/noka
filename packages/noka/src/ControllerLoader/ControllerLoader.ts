@@ -10,7 +10,7 @@ import { IRouteDumpInfo } from "./IRouteInfo";
 /**
  * Controller 加载器
  */
-export class ControllerLoader<T = any[]> extends IoCLoader<T> {
+export class ControllerLoader extends IoCLoader {
   /**
    * 获取请求方法
    * @param verb 请求动作（HTTP Method）
