@@ -1,7 +1,7 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import { Container } from "../Container";
-import { ILogger } from "../LoggerLoader/ILogger";
+import { ILogger } from "../BuiltInLoaders/LoggerLoader/ILogger";
 
 /**
  * 全局应用接口定义

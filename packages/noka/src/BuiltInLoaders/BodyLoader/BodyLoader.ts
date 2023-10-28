@@ -1,4 +1,4 @@
-import { AbstractLoader } from "../AbstractLoader";
+import { AbstractLoader } from "../../Loader";
 
 const koaBody = require("koa-body");
 

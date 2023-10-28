@@ -1,4 +1,4 @@
-import { AbstractLoader } from "../AbstractLoader/AbstractLoader";
+import { AbstractLoader } from "../../Loader/AbstractLoader";
 
 /**
  * IoC 加载器

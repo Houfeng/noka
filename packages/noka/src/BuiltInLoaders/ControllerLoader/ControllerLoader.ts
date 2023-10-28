@@ -1,5 +1,5 @@
 import { Context } from "koa";
-import { getByPath, writeText, mkdir } from "../common/utils";
+import { getByPath, writeText, mkdir } from "../../common/utils";
 import { getControllerInfo, IControllerInfo } from "./Controller";
 import { getCtxInfos } from "./Context";
 import { getMappingInfos, IMappingInfo } from "./Mapping";

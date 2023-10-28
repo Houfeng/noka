@@ -1,6 +1,6 @@
-import { AbstractLoader } from "../AbstractLoader";
+import { AbstractLoader } from "../../Loader";
 import { Logger, Level } from "hilog";
-import { mix } from "../common/utils";
+import { mix } from "../../common/utils";
 import { LOGGER_ENTITY_KEY } from "./constants";
 import { EOL } from "os";
 

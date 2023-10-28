@@ -1,9 +1,9 @@
 import Koa from "koa";
 import Router from "koa-router";
 import { acquire } from "../common/oneport";
-import { BuiltInLoaders } from "./BuiltInLoaders";
+import { BuiltInLoaders } from "../BuiltInLoaders";
 import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
-import { CONFIG_ENTITY_KEY } from "../ConfigLoader";
+import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
 import { Container } from "../Container";
 import { dirname, extname, normalize, resolve } from "path";
 import { EventEmitter } from "events";
@@ -11,11 +11,11 @@ import { existsSync } from "fs";
 import { homedir } from "os";
 import { ApplicationInterface } from "./ApplicationInterface";
 import { ApplicationOptions } from "./ApplicationOptions";
-import { LoaderInstance } from "../AbstractLoader/LoaderInstance";
-import { LoaderConstructor } from "../AbstractLoader/LoaderConstructor";
-import { LoaderConfigInfo } from "../AbstractLoader/LoadConfigInfo";
-import { ILogger } from "../LoggerLoader/ILogger";
-import { LOGGER_ENTITY_KEY } from "../LoggerLoader/constants";
+import { LoaderInstance } from "../Loader/LoaderInstance";
+import { LoaderConstructor } from "../Loader/LoaderConstructor";
+import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
+import { ILogger } from "../BuiltInLoaders/LoggerLoader/ILogger";
+import { LOGGER_ENTITY_KEY } from "../BuiltInLoaders/LoggerLoader/constants";
 import { isObject, isNull } from "ntils";
 
 /**

@@ -1,10 +1,10 @@
 import globby from "globby";
-import { AbstractLoader } from "../AbstractLoader";
+import { AbstractLoader } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
 import { IViewLoaderOptions } from "./IViewLoaderOptions";
 import { normalize, resolve } from "path";
-import { readText } from "../common/utils";
+import { readText } from "../../common/utils";
 import { VIEWS_ENTITY_KEY } from "./constants";
 
 /**

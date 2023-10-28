@@ -1,5 +1,5 @@
-import { AbstractLoader } from "../AbstractLoader";
-import { pkg } from "../common/utils";
+import { AbstractLoader } from "../../Loader";
+import { pkg } from "../../common/utils";
 
 const defaultOptions: { [key: string]: string } = { Server: pkg.displayName };
 

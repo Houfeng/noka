@@ -1,5 +1,5 @@
-import { AbstractLoader } from "../AbstractLoader";
-import { ApplicationInterface } from "../Application";
+import { AbstractLoader } from "../../Loader";
+import { ApplicationInterface } from "../../Application";
 
 /**
  * Setup 函数

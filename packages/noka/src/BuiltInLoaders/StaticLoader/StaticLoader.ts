@@ -1,6 +1,6 @@
 import compose from "koa-compose";
 import serve from "koa-static";
-import { AbstractLoader } from "../AbstractLoader";
+import { AbstractLoader } from "../../Loader";
 import { existsSync } from "fs";
 import { resolve } from "path";
 

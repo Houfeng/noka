@@ -1,6 +1,6 @@
 import session from "koa-session";
-import { AbstractLoader } from "../AbstractLoader";
-import { pkg, uuid } from "../common/utils";
+import { AbstractLoader } from "../../Loader";
+import { pkg, uuid } from "../../common/utils";
 
 const defaultOptions: any = {
   key: pkg.displayName.toUpperCase(),

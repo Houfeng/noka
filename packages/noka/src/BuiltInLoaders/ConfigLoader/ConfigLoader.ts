@@ -1,4 +1,4 @@
-import { AbstractLoader } from "../AbstractLoader";
+import { AbstractLoader } from "../../Loader";
 import { CONFIG_ENTITY_KEY } from "./constants";
 import { resolve } from "path";
 
