@@ -1,3 +1,5 @@
+/** @format */
+
 import globby from "globby";
 import { existsSync } from "fs";
 import { extname, normalize, resolve } from "path";

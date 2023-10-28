@@ -1,3 +1,5 @@
+/** @format */
+
 import { dirname, normalize, resolve } from "path";
 import { DIST_PATH, SRC_PATH } from "./consts";
 import { existsSync } from "fs";

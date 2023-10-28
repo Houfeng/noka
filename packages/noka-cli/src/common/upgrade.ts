@@ -1,3 +1,5 @@
+/** @format */
+
 import updateNotifier from "update-notifier";
 
 const pkg = require("../../package.json");

@@ -1,3 +1,5 @@
+/** @format */
+
 import { ConfigLoader } from "./ConfigLoader";
 import { ControllerLoader } from "./ControllerLoader";
 import { HeadersLoader } from "./HeadersLoader";
@@ -9,6 +11,7 @@ import { SetupLoader } from "./SetupLoader";
 import { StaticLoader } from "./StaticLoader";
 import { ViewLoader } from "./NunjucksLoader";
 import { BodyLoader } from "./BodyLoader";
+import { LoaderConfigInfo } from "src/Loader";
 
 export * from "./IoCLoader";
 export * from "./ControllerLoader";
@@ -22,7 +25,7 @@ export * from "./HeadersLoader";
 export * from "./StaticLoader";
 export * from "./SetupLoader";
 
-export const BuiltInLoaders = {
+export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   config: {
     loader: ConfigLoader,
     options: { path: "./configs/config" },

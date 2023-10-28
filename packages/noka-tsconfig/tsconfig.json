@@ -13,7 +13,7 @@
     "downlevelIteration": true,
     "removeComments": true,
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": false,
+    "emitDecoratorMetadata": true,
     "moduleResolution": "Node",
     "importHelpers": true,
     "esModuleInterop": true,

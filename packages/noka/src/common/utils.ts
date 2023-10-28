@@ -1,3 +1,5 @@
+/** @format */
+
 import mkdirp from "mkdirp";
 import { readFile, writeFile } from "fs";
 

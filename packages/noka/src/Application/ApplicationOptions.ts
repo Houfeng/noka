@@ -1,6 +1,9 @@
 /**
  * 全局应用类选项接口
+ *
+ * @format
  */
+
 export interface ApplicationOptions {
   /**
    * 应用根目录（默认为当前项目根目录）

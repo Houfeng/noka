@@ -1,119 +1,67 @@
-import { getPropInjectInfos, InjectInfo, defaultInjectGetter } from "./Inject";
-import { getProviderInfo } from "./Provider";
-import { IOCContainerInterface, IOCContainerEntity } from "./ContainerType";
-import { IOC_ENTITY_CLS, IOC_ENTITY_OBJ, IOC_SINGLETON } from "./constants";
-import { isFunction } from "ntils";
+/** @format */
+
+import { getInjectMetadata, InjectPropMetadata } from "./Inject";
+import { ContainerType } from "./ContainerType";
+import {
+  EntityInfo,
+  isClassEntity,
+  isFactoryEntity,
+  isValueEntity,
+} from "./EntityInfo";
 
 /**
  * IoC 容器类
  */
-export class Container implements IOCContainerInterface {
+export class Container implements ContainerType {
   /**
-   * 构造一个容器实例
+   * 所有已注册的实体信息
    */
-  constructor() {
-    Object.freeze(this);
-  }
-
-  /**
-   * 所有已注册的可注入实体
-   */
-  public readonly entities: any = Object.create(null);
+  protected readonly entities = new Map<string | symbol, EntityInfo>();
 
   /**
    * 向容器中注册一个实体
-   * @param name 注册名称
-   * @param type 注册类型
-   * @param value 注册实体
+   * @param name    注册名称
+   * @param entity  实例信息
    */
-  protected registerEntity(name: string | symbol, type: symbol, value: any) {
-    if (this.entities[name]) {
+  register<T extends EntityInfo = EntityInfo>(
+    name: string | symbol,
+    entity: T,
+  ) {
+    if (this.entities.has(name)) {
       throw new Error(`IoC entity name is duplicated: ${String(name)}`);
     }
-    this.entities[name] = { type, value };
-  }
-
-  /**
-   * 向容器注册一个实体类
-   * @param name 实例名称
-   * @param type 实体类
-   */
-  public registerType(name: string | symbol, type: any): void {
-    this.registerEntity(name, IOC_ENTITY_CLS, type);
-  }
-
-  /**
-   * 在 IoC 容器中注册一组件类型
-   * @param types 类型数组
-   */
-  public registerTypes(types: any[]): void {
-    types.forEach((type) => {
-      const info = getProviderInfo(type);
-      if (!info || !info.name) return;
-      this.registerType(info.name, type);
-    });
-  }
-
-  /**
-   * 向容器注册一个实体值
-   * @param name 实例名称
-   * @param value 实体值
-   */
-  public registerValue(name: string | symbol, value: any): void {
-    this.registerEntity(name, IOC_ENTITY_OBJ, value);
-  }
-
-  /**
-   * 添加 values
-   * @param map 要添加的 values
-   */
-  public registerValues(map: any): void {
-    Object.keys(map).forEach((name: string) => {
-      this.registerValue(name, map[name]);
-    });
-    Object.getOwnPropertySymbols(map).forEach((name: symbol) => {
-      this.registerValue(name, map[name]);
-    });
-  }
-
-  /**
-   * 向容器注册实体(类型 Array 或值 Map)
-   * @param types 类型
-   */
-  public register(entities: any[] | any): void {
-    return entities instanceof Array
-      ? this.registerTypes(entities)
-      : this.registerValues(entities);
+    this.entities.set(name, entity);
   }
 
   /**
    * 在实例上注入一个属性
    * @param instance 将要执行注入的实例
-   * @param info 注入信息
+   * @param meta 注入信息
    */
-  private injectProp(instance: any, info: InjectInfo) {
-    const getter = (info.options && info.options.getter) || defaultInjectGetter;
-    const cacheKey = Symbol(String(info.member));
-    const originValue = instance[info.member];
-    const getterOptions = { container: this, info, originValue, instance };
-    delete instance[info.member];
-    const enumerable = true,
-      get = () => {
+  private injectProp(instance: any, meta: InjectPropMetadata) {
+    const cacheKey = Symbol(String(meta.member));
+    const originValue = instance[meta.member];
+    delete instance[meta.member];
+    Object.defineProperty(instance, meta.member, {
+      enumerable: true,
+      get: () => {
         if (cacheKey in instance) return instance[cacheKey];
-        instance[cacheKey] = getter.call(instance, getterOptions);
+        instance[cacheKey] = meta.options?.handle
+          ? meta.options.handle(this, meta, instance, originValue)
+          : this.get(meta.name);
         return instance[cacheKey];
-      };
-    Object.defineProperty(instance, info.member, { enumerable, get });
+      },
+    });
   }
 
   /**
    * 在实例上应用注入
    * @param instance
    */
-  public inject(instance: any) {
-    const propInjectInfos = getPropInjectInfos(instance);
-    propInjectInfos.forEach((info: InjectInfo) =>
-      this.injectProp(instance, info),
+  public inject(instance: unknown) {
+    const metadataList = getInjectMetadata(instance);
+    metadataList.forEach((meta: InjectPropMetadata) =>
+      this.injectProp(instance, meta),
     );
   }
 
@@ -121,29 +69,41 @@ export class Container implements IOCContainerInterface {
    * 通过类型名称创建一个实例
    * @param name 已注册的类型名称
    */
-  public get<T = any>(name: string | symbol) {
-    if (!name) return;
-    const entity: IOCContainerEntity = this.entities[name];
-    // 不存在的 name，返回 undefined
+  public get<T = unknown>(name: string | symbol) {
+    if (!name) throw new Error("Invalid entity name");
+    const entity: EntityInfo<T> = this.entities.get(name);
+    // 0. 不存在的 name，返回 undefined
     if (!entity) return;
-    const { type, value } = entity;
-    // 注册为非类或实际不是类的实体，直接返回
-    if (type !== IOC_ENTITY_CLS || !isFunction(value)) return value as T;
-    // 获取注册信息
-    const info = getProviderInfo(value);
-    // 声明为 static 的，直接返回
-    if (info && info.options && info.options.static) {
-      return value as T;
+    // 1. 如果注册为值直接返回 value
+    if (isValueEntity(entity)) {
+      if (!entity.injected) this.inject(entity.value);
+      return entity.value;
     }
-    // 如果有单例 cache 的，返回 cache 的实例
-    if (value[IOC_SINGLETON]) return value[IOC_SINGLETON] as T;
-    // 创建新实例，并执行注入
-    const instance = new value();
-    this.inject(instance);
-    // 如果有单例标记，将单例 cache
-    if (info && info.options && info.options.singleton) {
-      value[IOC_SINGLETON] = instance;
+    // 2.1. 如果注册为工厂函数，且启用了缓存，将执行结果缓存并返回，再次获取直接返回缓存
+    if (isFactoryEntity(entity) && entity.cacheable) {
+      if (entity.cached) return entity.cached;
+      entity.cached = entity.value();
+      this.inject(entity.cached);
+      return entity.cached;
     }
-    return instance as T;
+    // 2.2. 如果注册为工厂函数，且未启用缓存，将执行结果直接返回
+    if (isFactoryEntity(entity)) {
+      const instance = entity.value();
+      this.inject(instance);
+      return instance;
+    }
+    // 3.1. 如果注册为类，且启用了缓存，将新实例缓存并返回，再次获取直接返回缓存实例
+    if (isClassEntity(entity) && entity.cacheable) {
+      if (entity.cached) return entity.cached;
+      entity.cached = new entity.value();
+      this.inject(entity.cached);
+      return entity.cached;
+    }
+    // 3.2. 如果注册为工厂函数，且未启用缓存，直接返回新实例
+    if (isClassEntity(entity)) {
+      const instance = new entity.value();
+      this.inject(instance);
+      return instance;
+    }
   }
 }

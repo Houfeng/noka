@@ -1,3 +1,5 @@
+/** @format */
+
 import * as pm from "../common/pm";
 import { AppInfo } from "../common/AppInfo";
 import { logger } from "../common/logger";

@@ -1,3 +1,5 @@
+/** @format */
+
 import Koa from "koa";
 import Router from "koa-router";
 import { acquire } from "../common/oneport";
@@ -16,7 +18,8 @@ import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
 import { ILogger } from "../BuiltInLoaders/LoggerLoader/ILogger";
 import { LOGGER_ENTITY_KEY } from "../BuiltInLoaders/LoggerLoader/constants";
-import { isObject, isNull } from "ntils";
+import { isNull, isString } from "ntils";
+import { ApplicationConfig } from "./ApplicationConfig";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -57,7 +60,7 @@ export class Application extends EventEmitter implements ApplicationInterface {
   /**
    * 应用配置对象
    */
-  public get config() {
+  public get config(): ApplicationConfig {
     return this.container.get(CONFIG_ENTITY_KEY) || {};
   }
 
@@ -65,8 +68,9 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 应用日志对象
    */
   public get logger() {
-    const getLogger = this.container.get(LOGGER_ENTITY_KEY);
-    return (getLogger && getLogger("app")) as ILogger;
+    const getLogger =
+      this.container.get<(key: string) => ILogger>(LOGGER_ENTITY_KEY);
+    return getLogger && getLogger("app");
   }
 
   /**
@@ -113,18 +117,6 @@ export class Application extends EventEmitter implements ApplicationInterface {
   }
 
   /**
-   * 内建的 loaders
-   */
-  static loaders = BuiltInLoaders;
-
-  /**
-   * 获取内建的 loaders
-   */
-  protected getBuiltInLoaders() {
-    return Application.loaders;
-  }
-
-  /**
    * 字符串是不是一个路戏
    * @param str 字符串
    */
@@ -147,14 +139,14 @@ export class Application extends EventEmitter implements ApplicationInterface {
 
   /**
    * 创建一个 loader 实例
-   * @param loaderInfo loader 信息
+   * @param loaderConfigInfo loader 信息
    * @param configKey 配置名称
    */
   protected createLoaderInstance(
-    loaderInfo: LoaderConfigInfo,
+    loaderConfigInfo: LoaderConfigInfo,
     configKey: string,
   ) {
-    const { loader, options } = loaderInfo;
+    const { loader, options } = loaderConfigInfo;
     const loaderConfig = this.config[configKey];
     if (loaderConfig === false) return;
     return new loader(this, { ...options, ...loaderConfig });
@@ -164,21 +156,23 @@ export class Application extends EventEmitter implements ApplicationInterface {
    * 获取所有 loaders
    */
   protected createAllLoaderInstances(): LoaderInstance[] {
-    const loaderInfoMap = {
-      ...this.getBuiltInLoaders(),
+    const composedLoaders = {
+      ...BuiltInLoaders,
       ...this.config.loaders,
     };
     const loaderInstances: LoaderInstance[] = [];
-    for (const name in loaderInfoMap) {
-      if (CONF_RESERVE_KEYS.includes(name)) {
-        throw new Error(`Invalid Loader configuration name: ${name}`);
+    for (const loaderKey in composedLoaders) {
+      if (CONF_RESERVE_KEYS.includes(loaderKey)) {
+        throw new Error(`Invalid Loader configuration name: ${loaderKey}`);
       }
-      const value = loaderInfoMap[name];
-      if (!value) continue;
-      const loaderInfo = <LoaderConfigInfo>(
-        (isObject(value) ? value : { loader: this.importLoader(value) })
-      );
-      const instance = this.createLoaderInstance(loaderInfo, name);
+      const loaderValue = composedLoaders[loaderKey];
+      if (!loaderValue) continue;
+      const loadConfigInfo = (
+        isString(loaderValue)
+          ? { loader: this.importLoader(loaderValue) }
+          : loaderValue
+      ) as LoaderConfigInfo;
+      const instance = this.createLoaderInstance(loadConfigInfo, loaderKey);
       loaderInstances.push(instance);
     }
     return loaderInstances;

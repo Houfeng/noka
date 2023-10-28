@@ -1,3 +1,5 @@
+/** @format */
+
 const copyFiles = require("copy");
 
 export function copy(files: string[] | string, target: string) {

@@ -1,3 +1,5 @@
+/** @format */
+
 import * as React from "react";
 import { render } from "ink";
 

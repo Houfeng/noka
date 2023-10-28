@@ -1,45 +1,14 @@
-export type IOCContainerEntity = {
-  type: symbol;
-  value: any;
-};
+/** @format */
 
-export interface IOCContainerInterface {
-  /**
-   * 所有已注册的可注入实体
-   */
-  readonly entities: any;
+import { EntityInfo } from "./EntityInfo";
 
+export interface ContainerType {
   /**
-   * 向容器注册实体(类型 Array 或值 Map)
-   * @param types 类型
+   * 向容器中注册一个实体
+   * @param name    注册名称
+   * @param entity  实例信息
    */
-  register(entities: any[] | any): void;
-
-  /**
-   * 向容器注册实体类（Array）
-   * @param types 实体类 Array
-   */
-  registerTypes(types: any[]): void;
-
-  /**
-   * 向容器注册一个实体类
-   * @param name 实例名称
-   * @param type 实体类
-   */
-  registerType(name: string | symbol, type: any): void;
-
-  /**
-   * 向容器注册实体值
-   * @param values 实体值 map
-   */
-  registerValues(values: any): void;
-
-  /**
-   * 向容器注册一个实体值
-   * @param name 实例名称
-   * @param value 实体值
-   */
-  registerValue(name: string | symbol, value: any): void;
+  register(name: string | symbol, entity: EntityInfo): void;
 
   /**
    * 通过类型名称创建一个实例

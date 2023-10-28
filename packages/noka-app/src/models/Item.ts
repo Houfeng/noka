@@ -1,3 +1,5 @@
+/** @format */
+
 import { Entity, Column, PrimaryGeneratedColumn } from "noka";
 
 @Entity()

@@ -71,7 +71,7 @@ export class LoggerLoader extends AbstractLoader {
     const options = this.getOptions();
     await Logger.init(options);
     const getLogger = (category?: string) => Logger.get(category);
-    this.container.registerValue(LOGGER_ENTITY_KEY, getLogger);
+    this.container.register(LOGGER_ENTITY_KEY, { type: "value", value: getLogger });
     this.server.use(async (ctx, next) => {
       ctx.logger = await getLogger("ctx");
       const startTime = Date.now();

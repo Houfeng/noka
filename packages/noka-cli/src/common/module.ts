@@ -1,3 +1,5 @@
+/** @format */
+
 import mkdirp from "mkdirp";
 import fetch from "node-fetch";
 import { createWriteStream, existsSync, renameSync, unlinkSync } from "fs";

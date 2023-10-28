@@ -1,3 +1,5 @@
+/** @format */
+
 import { LoaderConstructor } from "./LoaderConstructor";
 import { LoaderOptions } from "./LoaderOptions";
 

@@ -1,3 +1,5 @@
+/** @format */
+
 import chalk from "chalk";
 import { EOL } from "os";
 import { format } from "util";
