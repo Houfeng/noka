@@ -3,7 +3,6 @@ import fetch from "node-fetch";
 import { createWriteStream, existsSync, renameSync, unlinkSync } from "fs";
 import { homedir } from "os";
 import { resolve } from "path";
-import { Stream } from "stream";
 
 const decompress = require("decompress");
 const decompressTargz = require("decompress-targz");
@@ -30,7 +29,7 @@ export async function getVersionInfo(name: string, version: string) {
   return modInfo.versions[version] || modInfo.versions[lastVersion];
 }
 
-export function saveFile(filename: string, readStream: Stream) {
+export function saveFile(filename: string, readStream: NodeJS.ReadableStream) {
   return new Promise((resolve) => {
     const writeStream = createWriteStream(filename);
     writeStream.on("finish", () => {
