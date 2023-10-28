@@ -55,8 +55,8 @@
     "nunjucks": "3.2.0",
     "oneport": "1.0.2",
     "reflect-metadata": "0.1.13",
-    "sql.js": "1.0.0",
-    "tslib": "^2.6.2",
+    "sql.js": "1.4.0",
+    "tslib": "2.6.2",
     "typeorm": "0.3.17"
   },
   "devDependencies": {
@@ -71,11 +71,9 @@
     "@types/mkdirp": "0.5.2",
     "@types/node": "20.8.9",
     "@types/nunjucks": "3.1.1",
-    "eslint-config-noka": "0.1.0",
-    "noka-tsconfig": "0.1.0",
+    "eslint-config-noka": "workspace:*",
+    "noka-tsconfig": "workspace:*",
     "pnpm": "8.7.4",
-    "ts-node": "8.2.0",
-    "ts-node-dev": "1.0.0-pre.39",
     "typescript": "5.2.2"
   }
 }

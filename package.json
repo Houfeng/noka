@@ -18,8 +18,8 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "noka-tsconfig": "0.1.0",
-    "eslint-config-noka": "0.1.0",
+    "noka-tsconfig": "workspace:*",
+    "eslint-config-noka": "workspace:*",
     "copyfiles": "2.1.0",
     "eslint": "8.18.0",
     "prettier": "2.7.1",

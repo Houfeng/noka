@@ -66,8 +66,8 @@
     "@types/prop-types": "15.7.9",
     "@types/react": "18.2.33",
     "@types/update-notifier": "2.5.0",
-    "eslint-config-noka": "0.1.0",
-    "noka-tsconfig": "0.1.0",
+    "eslint-config-noka": "workspace:*",
+    "noka-tsconfig": "workspace:*",
     "pnpm": "8.7.4",
     "typescript": "5.2.2"
   }

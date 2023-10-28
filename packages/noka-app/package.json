@@ -41,14 +41,14 @@
     "url": "https://github.com/noka/noka.git"
   },
   "dependencies": {
-    "noka": "1.1.2",
-    "tslib": "^2.6.2"
+    "noka": "workspace:*",
+    "tslib": "2.6.2"
   },
   "devDependencies": {
     "@types/mocha": "5.2.7",
     "@types/node": "20.8.9",
-    "noka-cli": "1.2.2",
-    "noka-tsconfig": "0.1.0",
+    "noka-cli": "workspace:*",
+    "noka-tsconfig": "workspace:*",
     "pnpm": "8.7.4",
     "typescript": "5.2.2"
   }
