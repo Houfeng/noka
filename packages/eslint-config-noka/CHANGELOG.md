@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 1.0.2
+
+### Patch Changes
+
+- 修复模板应用的调试问题
+
 ## 1.0.1
 
 ### Patch Changes

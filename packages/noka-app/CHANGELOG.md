@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.0.2
+
+### Patch Changes
+
+- 修复模板应用的调试问题
+- Updated dependencies
+  - noka@2.0.2
+
 ## 2.0.1
 
 ### Patch Changes
