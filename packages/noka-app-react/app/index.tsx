@@ -1,46 +1,37 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
-import {
-  createTheme,
-  ThemeProvider,
-  AppBar,
-  Box,
-  Button,
-  IconButton,
-  Toolbar,
-  Typography,
-} from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import { Box, createTheme, ThemeProvider } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import { NavBar } from "./views/NavBar";
+import { observer } from "mota";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Home } from "./pages/Home";
+import { Preferences } from "./pages/Preferences";
+import { NotFound } from "./pages/NotFound";
+import { NavDrawer } from "./views/NavDrawer";
 
 const theme = createTheme({
   palette: { mode: "dark" },
 });
 
-function App() {
+const App = observer(function App() {
   return (
     <ThemeProvider theme={theme}>
+      <CssBaseline />
       <Box sx={{ flexGrow: 1 }}>
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              Noka App
-            </Typography>
-            <Button color="inherit">Login</Button>
-          </Toolbar>
-        </AppBar>
+        <NavBar />
+        <NavDrawer />
+        <BrowserRouter basename="/">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/preferences" element={<Preferences />} />
+            <Route path="/*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
       </Box>
     </ThemeProvider>
   );
-}
+});
 
 const root = createRoot(document.getElementById("root"));
 root.render(<App />);

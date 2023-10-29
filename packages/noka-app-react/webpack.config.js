@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const { resolve } = require('path');
 
 module.exports = {
@@ -14,7 +15,6 @@ module.exports = {
     'react': 'React',
     'react-dom': 'ReactDOM',
   },
-  devtool: 'inline-source-map',
   module: {
     rules: [
       {
@@ -24,6 +24,12 @@ module.exports = {
       },
     ]
   },
+  plugins: [
+    new webpack.DefinePlugin({
+      OBER_CONFIG: JSON.stringify({ mode: 'property' }),
+    }),
+  ],
+  devtool: 'inline-source-map',
   devServer: {
     port: 8081,
     hot: true,
