@@ -4,3 +4,4 @@ packages:
   - "./packages/noka-tsconfig/"
   - "./packages/eslint-config-noka/"
   - "./packages/noka-app/"
+  - "./packages/noka-app-react/"

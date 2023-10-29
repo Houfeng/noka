@@ -13,11 +13,7 @@
     "test": "noka test",
     "dev": "noka dev",
     "build": "noka build",
-    "start": "noka start",
-    "stop": "noka stop",
-    "restart": "noka restart",
-    "remove": "noka remove",
-    "pu": "npm pu --registry=http://registry.npmjs.org"
+    "release": "noka release"
   },
   "keywords": [
     "noka",
