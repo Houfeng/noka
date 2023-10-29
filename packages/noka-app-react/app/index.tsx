@@ -8,12 +8,12 @@ import {
   Button,
   IconButton,
   Toolbar,
-  Typography
+  Typography,
 } from "@mui/material";
-import MenuIcon from '@mui/icons-material/Menu';
+import MenuIcon from "@mui/icons-material/Menu";
 
 const theme = createTheme({
-  palette: { mode: 'dark' }
+  palette: { mode: "dark" },
 });
 
 function App() {
@@ -32,15 +32,15 @@ function App() {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-              News
+              Noka App
             </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>
         </AppBar>
       </Box>
     </ThemeProvider>
-  )
+  );
 }
 
-const root = createRoot(document.getElementById('root'));
+const root = createRoot(document.getElementById("root"));
 root.render(<App />);

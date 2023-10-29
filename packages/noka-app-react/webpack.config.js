@@ -2,7 +2,7 @@ const { resolve } = require('path');
 
 module.exports = {
   mode: "development",
-  entry: './client/src/index.tsx',
+  entry: './app/index.tsx',
   output: {
     path: resolve(__dirname, './assets/app'),
     filename: 'bundle.js',

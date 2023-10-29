@@ -5,5 +5,9 @@
     "outDir": "./dist/",
     "declarationDir": "./types/",
     "jsx": "react",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ]
   }
 }
