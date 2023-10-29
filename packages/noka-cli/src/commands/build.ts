@@ -14,6 +14,7 @@ import { Hooks } from "../common/Hooks";
 export async function build(env: string, $1: string) {
   showBrand();
   logger.info("Prepare to build ...");
+  if (!env) env = "production";
   await clean($1);
   await test(env, $1);
   logger.info("Start building...");

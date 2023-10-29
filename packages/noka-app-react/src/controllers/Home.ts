@@ -7,6 +7,9 @@ export class HomeController {
   @Get("/*")
   @View("index")
   async index() {
-    return { message: "Noka" };
+    return {
+      message: "Noka",
+      env: process.env.NOKA_ENV,
+    };
   }
 }

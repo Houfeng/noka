@@ -15,7 +15,7 @@ import { Hooks } from "../common/Hooks";
 export async function dev(env: string, $1: string) {
   showBrand();
   logger.info("Start development mode ...");
-  if (!env || env === "development") env = "dev";
+  if (!env) env = "development";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.tsEntry)) throw new Error("No entry file found");
   const hooks = Hooks(appInfo);

@@ -11,6 +11,6 @@ export class HomeController {
   @Get("/items")
   async list() {
     const items = await this.itemService.list();
-    return { items };
+    return { items, id: '测试' };
   }
 }
