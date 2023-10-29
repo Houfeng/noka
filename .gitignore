@@ -3,7 +3,6 @@
 *.d.ts
 *.db
 *.map
-.vscode/
 .husky/
 node_modules/
 coverage/

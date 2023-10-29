@@ -34,7 +34,7 @@ export class Application implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) {}
+  constructor(protected options: ApplicationOptions = {}) { }
 
   /**
    * 当前环境标识
@@ -243,7 +243,7 @@ export class Application implements ApplicationInterface {
   public async launch(): Promise<ApplicationInterface> {
     const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
     const configLoaders = this.createLoaderInstances(this.config.loaders);
-    const composedLoaders = { ...buildInLoaders, ...configLoaders };
+    const composedLoaders = [...buildInLoaders, ...configLoaders];
     for (const loader of composedLoaders) await loader.load();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());

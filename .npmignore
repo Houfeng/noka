@@ -1,6 +1,5 @@
 *.DS_Store
 *.log
-.vscode
 *.db
 .prettierrc
 node_modules/
