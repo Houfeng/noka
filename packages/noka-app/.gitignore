@@ -4,7 +4,6 @@
 *.map
 .D_Store
 .travis.yml
-.vscode/
 .husky/
 node_modules/
 coverage/
