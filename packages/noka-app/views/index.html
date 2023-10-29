@@ -1,25 +1,18 @@
 {% extends "layout.html" %}
 
-{% block content %}
-<h1>List:</h1>
-<form method="POST" enctype="application/x-www-form-urlencoded">
-  <table>
-    <thead>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th><button name="create" value="true">Create</button></th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for item in items %}
-      <tr>
-        <td>{{ item.id }}</td>
-        <td>{{ item.name }}</td>
-        <td><button name="remove" value="{{item.id}}">Remove</button></td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</form>
+{% block head %}
+<link rel="stylesheet" type="text/css" href="/index.css" />
+{% endblock %}
+
+{% block body %}
+<h1>{{ message }}</h1>
+<p>
+  <script>
+    function go_to_demo() {
+      location.href = '/demo';
+    }
+  </script>
+  <button>Open Noka site</button>
+  <button onclick="go_to_demo()">Open the demo</button>
+</p>
 {% endblock %}

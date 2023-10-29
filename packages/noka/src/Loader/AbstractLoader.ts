@@ -24,7 +24,10 @@ export abstract class AbstractLoader<
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
    */
-  constructor(protected app: ApplicationInterface, protected options: T) {
+  constructor(
+    protected app: ApplicationInterface,
+    protected options: T,
+  ) {
     this.options = { ...options };
   }
 

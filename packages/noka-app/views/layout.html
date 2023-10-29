@@ -1,14 +1,14 @@
 <html>
 
 <head>
-  <title>Example</title>
-  <link rel="stylesheet" type="text/css" href="/common.css" />
+  <title>Noka App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" type="text/css" href="/layout.css" />
+  {% block head %}{% endblock %}
 </head>
 
 <body>
-  <div>
-    {% block content %}{% endblock %}
-  </div>
+  {% block body %}{% endblock %}
 </body>
 
 </html>
