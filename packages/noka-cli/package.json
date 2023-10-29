@@ -1,7 +1,7 @@
 {
   "name": "noka-cli",
   "displayName": "Noka",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "",
   "main": "./dist/index.js",
   "bin": {
@@ -31,7 +31,7 @@
     "decompress-targz": "4.1.1",
     "del": "4.1.1",
     "eslint": "8.18.0",
-    "eslint-config-noka": "0.1.0",
+    "eslint-config-noka": "1.0.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-config-typescript": "3.0.0",
     "eslint-plugin-compat": "3.9.0",
