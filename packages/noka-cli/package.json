@@ -26,7 +26,7 @@
     "confman": "0.2.10",
     "copy": "0.3.2",
     "copyfiles": "2.1.0",
-    "debug": "4.1.1",
+    "debug": "4.3.1",
     "decompress": "4.2.0",
     "decompress-targz": "4.1.1",
     "del": "4.1.1",
