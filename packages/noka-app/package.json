@@ -52,7 +52,7 @@
     "@types/node": "20.8.9",
     "noka-cli": "workspace:*",
     "noka-tsconfig": "workspace:*",
-    "pnpm": "8.7.4",
+    "pnpm": "8.10.0",
     "typescript": "5.2.2"
   }
 }

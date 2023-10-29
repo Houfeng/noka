@@ -78,7 +78,7 @@
     "@types/nunjucks": "3.1.1",
     "eslint-config-noka": "workspace:*",
     "noka-tsconfig": "workspace:*",
-    "pnpm": "8.7.4",
+    "pnpm": "8.10.0",
     "typescript": "5.2.2"
   }
 }
