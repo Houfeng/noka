@@ -8,7 +8,7 @@ const MODEL_ENTITY_KEY = Symbol('Model');
 
 export type ModelLoaderOptions = LoaderOptions & DataSourceOptions
 
-const defaultDataSourceOptions = {
+const defaultOptions = {
   type: "sqljs",
   location: "./data/store.db",
   autoSave: true,
@@ -23,8 +23,9 @@ export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
   async load() {
     await super.load();
     const { path, ...others } = this.options;
+    defaultOptions.location = this.resolvePath(defaultOptions.location);
     const dataSource = new DataSource({
-      ...defaultDataSourceOptions,
+      ...defaultOptions,
       ...others,
       entities: [this.resolvePath(path)],
     });
