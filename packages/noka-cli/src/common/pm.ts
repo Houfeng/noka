@@ -24,9 +24,7 @@ export async function list() {
           name: item.name,
           pid: item.pid,
           status: item.pm2_env.status,
-          uptime: new Date(item.pm2_env.pm_uptime).toLocaleString(),
-          restart: item.pm2_env.restart_time,
-          instances: item.pm2_env.instances,
+          '🔄': item.pm2_env.restart_time,
           cpu: item.monit.cpu,
           memory: item.monit.memory,
         });
