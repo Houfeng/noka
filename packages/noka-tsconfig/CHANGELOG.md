@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 1.0.1
+
+### Patch Changes
+
+- 优化 cli
+
 ## 1.0.0
 
 ### Major Changes

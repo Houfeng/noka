@@ -1,5 +1,12 @@
 # noka-cli
 
+## 2.0.1
+
+### Patch Changes
+
+- Updated dependencies
+  - eslint-config-noka@1.0.1
+
 ## 2.0.0
 
 ### Major Changes

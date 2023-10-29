@@ -1,5 +1,11 @@
 # noka
 
+## 2.0.1
+
+### Patch Changes
+
+- 优化 cli
+
 ## 2.0.0
 
 ### Major Changes
