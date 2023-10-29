@@ -10,6 +10,7 @@ export async function remove($1: string, name: string, all: string) {
     const apps = await pm.list();
     for (const app of apps) {
       if (handled[app.name]) continue;
+      await pm.stop(app.name);
       await pm.remove(app.name);
       handled[app.name] = true;
       logger.info("Removed:", app.name);
