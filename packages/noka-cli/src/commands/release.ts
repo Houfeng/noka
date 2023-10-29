@@ -9,6 +9,7 @@ import { build } from "./build";
 import mkdirp from "mkdirp";
 import { resolve } from "path";
 import { exec } from "../common/exec";
+import { Hooks } from "../common/Hooks";
 
 export function mkdir(dir: string) {
   return new Promise((resolve, reject) => {
@@ -21,6 +22,8 @@ export async function release(env: string, $1: string) {
   await build(env, $1);
   logger.info("Prepare to release ...");
   const appInfo = new AppInfo({ $1 });
+  const hooks = Hooks(appInfo);
+  await hooks.beforeHooks.release();
   await mkdir(resolve(appInfo.root, "./release"));
   const copy = findCommand(__dirname, "copyfiles");
   const command = [`${copy} --up 0 -e node_modules/ ./**/*.* ./release/`];
@@ -29,5 +32,6 @@ export async function release(env: string, $1: string) {
     env: { NOKA_ENV: env },
   });
   await del([`${appInfo.root}/release/src/`, `${appInfo.root}/release/temp/`]);
+  await hooks.afterHooks.release();
   logger.info("finished");
 }

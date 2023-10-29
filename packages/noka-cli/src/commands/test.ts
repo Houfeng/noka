@@ -7,6 +7,7 @@ import { findCommand } from "../common/findCommand";
 import { lint } from "./lint";
 import { logger } from "../common/logger";
 import { resolve } from "path";
+import { Hooks } from "../common/Hooks";
 
 export async function test(env: string, $1: string) {
   await lint($1);
@@ -16,6 +17,8 @@ export async function test(env: string, $1: string) {
   if (!existsSync(appInfo.tsConfigFile)) {
     throw new Error("No compilation configuration found");
   }
+  const hooks = Hooks(appInfo);
+  await hooks.beforeHooks.test();
   const mocha = findCommand(__dirname, "mocha");
   const tsNode = findCommand(__dirname, "ts-node");
   const tsRegister = resolve(tsNode, "../../ts-node/register");
@@ -25,5 +28,6 @@ export async function test(env: string, $1: string) {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
   });
+  await hooks.afterHooks.test();
   logger.info("finished");
 }

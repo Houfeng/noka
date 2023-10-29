@@ -9,6 +9,7 @@ import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
 import { test } from "./test";
+import { Hooks } from "../common/Hooks";
 
 export async function build(env: string, $1: string) {
   showBrand();
@@ -20,6 +21,8 @@ export async function build(env: string, $1: string) {
   if (!existsSync(appInfo.tsConfigFile)) {
     throw new Error("No compilation configuration found");
   }
+  const hooks = Hooks(appInfo);
+  await hooks.beforeHooks.build();
   const tsc = findCommand(__dirname, "tsc");
   const copy = findCommand(__dirname, "copyfiles");
   const command = [
@@ -31,5 +34,6 @@ export async function build(env: string, $1: string) {
     env: { NOKA_ENV: env },
   });
   await del([`${appInfo.distPath}/**/*.ts`, `${appInfo.distPath}/**/*.map`]);
+  await hooks.afterHooks.build();
   logger.info("finished");
 }

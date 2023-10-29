@@ -6,6 +6,7 @@ import { existsSync } from "fs";
 import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
+import { Hooks } from "../common/Hooks";
 
 export async function lint($1: string) {
   showBrand();
@@ -14,10 +15,13 @@ export async function lint($1: string) {
   if (!existsSync(appInfo.tsConfigFile)) {
     throw new Error("No compilation configuration found");
   }
+  const hooks = Hooks(appInfo);
+  await hooks.beforeHooks.lint();
   const eslint = findCommand(__dirname, "eslint");
   const cwd = appInfo.root;
   const options = "--fix --no-error-on-unmatched-pattern";
   const command = `${eslint} --ext .ts,.tsx ${cwd}/src/* ${options}`;
   await exec(command, { cwd });
+  await hooks.afterHooks.lint();
   logger.info("finished");
 }
