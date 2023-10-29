@@ -3,7 +3,6 @@
 import globby from "globby";
 import { basename, resolve } from "path";
 import { EOL } from "os";
-import { exec } from "../common/exec";
 import { initTemplate } from "../common/module";
 import { logger } from "../common/logger";
 import { prompt } from "inquirer";
@@ -48,7 +47,7 @@ export async function init(template: string) {
   }
   // 下载模板
   logger.info("Initializing app ...");
-  template = template || "default";
+  template = template || "";
   const pkgName = `noka-app${template ? "-" : ""}${template}`;
   await initTemplate(pkgName, process.cwd());
   // 更新信息
@@ -58,8 +57,5 @@ export async function init(template: string) {
   writeFileSync(pkgFile, JSON.stringify(pkg, null, "") + EOL);
   // 重命名处理
   await renameFiles(await globby("./**/*.rename", { dot: true }), ".rename");
-  // 安装依赖
-  logger.info("Installing dependents ...");
-  await exec("pnpm i");
   logger.info("finished");
 }

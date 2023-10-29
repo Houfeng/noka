@@ -10,7 +10,7 @@ const decompress = require("decompress");
 const decompressTargz = require("decompress-targz");
 
 const timeout = 30000;
-const registry = "http://registry.npm.taobao.org";
+const registry = "https://registry.npmjs.org";
 
 export async function getInfo(name: string) {
   const url = `${registry}/${name}`;
