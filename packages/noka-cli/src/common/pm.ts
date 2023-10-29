@@ -24,7 +24,7 @@ export async function list() {
           name: item.name,
           pid: item.pid,
           status: item.pm2_env.status,
-          '🔄': item.pm2_env.restart_time,
+          "🔄": item.pm2_env.restart_time,
           cpu: item.monit.cpu,
           memory: item.monit.memory,
         });

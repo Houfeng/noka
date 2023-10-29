@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "main": "./tsconfig.json",
   "description": "Noka tsconfig",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "author": {
     "name": "Houfeng",
     "email": "houzhanfeng@gmail.com",

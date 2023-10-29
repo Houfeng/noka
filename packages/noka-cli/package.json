@@ -8,6 +8,9 @@
     "noka": "./bin/cli.js",
     "nk": "./bin/cli.js"
   },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "author": {
     "name": "Houfeng",
     "email": "houzhanfeng@gmail.com",

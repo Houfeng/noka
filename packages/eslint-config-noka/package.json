@@ -3,6 +3,9 @@
   "version": "0.1.0",
   "description": "",
   "main": "./eslintrc.js",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
   "author": {
     "name": "Houfeng",
     "email": "houzhanfeng@gmail.com",
