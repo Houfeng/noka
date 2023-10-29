@@ -20,19 +20,15 @@ export async function list() {
       if (err) return reject(err);
       const apps: any[] = [];
       data.forEach((item) => {
-        const { status, instances } = item.pm2_env;
-        const { pm_uptime: uptime, restart_time: restart } = item.pm2_env;
-        const { name, pid } = item;
-        const { cpu, memory } = item.monit;
         apps.push({
-          name,
-          pid,
-          status,
-          uptime,
-          restart,
-          instances,
-          cpu,
-          memory,
+          name: item.name,
+          pid: item.pid,
+          status: item.pm2_env.status,
+          uptime: new Date(item.pm2_env.pm_uptime).toLocaleString(),
+          restart: item.pm2_env.restart_time,
+          instances: item.pm2_env.instances,
+          cpu: item.monit.cpu,
+          memory: item.monit.memory,
         });
       });
       resolve(apps);
