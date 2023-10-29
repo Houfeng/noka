@@ -10,6 +10,10 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
+  externals: {
+    'react': 'React',
+    'react-dom': 'ReactDOM',
+  },
   devtool: 'inline-source-map',
   module: {
     rules: [
