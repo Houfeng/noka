@@ -1,5 +1,12 @@
 # eslint-config-noka
 
+## 2.0.4
+
+### Patch Changes
+
+- 更新示例应用
+- 更新示例
+
 ## 1.0.3
 
 ### Patch Changes

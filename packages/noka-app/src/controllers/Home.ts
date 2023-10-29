@@ -1,7 +1,7 @@
 /** @format */
 
 import { Controller, Get, Inject, Body, Post, View } from "noka";
-import { ItemService } from "../services/Hello";
+import { ItemService } from "../services/ItemService";
 
 @Controller("/")
 export class HomeController {

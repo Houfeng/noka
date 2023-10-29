@@ -1,5 +1,15 @@
 # noka-app
 
+## 2.0.4
+
+### Patch Changes
+
+- 更新示例应用
+- 更新示例
+- Updated dependencies
+- Updated dependencies
+  - noka@2.0.4
+
 ## 2.0.3
 
 ### Patch Changes

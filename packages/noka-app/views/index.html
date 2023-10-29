@@ -7,12 +7,7 @@
 {% block body %}
 <h1>{{ message }}</h1>
 <p>
-  <script>
-    function go_to_demo() {
-      location.href = '/demo';
-    }
-  </script>
-  <button>Open Noka site</button>
-  <button onclick="go_to_demo()">Open the demo</button>
+  <button onclick="self.open('https://noka.site','_blank')">Open Noka site</button>
+  <button onclick="self.open('/demo','_self')">Open the demo</button>
 </p>
 {% endblock %}
