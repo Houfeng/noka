@@ -30,3 +30,7 @@ export function Hooks(info: AppInfo) {
 }
 
 export type NokaCLIHooks = ReturnType<typeof Hooks>;
+
+export function defineConfig(config: NokaCLIHooks): NokaCLIHooks {
+  return config;
+}

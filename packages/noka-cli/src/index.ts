@@ -16,9 +16,9 @@ import { stop } from "./commands/stop";
 import { test } from "./commands/test";
 import { showBrand } from "./common/brand";
 import { release } from "./commands/release";
-import { NokaCLIHooks } from './common/Hooks';
 
-export { type NokaCLIHooks };
+export * from './common/Hooks';
+
 
 upgrade.check();
 const pkg = require("../package.json");
