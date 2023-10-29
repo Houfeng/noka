@@ -1,0 +1,16 @@
+{
+  "name": "noka-app-react-assets",
+  "version": "1.0.0",
+  "description": "",
+  "author": {
+    "name": "Houfeng",
+    "email": "houzhanfeng@gmail.com",
+    "url": "https://blog.houfeng.net"
+  },
+  "homepage": "http://noka.site",
+  "bugs": {
+    "url": "https://github.com/houfeng/noka/issues",
+    "email": "houzhanfeng@gmail.com"
+  },
+  "license": "MIT"
+}

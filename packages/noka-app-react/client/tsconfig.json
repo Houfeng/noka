@@ -1,0 +1,12 @@
+{
+  "extends": "noka-tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "declarationDir": "./types/",
+    "lib": [
+      "DOM",
+      "ESNext"
+    ]
+  }
+}

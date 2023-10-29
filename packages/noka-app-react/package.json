@@ -1,0 +1,68 @@
+{
+  "name": "noka-app-react",
+  "version": "2.0.4",
+  "description": "Noka default app react template",
+  "main": "./dist/index.js",
+  "typings": "./dist/index.d.ts",
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org"
+  },
+  "scripts": {
+    "clean": "noka clean",
+    "lint": "noka lint",
+    "test": "noka test",
+    "dev": "noka dev",
+    "webpack": "webpack",
+    "build": "noka build",
+    "release": "noka release"
+  },
+  "keywords": [
+    "noka",
+    "noka",
+    "nsp",
+    "mvc",
+    "rest",
+    "web"
+  ],
+  "author": {
+    "name": "Houfeng",
+    "email": "houzhanfeng@gmail.com",
+    "url": "https://blog.houfeng.net"
+  },
+  "homepage": "http://noka.site",
+  "bugs": {
+    "url": "https://github.com/houfeng/noka/issues",
+    "email": "houzhanfeng@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/noka/noka.git"
+  },
+  "dependencies": {
+    "noka": "workspace:*",
+    "tslib": "2.6.2"
+  },
+  "devDependencies": {
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
+    "@fontsource/roboto": "5.0.8",
+    "@mui/icons-material": "5.14.15",
+    "@mui/material": "5.14.15",
+    "@types/mocha": "5.2.7",
+    "@types/node": "20.8.9",
+    "@types/react": "18.2.33",
+    "@types/react-dom": "18.2.14",
+    "mota": "8.2.6",
+    "noka-cli": "workspace:*",
+    "noka-tsconfig": "workspace:*",
+    "pnpm": "8.10.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "ts-loader": "9.5.0",
+    "typescript": "5.2.2",
+    "webpack": "5.89.0",
+    "webpack-cli": "5.1.4",
+    "webpack-dev-server": "4.15.1"
+  }
+}
