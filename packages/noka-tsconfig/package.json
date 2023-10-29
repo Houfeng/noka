@@ -11,5 +11,10 @@
     "email": "houzhanfeng@gmail.com",
     "url": "https://blog.houfeng.net"
   },
+  "homepage": "http://noka.site",
+  "bugs": {
+    "url": "https://github.com/houfeng/noka/issues",
+    "email": "houzhanfeng@gmail.com"
+  },
   "license": "MIT"
 }
