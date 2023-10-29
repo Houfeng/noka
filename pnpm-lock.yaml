@@ -123,8 +123,8 @@ importers:
         specifier: 3.2.0
         version: 3.2.0
       oneport:
-        specifier: 1.0.2
-        version: 1.0.2
+        specifier: 1.0.3
+        version: 1.0.3
       reflect-metadata:
         specifier: 0.1.13
         version: 0.1.13
@@ -1826,6 +1826,12 @@ packages:
 
   /ci-info@2.0.0:
     resolution: {integrity: sha512-5tK7EtrZ0N+OLFMthtqOj4fI2Jeb88C4CAZPu25LDVUgXJ0A3Js4PMGqrn0JU1W0Mh1/Z8wZzYPxqUrXeBboCQ==}
+    dev: false
+
+  /cify@2.1.1:
+    resolution: {integrity: sha512-ijI/5/rYwSet4/E9HOXXmV1eBR1t4c+93585SlRPkPRL0WxHsJHDIkBoEbvCQ26tSeASalsWtKa6pwCtx+ZNqg==}
+    dependencies:
+      ntils: 2.1.2
     dev: false
 
   /cify@2.1.12:
@@ -3634,6 +3640,7 @@ packages:
 
   /graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
+    requiresBuild: true
     dev: false
 
   /gradient-string@1.2.0:
@@ -3745,7 +3752,7 @@ packages:
       chalk: 2.4.2
       mkdirp: 0.5.1
       ntils: 4.0.8
-      oneport: 1.0.2
+      oneport: 1.0.3
       split: 1.0.1
     dev: false
 
@@ -5192,6 +5199,11 @@ packages:
       lazy: 1.0.11
     dev: false
 
+  /ntils@2.0.3:
+    resolution: {integrity: sha512-ZR+R+ExYfih4EKw4UYyj22ODmd1jLFofeQQpSDEJ5PEnhhGYvzWmuvATMoem14s+kAI+GhLBjPDR9A9WcMc+WA==}
+    deprecated: No longer maintain
+    dev: false
+
   /ntils@2.1.2:
     resolution: {integrity: sha512-DUFVS/SIHTvwG9zSRHfajruSaydSdhu871tN2F6+KjnOi9pzjjXZ/IpoZbAjPthLDKedOHS/6COy/drTyzt+AA==}
     deprecated: No longer maintain
@@ -5327,11 +5339,11 @@ packages:
     dependencies:
       wrappy: 1.0.2
 
-  /oneport@1.0.2:
-    resolution: {integrity: sha512-59lXfoQ+dyygzdPa91dGwqQRWChnOXD+I0OVkjRzxwo5bCQz/IwuJGtnRyOzQS0aJCfl7+qn4HWAt6qgZFm8WQ==}
+  /oneport@1.0.3:
+    resolution: {integrity: sha512-xMM4PamytqJ9tu5f6LG5h5aofuszot+8TTvSeA1Xgc0D+EYBi+8bdVEJrHygpZYHXNcnku4pWyp6RP58m0WFng==}
     dependencies:
-      cify: 2.1.12
-      ntils: 2.1.2
+      cify: 2.1.1
+      ntils: 2.0.3
     dev: false
 
   /onetime@2.0.1:
