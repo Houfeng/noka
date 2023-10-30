@@ -1,3 +1,5 @@
+const { resolve } = require("path");
+
 module.exports = {
   beforeHooks: {
     async dev({ utils }) {
@@ -5,8 +7,13 @@ module.exports = {
     },
   },
   afterHooks: {
+    async clean({ utils }) {
+      const target = resolve(__dirname, `./assets/app/**/*.*`);
+      await utils.del(target);
+    },
     async lint({ utils }) {
-      await utils.exec(`eslint --ext .ts,.tsx ./app/ --fix`);
+      const target = resolve(__dirname, './app/');
+      await utils.exec(`eslint --ext .ts,.tsx ${target} --fix`);
     },
     async build({ utils }) {
       await utils.exec(`NODE_ENV=production webpack`);
