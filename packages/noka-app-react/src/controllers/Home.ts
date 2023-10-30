@@ -6,7 +6,7 @@ import { resolve } from "path";
 
 const { NOKA_ENV } = process.env;
 
-type Assets = { styles: string[], scripts: string[] };
+type Assets = { styles: string[]; scripts: string[] };
 
 let cachedAssets: Assets;
 async function getAssets(): Promise<Assets> {

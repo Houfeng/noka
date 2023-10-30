@@ -9,7 +9,19 @@ module.exports = {
   entry: './app/index.tsx',
   output: {
     path: resolve(__dirname, './assets/app'),
-    filename: 'bundle.js',
+    filename: '[name]-[hash].bundle.js',
+  },
+  optimization: {
+    splitChunks: {
+      chunks: "all",
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          name: "vendors",
+          priority: -10
+        },
+      },
+    }
   },
   target: 'web',
   resolve: {
