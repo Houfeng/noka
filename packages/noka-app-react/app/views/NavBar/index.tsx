@@ -6,7 +6,7 @@ import { UserAvatar } from "../UserAvatar";
 import { layoutViewModel } from "../../models/LayoutViewModel";
 
 export const NavBar = observer(function NavBar() {
-  const { navDrawerWidth, toggleNavDrawer } = layoutViewModel;
+  const { navDrawerOpen, navDrawerWidth, openNavDrawer } = layoutViewModel;
   return (
     <AppBar
       position="fixed"
@@ -18,16 +18,18 @@ export const NavBar = observer(function NavBar() {
       }}
     >
       <Toolbar>
-        <IconButton
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-          sx={{ mr: 2 }}
-          onClick={toggleNavDrawer}
-        >
-          <MenuIcon />
-        </IconButton>
+        {!navDrawerOpen && (
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={openNavDrawer}
+          >
+            <MenuIcon />
+          </IconButton>
+        )}
         <Typography variant="h6" component="div" style={{ flexGrow: 1 }}>
           Noka
         </Typography>

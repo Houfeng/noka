@@ -5,7 +5,7 @@ export class LayoutViewModel {
   navDrawerOpen = false;
 
   get navDrawerWidth() {
-    return this.navDrawerOpen ? 240 : 60;
+    return this.navDrawerOpen ? 240 : 0;
   }
 
   openNavDrawer = () => {
