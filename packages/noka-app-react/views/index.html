@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/normalize.css" />
   {% for it in assets.styles %}
-  <link rel="stylesheet" href="/app/{{ it }}">
+  <link rel="stylesheet" href="{{ it }}">
   {% endfor %}
 </head>
 
@@ -20,7 +20,7 @@
   <script crossorigin src="/libs/umd/react-dom.production.min.js"></script>
   {% endif %}
   {% for it in assets.scripts %}
-  <script src="/app/{{ it }}"></script>
+  <script src="{{ it }}"></script>
   {% endfor %}
 </body>
 

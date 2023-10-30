@@ -2,8 +2,10 @@ const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { resolve } = require('path');
 
+const { NODE_ENV } = process.env;
+
 module.exports = {
-  mode: 'development',
+  mode: NODE_ENV || 'production',
   entry: './app/index.tsx',
   output: {
     path: resolve(__dirname, './assets/app'),
@@ -25,12 +27,18 @@ module.exports = {
       },
     ]
   },
+  devtool: 'inline-source-map',
+  devServer: {
+    port: 8081,
+    liveReload: true,
+  },
   plugins: [
     new webpack.DefinePlugin({
       OBER_CONFIG: JSON.stringify({ mode: 'property' }),
     }),
     new WebpackManifestPlugin({
-      publicPath: '',
+      publicPath: NODE_ENV === 'development'
+        ? 'http://127.0.0.1:8081/' : '/app/',
       fileName: 'pi-manifest.json',
       filter: (it) => it.isInitial || it.path.endsWith('.css'),
       serialize: (manifest) => {
@@ -42,10 +50,4 @@ module.exports = {
       writeToFileEmit: true,
     }),
   ],
-  devtool: 'inline-source-map',
-  devServer: {
-    port: 8081,
-    hot: true,
-    liveReload: true,
-  },
 };

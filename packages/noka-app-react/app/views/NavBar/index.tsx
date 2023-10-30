@@ -80,7 +80,7 @@ export const NavBar = observer(function NavBar() {
           component="div"
           sx={{ flexGrow: 1, fontFamily: "sans-serif" }}
         >
-          iFamily
+          Noka App
         </Typography>
         <Search>
           <SearchIconWrapper>
