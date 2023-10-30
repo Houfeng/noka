@@ -1,12 +1,27 @@
-import { Drawer, IconButton, List, ListItem, ListItemButton, ListItemIcon, ListItemText, styled, useTheme } from "@mui/material";
+import {
+  Drawer,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  styled,
+  useTheme,
+} from "@mui/material";
 import { observer } from "mota";
+import { layoutViewModel } from "../../models/LayoutViewModel";
 import React from "react";
 import Divider from "@mui/material/Divider";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { layoutViewModel } from "../../models/LayoutViewModel";
-import InboxIcon from '@mui/icons-material/Inbox';
-import DraftsIcon from '@mui/icons-material/Drafts';
+import PhotoLibraryIcon from "@mui/icons-material/PhotoLibrary";
+import SettingsIcon from "@mui/icons-material/Settings";
+import ImageIcon from "@mui/icons-material/Image";
+import ReceiptIcon from "@mui/icons-material/Receipt";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import { useNavigate } from "react-router-dom";
 
 const DrawerHeaderWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -21,7 +36,7 @@ const DrawerHeader = observer(function DrawerHeader() {
   const { navDrawerOpen, closeNavDrawer } = layoutViewModel;
   const { navDrawerWidth } = layoutViewModel;
   return (
-    <DrawerHeaderWrapper sx={{ width: navDrawerWidth || 'auto' }}>
+    <DrawerHeaderWrapper sx={{ width: navDrawerWidth || "auto" }}>
       {navDrawerOpen && (
         <IconButton onClick={closeNavDrawer}>
           {theme.direction === "ltr" ? (
@@ -39,45 +54,71 @@ const DrawerMenus = observer(function DrawerMenus() {
   const { navDrawerOpen } = layoutViewModel;
   const minWidth = navDrawerOpen ? 40 : 0;
   const height = 56;
+  const nav = useNavigate();
   return (
     <List>
       <ListItem disablePadding>
-        <ListItemButton sx={{ height }}>
+        <ListItemButton sx={{ height }} onClick={() => nav("/recently")}>
           <ListItemIcon sx={{ minWidth }}>
-            <InboxIcon />
+            <ReceiptIcon />
           </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Inbox"} />
+          <ListItemText primary={navDrawerOpen && "Recently"} />
         </ListItemButton>
       </ListItem>
       <ListItem disablePadding>
-        <ListItemButton sx={{ height }}>
+        <ListItemButton sx={{ height }} onClick={() => nav("/albums")}>
           <ListItemIcon sx={{ minWidth }}>
-            <DraftsIcon />
+            <ImageIcon />
           </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Drafts"} />
+          <ListItemText primary={navDrawerOpen && "Albums"} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton sx={{ height }} onClick={() => nav("/moments")}>
+          <ListItemIcon sx={{ minWidth }}>
+            <AccessTimeIcon />
+          </ListItemIcon>
+          <ListItemText primary={navDrawerOpen && "Moments"} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton sx={{ height }} onClick={() => nav("/tags")}>
+          <ListItemIcon sx={{ minWidth }}>
+            <LocalOfferIcon />
+          </ListItemIcon>
+          <ListItemText primary={navDrawerOpen && "Tags"} />
         </ListItemButton>
       </ListItem>
       <Divider />
       <ListItem disablePadding>
-        <ListItemButton sx={{ height }}>
+        <ListItemButton sx={{ height }} onClick={() => nav("/libraries")}>
           <ListItemIcon sx={{ minWidth }}>
-            <DraftsIcon />
+            <PhotoLibraryIcon />
           </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Setting"} />
+          <ListItemText primary={navDrawerOpen && "Libraries"} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton sx={{ height }} onClick={() => nav("/settings")}>
+          <ListItemIcon sx={{ minWidth }}>
+            <SettingsIcon />
+          </ListItemIcon>
+          <ListItemText primary={navDrawerOpen && "Settings"} />
         </ListItemButton>
       </ListItem>
     </List>
-  )
+  );
 });
 
 export const NavDrawer = observer(function NavDrawer() {
-  const { navDrawerOpen } = layoutViewModel;
+  const { navDrawerOpen, navDrawerWidth } = layoutViewModel;
   return (
     <Drawer
       variant="permanent"
       anchor="left"
       open={navDrawerOpen}
       ModalProps={{ keepMounted: true }}
+      sx={{ width: navDrawerWidth || 56 }}
     >
       <DrawerHeader />
       <Divider />
