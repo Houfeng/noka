@@ -11,6 +11,7 @@ module.exports = {
     path: resolve(__dirname, './assets/app'),
     filename: 'bundle.js',
   },
+  target: 'web',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
   },
@@ -31,6 +32,7 @@ module.exports = {
   devServer: {
     port: 8081,
     liveReload: true,
+    watchFiles: ["app/**/*"],
   },
   plugins: [
     new webpack.DefinePlugin({
