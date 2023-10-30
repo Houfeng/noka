@@ -44,6 +44,7 @@ module.exports = {
   devServer: {
     port: 8081,
     liveReload: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
     watchFiles: ["app/**/*"],
   },
   plugins: [

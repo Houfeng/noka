@@ -2,10 +2,10 @@ import { observable } from "mota";
 
 @observable
 export class LayoutViewModel {
-  navDrawerOpen = true;
+  navDrawerOpen = false;
 
   get navDrawerWidth() {
-    return this.navDrawerOpen ? 240 : 0;
+    return this.navDrawerOpen ? 240 : 60;
   }
 
   openNavDrawer = () => {

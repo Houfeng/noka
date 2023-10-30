@@ -4,8 +4,8 @@
   <title>Noka App</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link rel="stylesheet" href="/normalize.css" />
-  {% for it in assets.styles %}
-  <link rel="stylesheet" href="{{ it }}">
+  {% for file in assets.styles %}
+  <link crossorigin rel="stylesheet" href="{{ file }}">
   {% endfor %}
 </head>
 
@@ -19,8 +19,8 @@
   <script crossorigin src="/libs/react.production.min.js"></script>
   <script crossorigin src="/libs/umd/react-dom.production.min.js"></script>
   {% endif %}
-  {% for it in assets.scripts %}
-  <script src="{{ it }}"></script>
+  {% for file in assets.scripts %}
+  <script crossorigin src="{{ file }}"></script>
   {% endfor %}
 </body>
 
