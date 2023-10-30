@@ -1,8 +1,9 @@
 const webpack = require('webpack');
+const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
 const { resolve } = require('path');
 
 module.exports = {
-  mode: "development",
+  mode: 'development',
   entry: './app/index.tsx',
   output: {
     path: resolve(__dirname, './assets/app'),
@@ -27,6 +28,18 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       OBER_CONFIG: JSON.stringify({ mode: 'property' }),
+    }),
+    new WebpackManifestPlugin({
+      publicPath: '',
+      fileName: 'pi-manifest.json',
+      filter: (it) => it.isInitial || it.path.endsWith('.css'),
+      serialize: (manifest) => {
+        const items = Object.values(manifest);
+        const styles = items.filter(it => it.endsWith('.css'));
+        const scripts = items.filter(it => it.endsWith('.js'));
+        return JSON.stringify({ styles, scripts })
+      },
+      writeToFileEmit: true,
     }),
   ],
   devtool: 'inline-source-map',

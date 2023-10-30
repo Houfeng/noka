@@ -28,6 +28,16 @@ export function exec(script: string[] | string, opts?: any) {
       if (opts.onExit) opts.onExit(code, childProcess);
       resolve(childProcess);
     });
+    // const handleExitSignal = (signal: string) => {
+    //   process?.on(signal, () => childProcess?.kill?.(signal));
+    //   process?.exit();
+    // };
+    // handleExitSignal("SIGHUP");
+    // handleExitSignal("SIGINT");
+    // handleExitSignal("SIGTERM");
+    // handleExitSignal("SIGBREAK");
+    // handleExitSignal("SIGKILL");
+    process?.on("exit", (code) => childProcess?.kill?.(code));
   });
 }
 

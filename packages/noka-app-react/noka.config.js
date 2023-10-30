@@ -1,7 +1,7 @@
 module.exports = {
   beforeHooks: {
     async dev({ utils }) {
-      utils.exec(`webpack watch`);
+      utils.exec(`webpack serve`);
     },
   },
   afterHooks: {
