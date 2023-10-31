@@ -17,9 +17,8 @@ export async function start(
   if (!env || env === "production") env = "prod";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.binEntry)) throw new Error("No entry file found");
-  name = name || appInfo.name;
   await pm.start({
-    name: name,
+    name: name || appInfo.name,
     script: appInfo.binEntry,
     exec_mode: "cluster",
     instances: cluster ? Number(cluster) : cpus.length,
@@ -29,8 +28,8 @@ export async function start(
       NOKA_ROOT: appInfo.root,
       NOKA_ENV: env,
     },
-    output: `~/${name}/logs/pm/output.log`,
-    error: `~/${name}/logs/pm/error.log`,
+    output: `~/${appInfo.name}/logs/pm/output.log`,
+    error: `~/${appInfo.name}/logs/pm/error.log`,
   });
   logger.info("The application is started");
 }
