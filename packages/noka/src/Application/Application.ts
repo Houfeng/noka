@@ -64,7 +64,9 @@ export class Application implements ApplicationInterface {
   /**
    * 入口文件
    */
-  readonly entry = normalize(process.env.pm_exec_path || process.argv[1]);
+  readonly entry = normalize(
+    this.options.entry || process.env.pm_exec_path || process.argv[1],
+  );
 
   /**
    * 应用可执行文件扩展名
