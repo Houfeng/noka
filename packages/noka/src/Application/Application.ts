@@ -201,13 +201,25 @@ export class Application implements ApplicationInterface {
   }
 
   /**
+   * 所有加载的 loaders
+   */
+  private loaders: LoaderInstance[] = [];
+
+  /**
    * 加载所有 loaders
    */
-  private async loadAllLoaders() {
+  async loadAllLoaders() {
     const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
     const configLoaders = this.createLoaderInstances(this.config.loaders);
-    const composedLoaders = [...buildInLoaders, ...configLoaders];
-    for (const loader of composedLoaders) await loader.load();
+    this.loaders = [...buildInLoaders, ...configLoaders];
+    for (const loader of this.loaders) await loader.load();
+  }
+
+  /**
+   * 卸载所有 loaders
+   */
+  async unloadAllLoaders() {
+    for (const loader of this.loaders) await loader.unload();
   }
 
   /**

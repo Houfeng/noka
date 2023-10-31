@@ -105,4 +105,9 @@ export abstract class AbstractLoader<
   async load() {
     await this.loadContent();
   }
+
+  /**
+   * 由应用调用的 unload 方法
+   */
+  async unload() {}
 }
