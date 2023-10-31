@@ -3,8 +3,8 @@ import { AbstractLoader } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
 import { resolve } from "path";
-import { readText } from "../../common/utils";
-import { getByPath } from "../../common/utils";
+import { readText } from "noka-utility";
+import { getByPath } from "noka-utility";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { isFunction } from "ntils";
 

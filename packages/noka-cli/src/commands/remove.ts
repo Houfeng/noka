@@ -18,7 +18,7 @@ export async function remove($1: string, name: string, all: string) {
     logger.info("All applications have been removed");
   } else {
     const appInfo = new AppInfo({ $1 });
-    await pm.remove(name || appInfo.jsEntry);
+    await pm.remove(name || appInfo.binEntry);
     logger.info("Application removed");
   }
 }

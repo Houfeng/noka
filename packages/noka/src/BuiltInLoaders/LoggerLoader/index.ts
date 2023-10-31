@@ -1,6 +1,6 @@
 import { AbstractLoader } from "../../Loader";
 import { Logger, Level } from "hilog";
-import { mix } from "../../common/utils";
+import { mix } from "noka-utility";
 import { EOL } from "os";
 
 export interface LoggerInterface {

@@ -16,11 +16,11 @@ export async function start(
   showBrand();
   if (!env || env === "production") env = "prod";
   const appInfo = new AppInfo({ env, $1 });
-  if (!existsSync(appInfo.jsEntry)) throw new Error("No entry file found");
+  if (!existsSync(appInfo.binEntry)) throw new Error("No entry file found");
   name = name || appInfo.name;
   await pm.start({
     name: name,
-    script: appInfo.jsEntry,
+    script: appInfo.binEntry,
     exec_mode: "cluster",
     instances: cluster ? Number(cluster) : cpus.length,
     max_restarts: 10,

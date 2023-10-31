@@ -2,30 +2,22 @@
 
 import Koa from "koa";
 import Router from "koa-router";
-import {
-  acquirePort,
-  isNodePackageDir,
-  isPath,
-  isSystemRootDir,
-  iife,
-} from "../common/utils";
+import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../BuiltInLoaders";
-import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
 import { Container } from "../Container";
-import { dirname, extname, resolve, normalize } from "path";
+import { extname, resolve, normalize } from "path";
 import { homedir } from "os";
 import { ApplicationInterface } from "./ApplicationInterface";
 import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
-import {
-  LoggerInterface,
-  LOGGER_ENTITY_KEY,
-} from "../BuiltInLoaders/LoggerLoader";
+import { LoggerInterface, LOGGER_ENTITY_KEY } from "../BuiltInLoaders";
 import { isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
+
+const CONF_RESERVE_KEYS = ["port", "loaders"];
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -44,7 +36,7 @@ export class Application implements ApplicationInterface {
   /**
    * 当前环境标识
    */
-  readonly env = process.env[ENV_NAME] || process.env.NODE_ENV;
+  readonly env = process.env.NOKA_ENV || process.env.NODE_ENV;
 
   /**
    * 对应的 koa 实例
@@ -82,14 +74,7 @@ export class Application implements ApplicationInterface {
    * 应用根目录
    * 根目录为入口文件所在的 package 根目录
    */
-  readonly rootDir = iife((): string => {
-    let root = dirname(this.entry);
-    while (!isSystemRootDir(root) && !isNodePackageDir(root)) {
-      root = dirname(root);
-    }
-    if (isSystemRootDir(root) || root === ".") root = process.cwd();
-    return root;
-  });
+  readonly rootDir = resolvePackageRoot(this.entry);
 
   /**
    * 应用执行文件目录

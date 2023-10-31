@@ -2,7 +2,6 @@
 
 import { AppInfo } from "../common/AppInfo";
 import { exec } from "../common/exec";
-import { existsSync } from "fs";
 import { findCommand } from "../common/findCommand";
 import { lint } from "./lint";
 import { logger } from "../common/logger";
@@ -14,7 +13,7 @@ export async function test(env: string, $1: string) {
   logger.info("Unit testing in progress ...");
   if (!env) env = "test";
   const appInfo = new AppInfo({ $1 });
-  if (!existsSync(appInfo.tsConfigFile)) {
+  if (!appInfo.existCompileConf) {
     throw new Error("No compilation configuration found");
   }
   const hooks = Hooks(appInfo);
@@ -22,7 +21,7 @@ export async function test(env: string, $1: string) {
   const mocha = findCommand(__dirname, "mocha");
   const tsNode = findCommand(__dirname, "ts-node");
   const tsRegister = resolve(tsNode, "../../ts-node/register");
-  const testFiles = resolve(appInfo.srcPath, "./**/*.spec.ts");
+  const testFiles = resolve(appInfo.srcDir, "./**/*.spec.ts");
   const command = `${mocha} -r ${tsRegister} ${testFiles}`;
   await exec(command, {
     cwd: appInfo.root,

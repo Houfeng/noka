@@ -2,6 +2,16 @@ set -e
 
 CWD=$PWD;
 
+# utility
+cd $CWD
+CORE=./packages/noka-utility
+echo ------------------------------------------------------
+echo PROJECT: $CORE
+echo ------------------------------------------------------
+rm -rf $CORE/dist/
+tsc -p $CORE/tsconfig.json
+
+
 # core
 cd $CWD
 CORE=./packages/noka

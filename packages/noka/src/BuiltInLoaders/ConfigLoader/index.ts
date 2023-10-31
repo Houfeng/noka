@@ -1,4 +1,4 @@
-import { getByPath } from "../../common/utils";
+import { getByPath } from "noka-utility";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 

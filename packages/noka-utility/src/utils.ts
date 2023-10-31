@@ -2,37 +2,16 @@
 
 import mkdirp from "mkdirp";
 import { existsSync, readFile, writeFile } from "fs";
-import { normalize } from "path";
+import { dirname, normalize } from "path";
+import { newGuid } from 'ntils';
 
-const utils = require("ntils");
-
-/**
- * 框架的 pkg 对象
- */
-export const pkg = require("../../package.json");
-
-/**
- * 通过路径从对象上获取值
- */
-export function getByPath(obj: any, path: string) {
-  return utils.getByPath(obj, path);
-}
+export * from 'ntils';
 
 /**
  * 生成一个 UUID
  */
 export function uuid(): string {
-  return utils.newGuid();
-}
-
-/**
- * 合并两个对象
- * @param dst 目标对象
- * @param src 来源对象
- * @param ignoreKeys 忽略列表
- */
-export function mix(dst: any, src: any, ignoreKeys?: string[]) {
-  return utils.mix(dst, src, ignoreKeys);
+  return newGuid();
 }
 
 /**
@@ -104,6 +83,20 @@ export function isSystemRootDir(dir: string) {
  */
 export function isNodePackageDir(dir: string) {
   return existsSync(normalize(`${dir}/package.json`));
+}
+
+/**
+ * 通过包内路径解析出来所在的包根目录
+ * @param path 包内路径
+ * @returns 
+ */
+export function resolvePackageRoot(path: string) {
+  let root = path;
+  while (!isSystemRootDir(root) && !isNodePackageDir(root)) {
+    root = dirname(root);
+  }
+  if (isSystemRootDir(root) || root === ".") root = process.cwd();
+  return root;
 }
 
 /**

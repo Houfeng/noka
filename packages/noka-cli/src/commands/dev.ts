@@ -17,11 +17,11 @@ export async function dev(env: string, $1: string) {
   logger.info("Start development mode ...");
   if (!env) env = "development";
   const appInfo = new AppInfo({ env, $1 });
-  if (!existsSync(appInfo.tsEntry)) throw new Error("No entry file found");
+  if (!existsSync(appInfo.srcEntry)) throw new Error("No entry file found");
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.dev();
   const tsnd = findCommand(__dirname, "tsnd");
-  const command = `${tsnd} --debounce 3000 ${appInfo.tsEntry}`;
+  const command = `${tsnd} --debounce 3000 ${appInfo.srcEntry}`;
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },

@@ -3,7 +3,7 @@ import { existsSync } from "fs";
 import { ApplicationInterface } from "../Application/ApplicationInterface";
 import { LoaderInstance } from "./LoaderInstance";
 import { isString } from "ntils";
-import { readText, writeText } from "../common/utils";
+import { readText, writeText } from "noka-utility";
 import { FSWatcher, watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";
 

@@ -17,7 +17,8 @@ export async function restart($1: string, name: string, all: string) {
     logger.info("All applications have been restarted");
   } else {
     const appInfo = new AppInfo({ $1 });
-    await pm.restart(name || appInfo.jsEntry);
+    name = name || appInfo.name;
+    await pm.restart(name || appInfo.binEntry);
     logger.info("Application restarted");
   }
 }

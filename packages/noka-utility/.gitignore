@@ -1,0 +1,13 @@
+*.DS_Store
+*.log
+*.d.ts
+*.db
+*.map
+.vscode/
+.husky/
+node_modules/
+coverage/
+dist/
+logs/
+lib/
+types/

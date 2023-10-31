@@ -11,7 +11,7 @@ export async function clean($1: string) {
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.clean();
   await del([
-    appInfo.distPath,
+    appInfo.binDir,
     `${appInfo.root}/types/`,
     `${appInfo.root}/release/`,
   ]);

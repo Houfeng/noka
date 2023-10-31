@@ -1,5 +1,5 @@
 import { ParameterizedContext } from "koa";
-import { getByPath, writeText, mkdir } from "../../common/utils";
+import { getByPath, writeText, mkdir } from "noka-utility";
 import { getContextMeta } from "./ContextInjector";
 import { getRouteMappingItems, RouteMappingInfo } from "./RouteMapping";
 import { IoCLoader } from "../IoCLoader";

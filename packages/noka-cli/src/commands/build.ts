@@ -4,7 +4,6 @@ import del from "del";
 import { AppInfo } from "../common/AppInfo";
 import { clean } from "./clean";
 import { exec } from "../common/exec";
-import { existsSync } from "fs";
 import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
@@ -19,7 +18,7 @@ export async function build(env: string, $1: string) {
   await test(env, $1);
   logger.info("Start building...");
   const appInfo = new AppInfo({ $1 });
-  if (!existsSync(appInfo.tsConfigFile)) {
+  if (!appInfo.existCompileConf) {
     throw new Error("No compilation configuration found");
   }
   const hooks = Hooks(appInfo);
@@ -27,14 +26,14 @@ export async function build(env: string, $1: string) {
   const tsc = findCommand(__dirname, "tsc");
   const copy = findCommand(__dirname, "copyfiles");
   const command = [
-    `${copy} --up 1 ${appInfo.srcPath}/**/*.* ${appInfo.distPath}`,
+    `${copy} --up 1 ${appInfo.srcDir}/**/*.* ${appInfo.binDir}`,
     `${tsc} --pretty`,
   ];
   await exec(command, {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
   });
-  await del([`${appInfo.distPath}/**/*.ts`, `${appInfo.distPath}/**/*.map`]);
+  await del([`${appInfo.binDir}/**/*.ts`, `${appInfo.binDir}/**/*.map`]);
   await hooks.afterHooks.build();
   logger.info("finished");
 }

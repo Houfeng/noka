@@ -1,7 +1,4 @@
 import { AbstractLoader } from "../../Loader";
-import { pkg } from "../../common/utils";
-
-const defaultOptions: { [key: string]: string } = { Server: pkg.displayName };
 
 /**
  * 响应头加载器
@@ -13,7 +10,7 @@ export class HeadersLoader<
    * 配置默认响应头
    */
   public async load() {
-    const headers = { ...defaultOptions, ...this.options };
+    const headers = { server: this.app.name, ...this.options };
     this.app.server.use(async (ctx, next) => {
       for (const key in headers) ctx.set(key, headers[key]);
       await next();
