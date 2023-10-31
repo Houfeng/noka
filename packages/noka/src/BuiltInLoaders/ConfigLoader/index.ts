@@ -27,7 +27,7 @@ export function Config(path: string) {
  * 配置加载器
  */
 export class ConfigLoader extends AbstractLoader {
-  public async load() {
+  async load() {
     const { path } = this.options;
     const configPath = this.app.resolvePath(path);
     const configParser = new Parser({ env: this.app.env });
@@ -36,6 +36,9 @@ export class ConfigLoader extends AbstractLoader {
       type: 'value',
       value: configObject,
     });
-    this.watchBy([`${configPath}.*`, `${configPath}/**/*.*`]);
+    this.watch([`${configPath}.*`, `${configPath}/**/*.*`]);
+  }
+  async unload(): Promise<void> {
+    this.unWatch()
   }
 }

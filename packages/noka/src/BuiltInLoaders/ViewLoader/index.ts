@@ -46,8 +46,12 @@ export class ViewLoader<
       type: 'value',
       value: viewMap
     });
-    this.watchBy(viewPattern, { cwd: viewRoot });
+    this.watch(viewPattern, { cwd: viewRoot });
     this.app.logger?.info("View ready");
+  }
+
+  async unload(): Promise<void> {
+    this.unWatch()
   }
 }
 

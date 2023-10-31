@@ -4,7 +4,7 @@ import { ApplicationInterface } from "../Application/ApplicationInterface";
 import { LoaderInstance } from "./LoaderInstance";
 import { isString } from "ntils";
 import { readText, writeText } from "../common/utils";
-import { watch, WatchOptions } from "chokidar";
+import { FSWatcher, watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";
 
 type Exports = Record<string, unknown>;
@@ -52,16 +52,25 @@ export abstract class AbstractLoader<
     }
   }
 
+  private watcher: FSWatcher;
+
   /**
    * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
    * 在非 noka-cli 启动时，此方法将不会起任何作用
    * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
    * @param paths 文件（file, dir, glob, or array）
    */
-  protected watchBy(paths: string | string[], options?: WatchOptions): void {
+  protected watch(paths: string | string[], options?: WatchOptions): void {
     if (!this.app.isLaunchSourceCode) return;
-    const watcher = watch(paths, { ...options, ignoreInitial: true });
-    watcher.on("all", this.requestAppRestart);
+    this.unWatch();
+    this.watcher = watch(paths, { ...options, ignoreInitial: true });
+    this.watcher.on("all", this.requestAppRestart);
+  }
+
+  protected unWatch() {
+    if (!this.watcher) return;
+    this.watcher.off("all", this.requestAppRestart);
+    this.watcher = null;
   }
 
   /**
@@ -109,5 +118,7 @@ export abstract class AbstractLoader<
   /**
    * 由应用调用的 unload 方法
    */
-  async unload() {}
+  async unload() {
+    this.unWatch();
+  }
 }
