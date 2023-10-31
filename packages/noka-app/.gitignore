@@ -12,3 +12,4 @@ dist/
 temp/
 types/
 release/
+debug/

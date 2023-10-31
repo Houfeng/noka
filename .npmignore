@@ -6,6 +6,7 @@ node_modules/
 coverage/
 dist/
 docs/
+debug/
 tsconfig.json
 tsconfig.prod.json
 tsconfig.dev.json

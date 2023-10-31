@@ -11,3 +11,4 @@ logs/
 dist/
 temp/
 release/
+debug/
