@@ -2,7 +2,7 @@ import globby from "globby";
 import { AbstractLoader } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
-import { normalize, resolve } from "path";
+import { resolve } from "path";
 import { readText } from "../../common/utils";
 import { getByPath } from "../../common/utils";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
@@ -26,7 +26,7 @@ export class ViewLoader<
    */
   public async load() {
     const { path, extname = ".html" } = this.options;
-    const viewRoot = normalize(resolve(this.app.root, path));
+    const viewRoot = this.app.resolvePath(path);
     if (!existsSync(viewRoot)) return;
     const viewPattern = `./**/*${extname}`;
     const viewFiles = await globby(viewPattern, { cwd: viewRoot });

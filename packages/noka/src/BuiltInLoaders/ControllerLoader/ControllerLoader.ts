@@ -56,15 +56,19 @@ export class ControllerLoader extends IoCLoader {
 
   protected debugRouteItems: DebugRouteInfo[] = [];
 
+  protected get debugDir() {
+    return this.app.resolvePath('./debug');
+  }
+
   protected appendDebugRouteItems(info: DebugRouteInfo) {
-    if (!this.isDevelopment) return;
+    if (!this.app.isLaunchSourceCode) return;
     this.debugRouteItems.push(info);
   }
 
   protected async dumpDebugRouteItemsToFile() {
-    if (!this.isDevelopment || this.debugRouteItems.length < 1) return;
-    await mkdir(this.tempDir);
-    const dumpFile = resolve(this.tempDir, "./controllers.json");
+    if (!this.app.isLaunchSourceCode || this.debugRouteItems.length < 1) return;
+    await mkdir(this.debugDir);
+    const dumpFile = resolve(this.debugDir, "./controllers.json");
     return writeText(dumpFile, JSON.stringify(this.debugRouteItems, null, "  "));
   }
 

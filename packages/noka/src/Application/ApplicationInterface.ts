@@ -18,7 +18,7 @@ export interface ApplicationInterface {
   /**
    * 是否是开发模式
    */
-  readonly isDevelopment: boolean;
+  readonly isLaunchSourceCode: boolean;
 
   /**
    * 入口文件
@@ -28,12 +28,7 @@ export interface ApplicationInterface {
   /**
    * 应用根目录
    */
-  readonly root: string;
-
-  /**
-   * 应用端口
-   */
-  readonly port: number;
+  readonly rootDir: string;
 
   /**
    * 应用名称
@@ -43,7 +38,19 @@ export interface ApplicationInterface {
   /**
    * 应用在 ~（Home） 中的目录
    */
-  readonly home: string;
+  readonly homeDir: string;
+
+  /**
+   * 解析应用内路径
+   * @param path 路径
+   * @returns
+   */
+  readonly resolvePath: (path: string) => string;
+
+  /**
+   * 应用端口
+   */
+  readonly port: number;
 
   /**
    * 应用配置

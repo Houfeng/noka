@@ -1,7 +1,6 @@
 import { getByPath } from "../../common/utils";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
-import { resolve } from "path";
 
 const { Parser } = require("confman/index");
 
@@ -29,9 +28,8 @@ export function Config(path: string) {
  */
 export class ConfigLoader extends AbstractLoader {
   public async load() {
-    const { root } = this.app;
     const { path } = this.options;
-    const configPath = resolve(root, path);
+    const configPath = this.app.resolvePath(path);
     const configParser = new Parser({ env: this.app.env });
     const configObject = await configParser.load(configPath);
     this.app.container.register(CONFIG_ENTITY_KEY, {

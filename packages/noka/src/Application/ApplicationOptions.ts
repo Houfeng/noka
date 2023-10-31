@@ -4,12 +4,7 @@
  * @format
  */
 
-export interface ApplicationOptions {
-  /**
-   * 应用根目录（默认为当前目录）
-   */
-  root?: string;
-
+export type ApplicationOptions = {
   /**
    * 应用端口（默认自动选取可用端口）
    */
@@ -19,4 +14,4 @@ export interface ApplicationOptions {
    * 应用名称（优先级为 options.name>config.name>package.name）
    */
   name?: string;
-}
+};

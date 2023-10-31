@@ -1,7 +1,8 @@
 /** @format */
 
 import mkdirp from "mkdirp";
-import { readFile, writeFile } from "fs";
+import { existsSync, readFile, writeFile } from "fs";
+import { normalize } from "path";
 
 const utils = require("ntils");
 
@@ -66,4 +67,50 @@ export function mkdir(dir: string) {
   return new Promise<string>((resolve, reject) => {
     mkdirp(dir, (err) => (err ? reject(err) : resolve(dir)));
   });
+}
+
+/**
+ * 获取一个可用端口
+ */
+export function acquirePort() {
+  const oneport = require("oneport");
+  return new Promise<number>((resolve, reject) =>
+    oneport.acquire((err: Error, port: number) =>
+      err ? reject(err) : resolve(port),
+    ),
+  );
+}
+
+/**
+ * 字符串是不是一个路戏
+ * @param str 字符串
+ */
+export function isPath(str: string) {
+  if (!str) return false;
+  return str.startsWith("/") || str.startsWith(".") || /^[a-z]+:/i.test(str);
+}
+
+/**
+ * 是否是系统根目录
+ * @param dir 目录
+ */
+export function isSystemRootDir(dir: string) {
+  return !dir || dir === "/" || dir.endsWith(":\\") || dir.endsWith(":\\\\");
+}
+
+/**
+ * 目录中存在 package.json
+ * @param dir 目录
+ */
+export function isNodePackageDir(dir: string) {
+  return existsSync(normalize(`${dir}/package.json`));
+}
+
+/**
+ * 立即执行一个函数
+ * @param fn 将执行的函数
+ * @returns
+ */
+export function iife<T>(fn: () => T): T {
+  return fn();
 }

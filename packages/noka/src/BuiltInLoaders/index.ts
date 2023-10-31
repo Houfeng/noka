@@ -28,43 +28,46 @@ export * from "./SetupLoader";
 export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   config: {
     loader: ConfigLoader,
-    options: { path: "./configs/config" },
+    options: { path: "app:/configs/config" },
   },
   logger: {
     loader: LoggerLoader,
-    options: { path: ":home/logs" },
+    options: { path: "home:/logs" },
   },
   headers: {
     loader: HeadersLoader,
+    options: {},
   },
   setup: {
     loader: SetupLoader,
-    options: { path: "./:main/setups/**/*:ext" },
+    options: { path: "bin:/setups/**/*:bin" },
   },
   body: {
     loader: BodyLoader,
+    options: {},
   },
   model: {
     loader: ModelLoader,
-    options: { path: "./:main/models/**/*:ext" },
+    options: { path: "bin:/models/**/*:bin" },
   },
   service: {
     loader: ServiceLoader,
-    options: { path: "./:main/services/**/*:ext" },
+    options: { path: "bin:/services/**/*:bin" },
   },
   session: {
     loader: SessionLoader,
+    options: {},
   },
   view: {
     loader: ViewLoader,
-    options: { path: "./views", extname: ".html" },
+    options: { path: "app:/views", extname: ".html" },
   },
   static: {
     loader: StaticLoader,
-    options: { path: "./assets" },
+    options: { path: "app:/assets" },
   },
   controller: {
     loader: ControllerLoader,
-    options: { path: "./:main/controllers/**/*:ext" },
+    options: { path: "bin:/controllers/**/*:bin" },
   },
 };

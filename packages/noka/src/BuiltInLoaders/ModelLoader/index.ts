@@ -23,11 +23,11 @@ export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
   async load() {
     await super.load();
     const { path, ...others } = this.options;
-    defaultOptions.location = this.resolvePath(defaultOptions.location);
+    defaultOptions.location = this.app.resolvePath(defaultOptions.location);
     const dataSource = new DataSource({
       ...defaultOptions,
       ...others,
-      entities: [this.resolvePath(path)],
+      entities: [this.app.resolvePath(path)],
     });
     this.app.container.register(MODEL_ENTITY_KEY, {
       type: "value",

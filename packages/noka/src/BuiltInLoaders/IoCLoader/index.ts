@@ -14,7 +14,7 @@ export class IoCLoader<
    * 加载指定类型到容器中
    */
   public async load() {
-    await super.load();
+    await super.loadContent();
     this.content.forEach(value => {
       const meta = getProviderMetadata(value);
       if (meta?.name && meta?.options?.static) {

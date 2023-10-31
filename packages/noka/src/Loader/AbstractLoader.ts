@@ -1,11 +1,8 @@
-/** @format */
-
 import globby from "globby";
 import { existsSync } from "fs";
-import { extname, normalize, resolve } from "path";
 import { ApplicationInterface } from "../Application/ApplicationInterface";
 import { LoaderInstance } from "./LoaderInstance";
-import { isArray, isString } from "ntils";
+import { isString } from "ntils";
 import { readText, writeText } from "../common/utils";
 import { watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";
@@ -32,74 +29,15 @@ export abstract class AbstractLoader<
   }
 
   /**
-   * 已加载的资源或类型列表
-   */
-  protected content: C[] = [];
-
-  /**
-   * 获取工程源码目录
-   */
-  protected get sourceDir(): string {
-    return this.resolvePath("./src");
-  }
-
-  /**
-   * 获取工程构建结果目录
-   */
-  protected get distDir(): string {
-    return this.resolvePath("./dist");
-  }
-
-  /**
-   * 运行时的临时输出信息目录
-   */
-  protected get tempDir(): string {
-    return this.resolvePath("./temp");
-  }
-
-  /**
-   * 解析路径中的动态占位符
-   * @param path 路径
-   */
-  protected parsePath(path: string) {
-    if (!path) return;
-    const ext = extname(this.app.entry);
-    const main = ext === ".ts" ? "src" : "dist";
-    return normalize(
-      path
-        .replace(":main", main)
-        .replace(":ext", ext)
-        .replace(":home", this.app.home),
-    );
-  }
-
-  /**
-   * 解析路径中的动态占位符
-   * @param paths 路径数组
-   */
-  protected parsePaths(paths: string[] | string) {
-    return isArray(paths)
-      ? paths.map((path: string) => this.parsePath(path))
-      : this.parsePath(paths);
-  }
-
-  /**
-   * 解析为对象路径
-   * @param path 相对路径
-   */
-  protected resolvePath(path: string) {
-    if (!path) return path;
-    return normalize(resolve(this.app.root, this.parsePath(path)));
-  }
-
-  /**
    * 获取匹配的文件
    * @param paths 匹配表达式
    * @param options 匹配选项
    */
-  protected glob(paths: string | string[], options?: globby.GlobbyOptions) {
-    const cwd = this.app.root;
-    return globby(this.parsePaths(paths), { cwd, ...options });
+  protected glob(path: string | string[], options?: globby.GlobbyOptions) {
+    const paths = Array.isArray(path) ? path : [path];
+    const cwd = this.app.rootDir;
+    const selector = paths.map((it) => this.app.resolvePath(it));
+    return globby(selector, { cwd, ...options });
   }
 
   /**
@@ -108,17 +46,10 @@ export abstract class AbstractLoader<
    */
   protected importModule<M = Exports>(moduleFile: string): M {
     try {
-      return require(this.resolvePath(moduleFile));
+      return require(this.app.resolvePath(moduleFile));
     } catch {
       return null;
     }
-  }
-
-  /**
-   * 是否是开发模式
-   */
-  protected get isDevelopment() {
-    return this.app.isDevelopment;
   }
 
   /**
@@ -128,26 +59,32 @@ export abstract class AbstractLoader<
    * @param paths 文件（file, dir, glob, or array）
    */
   protected watchBy(paths: string | string[], options?: WatchOptions): void {
-    if (!this.isDevelopment) return;
+    if (!this.app.isLaunchSourceCode) return;
     const watcher = watch(paths, { ...options, ignoreInitial: true });
-    watcher.on("all", this.triggerRestart);
+    watcher.on("all", this.requestAppRestart);
   }
 
   /**
-   * 通过读写 entry 触发 dev 模式的进程重启
+   * 请求 app 进行重启
    */
-  protected triggerRestart = async () => {
+  protected requestAppRestart = async () => {
+    if (!this.app.isLaunchSourceCode) return;
     const text = await readText(this.app.entry);
+    if (!text) return;
     return writeText(this.app.entry, text);
   };
 
   /**
-   * 加载相关的内容
-   * @param app 全局应用程序实例
+   * 已加载的资源或类型列表
    */
-  public async load() {
-    const { root } = this.app;
-    if (!existsSync(root)) return;
+  protected content: C[] = [];
+
+  /**
+   * 加载通过 path 指定的内容
+   */
+  protected async loadContent() {
+    const { rootDir } = this.app;
+    if (!existsSync(rootDir)) return;
     const { path } = this.options;
     if (!isString(path)) return;
     const moduleFiles = await this.glob(path);
@@ -160,5 +97,12 @@ export abstract class AbstractLoader<
         this.content.push(mod);
       });
     });
+  }
+
+  /**
+   * 由应用调用的 load 方法
+   */
+  async load() {
+    await this.loadContent();
   }
 }

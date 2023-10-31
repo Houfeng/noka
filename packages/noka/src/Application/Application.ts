@@ -2,13 +2,18 @@
 
 import Koa from "koa";
 import Router from "koa-router";
-import { acquire } from "../common/oneport";
+import {
+  acquirePort,
+  isNodePackageDir,
+  isPath,
+  isSystemRootDir,
+  iife,
+} from "../common/utils";
 import { BuiltInLoaders } from "../BuiltInLoaders";
 import { CONF_RESERVE_KEYS, ENV_NAME } from "./constants";
 import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
 import { Container } from "../Container";
-import { dirname, extname, normalize, resolve } from "path";
-import { existsSync } from "fs";
+import { dirname, extname, resolve, normalize } from "path";
 import { homedir } from "os";
 import { ApplicationInterface } from "./ApplicationInterface";
 import { ApplicationOptions } from "./ApplicationOptions";
@@ -19,7 +24,7 @@ import {
   LoggerInterface,
   LOGGER_ENTITY_KEY,
 } from "../BuiltInLoaders/LoggerLoader";
-import { isNull, isString } from "ntils";
+import { isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
 
 /**
@@ -39,103 +44,117 @@ export class Application implements ApplicationInterface {
   /**
    * 当前环境标识
    */
-  public readonly env = process.env[ENV_NAME] || process.env.NODE_ENV;
+  readonly env = process.env[ENV_NAME] || process.env.NODE_ENV;
 
   /**
    * 对应的 koa 实例
    */
-  public readonly server = new Koa();
+  readonly server = new Koa();
 
   /**
    * IoC 容器实例
    */
-  public readonly container = new Container();
+  readonly container = new Container();
 
   /**
    * 应用路由
    */
-  public readonly router = new Router();
+  readonly router = new Router();
 
-  protected __config: ApplicationConfig;
+  /**
+   * 入口文件
+   */
+  readonly entry = normalize(process.env.pm_exec_path || process.argv[1]);
+
+  /**
+   * 应用可执行文件扩展名
+   */
+  readonly binExtensions = extname(this.entry);
+
+  /**
+   * 是否是开发模式
+   */
+  readonly isLaunchSourceCode = this.binExtensions === ".ts";
+
+  /**
+   * 应用根目录
+   * 根目录为入口文件所在的 package 根目录
+   */
+  readonly rootDir = iife((): string => {
+    let root = dirname(this.entry);
+    while (!isSystemRootDir(root) && !isNodePackageDir(root)) {
+      root = dirname(root);
+    }
+    if (isSystemRootDir(root) || root === ".") root = process.cwd();
+    return root;
+  });
+
+  /**
+   * 应用执行文件目录
+   * bin 目录在应用根目录下，从源码启动时为 src/，非源码启动为 bin/
+   */
+  get binDir() {
+    return this.isLaunchSourceCode
+      ? this.resolvePath("./src/")
+      : this.resolvePath("./bin/");
+  }
+
+  /**
+   * 当前应用名称
+   */
+  get name(): string {
+    if (this.options.name) return this.options.name;
+    if (this.config.name) return this.config.name;
+    const pkgFile = resolve(this.rootDir, "./package.json");
+    return require(pkgFile).name;
+  }
+
+  /**
+   * app 在 home 中的位置
+   */
+  get homeDir() {
+    return normalize(`${homedir()}/${this.name}`);
+  }
+
+  /**
+   * 解析相对于应用根路径 app.root 的 「相对路径」
+   * @param path 路径信息
+   * @returns
+   */
+  resolvePath(path: string) {
+    path = normalize(
+      path
+        .replace("app:", this.rootDir)
+        .replace("home:", this.homeDir)
+        .replace("bin:", this.binDir)
+        .replace(":bin", this.binExtensions),
+    );
+    return resolve(this.rootDir, path);
+  }
 
   /**
    * 应用配置对象
    */
-  public get config(): ApplicationConfig {
-    if (this.__config) return this.__config;
-    this.__config = this.container.get(CONFIG_ENTITY_KEY, true);
-    return this.__config || {};
+  get config(): ApplicationConfig {
+    return this.container.get(CONFIG_ENTITY_KEY, true) || {};
   }
 
   /**
    * 应用日志对象
    */
-  public get logger() {
+  get logger() {
     const getLogger =
       this.container.get<(key: string) => LoggerInterface>(LOGGER_ENTITY_KEY);
     return getLogger && getLogger("app");
   }
 
   /**
-   * 是否是系统根目录
-   * @param dir 目录
-   */
-  protected isSystemRootDir(dir: string) {
-    return !dir || dir === "/" || dir.endsWith(":\\") || dir.endsWith(":\\\\");
-  }
-
-  /**
-   * 目录中存在 package.json
-   * @param dir 目录
-   */
-  protected isNodePackageDir(dir: string) {
-    return existsSync(normalize(`${dir}/package.json`));
-  }
-
-  /**
-   * 根目录缓存
-   */
-  protected __root: string;
-
-  /**
-   * 应用根目录
-   */
-  public get root() {
-    if (this.options.root) return this.options.root;
-    if (this.__root) return this.__root;
-    let root = dirname(this.entry);
-    while (!this.isSystemRootDir(root) && !this.isNodePackageDir(root)) {
-      root = dirname(root);
-    }
-    if (this.isSystemRootDir(root) || root === ".") root = process.cwd();
-    this.__root = root;
-    return this.__root;
-  }
-
-  /**
-   * 入口文件
-   */
-  get entry() {
-    return process.env.pm_exec_path || process.argv[1];
-  }
-
-  /**
-   * 字符串是不是一个路戏
-   * @param str 字符串
-   */
-  protected isPath(str: string) {
-    if (!str) return false;
-    return str.startsWith("/") || str.startsWith(".") || /^[a-z]+:/i.test(str);
-  }
-
-  /**
    * 加载一个 loader
    * @param name loader 名称
    */
-  protected importLoader(name: string): LoaderConstructor {
+  private importLoader(name: string): LoaderConstructor {
     name = String(name);
-    const { root } = this.options;
-    const loaderPath = this.isPath(name) ? resolve(root, name) : name;
+    const loaderPath = isPath(name) ? resolve(this.rootDir, name) : name;
     const loader = require(loaderPath);
     return loader.default || loader;
   }
@@ -145,7 +164,7 @@ export class Application implements ApplicationInterface {
    * @param loaderConfigInfo loader 信息
    * @param configKey 配置名称
    */
-  protected createLoaderInstance(
+  private createLoaderInstance(
     loaderConfigInfo: LoaderConfigInfo,
     configKey: string,
   ) {
@@ -158,7 +177,7 @@ export class Application implements ApplicationInterface {
   /**
    * 创建一组 Loader 实例
    */
-  protected createLoaderInstances(
+  private createLoaderInstances(
     loaderConfigs: Record<string, string | LoaderConfigInfo<any>>,
   ): LoaderInstance[] {
     const loaderInstances: LoaderInstance[] = [];
@@ -180,71 +199,42 @@ export class Application implements ApplicationInterface {
   }
 
   /**
+   * 加载所有 loaders
+   */
+  private async loadAllLoaders() {
+    const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
+    const configLoaders = this.createLoaderInstances(this.config.loaders);
+    const composedLoaders = [...buildInLoaders, ...configLoaders];
+    for (const loader of composedLoaders) await loader.load();
+  }
+
+  /**
    * 当前应用端口私有变量
    */
-  protected __port: number;
+  private resolvedPort: number;
 
   /**
    * 获取应用端口
    */
-  protected async resolvePort() {
-    if (this.__port) return this.__port;
-    const { port = this.config.port || (await acquire()) } = this.options;
-    this.__port = port;
-    return this.__port;
+  private async resolvePort() {
+    if (this.resolvedPort) return this.resolvedPort;
+    const { port = this.config.port || (await acquirePort()) } = this.options;
+    this.resolvedPort = port;
+    return this.resolvedPort;
   }
 
   /**
    * 当前应用使用的端口
    */
-  public get port() {
-    return this.__port;
-  }
-
-  protected __name: string;
-
-  /**
-   * 当前应用名称
-   */
-  public get name() {
-    if (this.__name) return this.__name;
-    const pkgFile = resolve(this.root, "./package.json");
-    const { name = this.config.name || require(pkgFile).name } = this.options;
-    this.__name = name;
-    return this.__name;
-  }
-
-  /**
-   * app 在 home 中的位置
-   */
-  public get home() {
-    return normalize(`${homedir()}/${this.name}`);
-  }
-
-  /**
-   * 是否是开发模式
-   */
-  protected __isDevelopment: boolean;
-
-  /**
-   * 是否是开发模式
-   */
-  public get isDevelopment() {
-    if (isNull(this.__isDevelopment)) {
-      const ext = extname(this.entry);
-      this.__isDevelopment = ext === ".ts";
-    }
-    return this.__isDevelopment;
+  get port(): number {
+    return this.resolvedPort;
   }
 
   /**
    * 启动当前应用实例
    */
-  public async launch(): Promise<ApplicationInterface> {
-    const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
-    const configLoaders = this.createLoaderInstances(this.config.loaders);
-    const composedLoaders = [...buildInLoaders, ...configLoaders];
-    for (const loader of composedLoaders) await loader.load();
+  async launch(): Promise<ApplicationInterface> {
+    this.loadAllLoaders();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     await this.resolvePort();
