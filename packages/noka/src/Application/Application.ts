@@ -242,7 +242,7 @@ export class Application implements ApplicationInterface {
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationInterface> {
-    this.loadAllLoaders();
+    await this.loadAllLoaders();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     await this.resolvePort();
