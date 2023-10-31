@@ -34,7 +34,7 @@ export async function release(env: string, $1: string) {
   });
   await del([
     `${appInfo.root}/release/${SRC_DIR_NAME}/`,
-    `${appInfo.root}/release/temp/`
+    `${appInfo.root}/release/temp/`,
   ]);
   await hooks.afterHooks.release();
   logger.info("finished");

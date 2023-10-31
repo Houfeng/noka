@@ -32,7 +32,7 @@ export class Application implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) { }
+  constructor(protected options: ApplicationOptions = {}) {}
 
   /**
    * 当前环境标识

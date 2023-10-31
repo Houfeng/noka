@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.0.6
+
+### Patch Changes
+
+- refine: 优化 cli & core
+- Updated dependencies
+  - noka@2.0.6
+
 ## 2.0.5
 
 ### Patch Changes

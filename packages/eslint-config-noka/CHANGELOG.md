@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.0.6
+
+### Patch Changes
+
+- refine: 优化 cli & core
+
 ## 2.0.5
 
 ### Patch Changes

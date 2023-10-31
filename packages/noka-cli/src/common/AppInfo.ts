@@ -19,7 +19,7 @@ export type AppInfoOptions = {
  * 当前应用信息
  */
 export class AppInfo {
-  constructor(private options: AppInfoOptions) { }
+  constructor(private options: AppInfoOptions) {}
 
   readonly root = iife(() => {
     const cwd = process.cwd();
