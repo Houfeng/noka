@@ -10,6 +10,7 @@ import mkdirp from "mkdirp";
 import { resolve } from "path";
 import { exec } from "../common/exec";
 import { Hooks } from "../common/Hooks";
+import { SRC_DIR_NAME } from "noka-utility";
 
 export function mkdir(dir: string) {
   return new Promise((resolve, reject) => {
@@ -31,7 +32,10 @@ export async function release(env: string, $1: string) {
     cwd: appInfo.root,
     env: { NOKA_ENV: env },
   });
-  await del([`${appInfo.root}/release/src/`, `${appInfo.root}/release/temp/`]);
+  await del([
+    `${appInfo.root}/release/${SRC_DIR_NAME}/`,
+    `${appInfo.root}/release/temp/`
+  ]);
   await hooks.afterHooks.release();
   logger.info("finished");
 }

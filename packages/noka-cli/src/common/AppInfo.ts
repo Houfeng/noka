@@ -1,6 +1,7 @@
 /** @format */
 
-import { normalize, resolve } from "path";
+import { resolve } from "path";
+import { BIN_DIR_NAME, SRC_DIR_NAME, ENTRY_FILE_NAME } from "noka-utility";
 import { iife, resolvePackageRoot } from "noka-utility";
 import { existsSync } from "fs";
 
@@ -18,7 +19,7 @@ export type AppInfoOptions = {
  * 当前应用信息
  */
 export class AppInfo {
-  constructor(private options: AppInfoOptions) {}
+  constructor(private options: AppInfoOptions) { }
 
   readonly root = iife(() => {
     const cwd = process.cwd();
@@ -27,10 +28,10 @@ export class AppInfo {
     return resolvePackageRoot(startPath);
   });
 
-  readonly binDir = resolve(this.root, normalize("./dist"));
-  readonly srcDir = resolve(this.root, normalize("./src"));
-  readonly binEntry = resolve(this.binDir, normalize("./app.js"));
-  readonly srcEntry = resolve(this.srcDir, normalize("./app.ts"));
+  readonly binDir = resolve(this.root, `./${BIN_DIR_NAME}`);
+  readonly srcDir = resolve(this.root, `./${SRC_DIR_NAME}`);
+  readonly binEntry = resolve(this.binDir, `./${ENTRY_FILE_NAME}.js`);
+  readonly srcEntry = resolve(this.srcDir, `./${ENTRY_FILE_NAME}.ts`);
 
   readonly existCompileConf = iife(() => {
     return existsSync(resolve(this.root, "./tsconfig.json"));
@@ -41,14 +42,5 @@ export class AppInfo {
     if (existsSync(file)) return require(file);
   });
 
-  readonly appConf = iife(() => {
-    const { NOKA_ENV, NODE_ENV } = process.env;
-    const env = this.options.env || NOKA_ENV || NODE_ENV;
-    const { Parser } = require("confman/index");
-    const parser = new Parser({ env });
-    const file = resolve(this.root, "./configs/config");
-    return parser.load(file);
-  });
-
-  readonly name = this.appConf.name || this.packageConf.name;
+  readonly name = this.packageConf.name;
 }

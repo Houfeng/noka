@@ -2,6 +2,7 @@
 
 import Koa from "koa";
 import Router from "koa-router";
+import { BIN_DIR_NAME, SRC_DIR_NAME } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../BuiltInLoaders";
 import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
@@ -31,7 +32,7 @@ export class Application implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) {}
+  constructor(protected options: ApplicationOptions = {}) { }
 
   /**
    * 当前环境标识
@@ -82,8 +83,8 @@ export class Application implements ApplicationInterface {
    */
   get binDir() {
     return this.isLaunchSourceCode
-      ? this.resolvePath("./src/")
-      : this.resolvePath("./dist/");
+      ? this.resolvePath(`./${SRC_DIR_NAME}/`, true)
+      : this.resolvePath(`./${BIN_DIR_NAME}/`, true);
   }
 
   /**
@@ -91,7 +92,6 @@ export class Application implements ApplicationInterface {
    */
   get name(): string {
     if (this.options.name) return this.options.name;
-    if (this.config.name) return this.config.name;
     const pkgFile = resolve(this.rootDir, "./package.json");
     return require(pkgFile).name;
   }
@@ -104,18 +104,27 @@ export class Application implements ApplicationInterface {
   }
 
   /**
-   * 解析相对于应用根路径 app.root 的 「相对路径」
-   * @param path 路径信息
+   * 解析路径中的变量
+   * @param path 路径
    * @returns
    */
-  resolvePath(path: string) {
-    path = normalize(
+  private parsePathVariables(path: string) {
+    return normalize(
       path
         .replace("app:", this.rootDir)
         .replace("home:", this.homeDir)
         .replace("bin:", this.binDir)
         .replace(":bin", this.binExtensions),
     );
+  }
+
+  /**
+   * 解析相对于应用根路径 app.root 的 「相对路径」
+   * @param path 路径信息
+   * @returns
+   */
+  resolvePath(path: string, disableVariables = false) {
+    if (!disableVariables) path = this.parsePathVariables(path);
     return resolve(this.rootDir, path);
   }
 
