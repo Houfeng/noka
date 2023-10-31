@@ -21,7 +21,9 @@ import ImageIcon from "@mui/icons-material/Image";
 import ReceiptIcon from "@mui/icons-material/Receipt";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
+import PortraitIcon from "@mui/icons-material/Portrait";
 import { useNavigate } from "react-router-dom";
+import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 
 const DrawerHeaderWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -87,6 +89,22 @@ const DrawerMenus = observer(function DrawerMenus() {
             <LocalOfferIcon />
           </ListItemIcon>
           <ListItemText primary={navDrawerOpen && "Tags"} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton sx={{ height }} onClick={() => nav("/portrait")}>
+          <ListItemIcon sx={{ minWidth }}>
+            <PortraitIcon />
+          </ListItemIcon>
+          <ListItemText primary={navDrawerOpen && "Portrait"} />
+        </ListItemButton>
+      </ListItem>
+      <ListItem disablePadding>
+        <ListItemButton sx={{ height }} onClick={() => nav("/location")}>
+          <ListItemIcon sx={{ minWidth }}>
+            <AddLocationAltIcon />
+          </ListItemIcon>
+          <ListItemText primary={navDrawerOpen && "Location"} />
         </ListItemButton>
       </ListItem>
       <Divider />
