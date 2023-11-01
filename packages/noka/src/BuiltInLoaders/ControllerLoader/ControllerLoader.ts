@@ -1,18 +1,15 @@
 import { ParameterizedContext } from "koa";
 import { getByPath, writeText, mkdir } from "noka-utility";
 import { getContextMeta } from "./ContextInjector";
-import { getRouteMappingItems, RouteMappingInfo } from "./RouteMapping";
+import { getRouteMappingMetaItems, RouteMappingMeta } from "./RouteMapping";
 import { IoCLoader } from "../IoCLoader";
 import { normalize, resolve } from "path";
 
-export type DebugRouteInfo = {
-  verb: string | string[];
-  path: string;
+export type DebugRouteInfo = RouteMappingMeta & {
   file: string;
   controller: string;
-  method: string;
+  controllerPriority: number,
 }
-
 
 const metadataKey = Symbol('Controller');
 
@@ -21,15 +18,16 @@ const metadataKey = Symbol('Controller');
  */
 export type ControllerMetadata = {
   path: string;
+  priority: number;
 }
 
 /**
  * 控制器注解，可用来声明一个 Controller 类
  * @param path 请求路径，可少略，默认为 `/`
  */
-export function Controller(path = "/") {
+export function Controller(path = "/", priority = 0) {
   return (target: any) => {
-    Reflect.metadata(metadataKey, { path })(target);
+    Reflect.metadata(metadataKey, { path, priority })(target);
   };
 }
 
@@ -82,9 +80,9 @@ export class ControllerLoader extends IoCLoader {
   protected registerRoute(
     controller: any,
     controllerMeta: ControllerMetadata,
-    routeMapping: RouteMappingInfo,
+    routeMapping: RouteMappingMeta,
   ) {
-    const { path, verb, method } = routeMapping;
+    const { verb, path, priority, method } = routeMapping;
     const httpMethods = this.getHttpMethods(verb);
     const routePath = normalize(`/${controllerMeta.path}/${path}`);
     const routeHandler = async (
@@ -103,9 +101,11 @@ export class ControllerLoader extends IoCLoader {
     this.appendDebugRouteItems({
       verb,
       path: routePath,
+      priority,
+      method,
       file: controller.__file__?.replace(this.app.rootDir, ''),
       controller: controller.name,
-      method,
+      controllerPriority: controllerMeta.priority,
     });
   }
 
@@ -133,13 +133,12 @@ export class ControllerLoader extends IoCLoader {
    */
   protected registerController(controller: unknown) {
     const controllerMeta = getControllerMeta(controller);
-    const mappingItems = getRouteMappingItems(controller);
-    if (!controllerMeta || !mappingItems || mappingItems.length < 1) return;
-    mappingItems
-      .sort((a, b) => b.priority - a.priority)
-      .forEach((routeMapping: RouteMappingInfo) => {
-        this.registerRoute(controller, controllerMeta, routeMapping);
-      });
+    const routeMetaItems = getRouteMappingMetaItems(controller);
+    if (!controllerMeta || !routeMetaItems || routeMetaItems.length < 1) return;
+    routeMetaItems.sort((a, b) => b.priority - a.priority);
+    routeMetaItems.forEach((routeMapping: RouteMappingMeta) => {
+      this.registerRoute(controller, controllerMeta, routeMapping);
+    });
   }
 
   /**
@@ -147,7 +146,10 @@ export class ControllerLoader extends IoCLoader {
    */
   public async load() {
     await super.load();
-    this.content.forEach((controller) => {
+    const controllers = this.content.slice(0);
+    controllers.sort((a, b) =>
+      getControllerMeta(b).priority - getControllerMeta(a).priority)
+    controllers.forEach((controller) => {
       this.registerController(controller)
     });
     await this.dumpDebugRouteItemsToFile();
