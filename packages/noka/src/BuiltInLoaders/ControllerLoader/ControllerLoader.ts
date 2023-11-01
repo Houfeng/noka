@@ -103,7 +103,7 @@ export class ControllerLoader extends IoCLoader {
     this.appendDebugRouteItems({
       verb,
       path: routePath,
-      file: controller.__file__,
+      file: controller.__file__?.replace(this.app.rootDir, ''),
       controller: controller.name,
       method,
     });
