@@ -85,17 +85,13 @@ export class ControllerLoader extends IoCLoader {
     const { verb, path, priority, method } = routeMapping;
     const httpMethods = this.getHttpMethods(verb);
     const routePath = normalize(`/${controllerMeta.path}/${path}`);
-    const routeHandler = async (
-      ctx: ParameterizedContext<any, {}>,
-      next: Function
-    ) => {
+    const routeHandler = async (ctx: ParameterizedContext<any, {}>) => {
       const controllerInstance = new controller();
       this.app.container.inject(controllerInstance);
       ctx.body = await this.invokeControllerMethod(
         ctx, controllerInstance, method
       );
       ctx.preventCache = true;
-      await next();
     };
     this.app.router.register(routePath, httpMethods, routeHandler);
     this.appendDebugRouteItems({
