@@ -8,7 +8,7 @@ import { normalize, resolve } from "path";
 export type DebugRouteInfo = Omit<RouteMappingMeta, 'priority'> & {
   file: string;
   controller: string;
-  priority: [number, number]
+  priority: string;
 }
 
 const metadataKey = Symbol('Controller');
@@ -101,7 +101,7 @@ export class ControllerLoader extends IoCLoader {
     this.appendDebugRouteItems({
       verb,
       path: routePath,
-      priority: [controllerMeta.priority, priority],
+      priority: `${controllerMeta.priority}.${priority}`,
       file: controller.__file__?.replace(this.app.rootDir, ''),
       controller: controller.name,
       method,
