@@ -18,6 +18,15 @@ import { LoggerInterface, LOGGER_ENTITY_KEY } from "../BuiltInLoaders";
 import { isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
 
+export {
+  type Request,
+  type Request as ClientRequest,
+  type Response,
+  type Response as ServerResponse,
+  type Context,
+  type ParameterizedContext,
+} from "koa";
+
 const CONF_RESERVE_KEYS = ["port", "loaders"];
 
 /**

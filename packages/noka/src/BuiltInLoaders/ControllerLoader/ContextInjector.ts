@@ -15,7 +15,7 @@ export type ContextMappingMeta = {
  * 从 ctx 上获取内容
  * @param name JSON Path
  */
-export function Context(name = ".") {
+export function Ctx(name = ".") {
   return (target: any, member: string, index: number) => {
     const type = "ctx";
     const list = getContextMeta(target, member);
@@ -23,52 +23,49 @@ export function Context(name = ".") {
     Reflect.metadata(metadataKey, list)(target, member);
   };
 }
-export const Ctx = Context;
 
 /**
  * 请求对象
  */
-export const Request = () => Context("request");
-export const Req = Request;
+export const Req = () => Ctx("request");
 
 /**
  * 响应对象
  */
-export const Response = () => Context("response");
-export const Res = Response;
+export const Res = () => Ctx("response");
 
 /**
  * Cookie 信息
  */
-export const Cookie = () => Context("cookies");
+export const Cookie = () => Ctx("cookies");
 
 /**
  * 路由参数
  * @param name 路由参数名
  */
 export const Param = (name?: string) =>
-  name ? Context(`params.${name}`) : Context("params");
+  name ? Ctx(`params.${name}`) : Ctx("params");
 
 /**
  * 获取请求主体
  * @param name 请求主体参数
  */
 export const Body = (name?: string) =>
-  name ? Context(`request.body.${name}`) : Context("request.body");
+  name ? Ctx(`request.body.${name}`) : Ctx("request.body");
 
 /**
  * 获取查询参数
  * @param name 查询参数名
  */
 export const Query = (name?: string) =>
-  name ? Context(`query.${name}`) : Context("query");
+  name ? Ctx(`query.${name}`) : Ctx("query");
 
 /**
  * 获取请求头参数
  * @param name 查询参数名
  */
 export const Header = (name?: string) =>
-  name ? Context(`headers.${name}`) : Context("headers");
+  name ? Ctx(`headers.${name}`) : Ctx("headers");
 
 /**
  * 获取控制器方法的参数注入信息

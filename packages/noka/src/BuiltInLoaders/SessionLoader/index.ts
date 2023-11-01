@@ -1,9 +1,11 @@
 import session from "koa-session";
 import { AbstractLoader } from "../../Loader";
 import { uuid } from "noka-utility";
-import { Context } from "../ControllerLoader";
+import { Ctx } from "../ControllerLoader";
 
-export const Session = () => Context("session");
+export { type Session as ContextSession } from 'koa-session';
+
+export const Session = () => Ctx("session");
 
 const SIGN_KEYS: string[] = [uuid()];
 
