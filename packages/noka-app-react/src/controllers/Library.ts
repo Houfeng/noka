@@ -1,8 +1,9 @@
 import { Controller, Get, Inject, Req, Request } from "noka";
 import { ItemService } from "../services/ItemService";
-import { readdir } from "fs/promises";
-import { normalize, resolve } from "path";
-// import { FSAnyEntity } from "../../shared/FSEntity";
+import { homedir } from "os";
+import { FSLibrary } from "../models/FS/FSLibrary";
+
+const library = new FSLibrary(homedir());
 
 @Controller("/api/libraries", 10000)
 export class LibraryController {
@@ -12,17 +13,11 @@ export class LibraryController {
   @Get("/")
   @Get("/*")
   async list(@Req() req: Request) {
-    const currentPath = normalize(req.path.replace('/api/libraries', '/'));
-    const items = await readdir(resolve("~/", currentPath));
-    return items;
-    // const entities: FSAnyEntity[] = await Promise.all(
-    //   items.map(async (path) => {
-    //     const info = await stat(path);
-    //     const type = info?.isDirectory?.() ? "folder" : "file";
-    //     const name = basename(path || "");
-    //     return { type, name, path };
-    //   }),
-    // );
-    // return entities;
+    const prefix = "/api/libraries";
+    const path = req.path.replace(prefix, "");
+    const info = await library.child(path);
+    if (!info) return { error: "Not found" };
+    const children = await info.children();
+    return { info, children };
   }
 }
