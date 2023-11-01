@@ -133,13 +133,13 @@ export class ControllerLoader extends IoCLoader {
    */
   protected registerController(controller: unknown) {
     const controllerMeta = getControllerMeta(controller);
-    const routeMappingItems = getRouteMappingItems(controller);
-    if (!controllerMeta
-      || !routeMappingItems
-      || routeMappingItems.length < 1) return;
-    routeMappingItems.forEach((routeMapping: RouteMappingInfo) => {
-      this.registerRoute(controller, controllerMeta, routeMapping);
-    });
+    const mappingItems = getRouteMappingItems(controller);
+    if (!controllerMeta || !mappingItems || mappingItems.length < 1) return;
+    mappingItems
+      .sort((a, b) => b.priority - a.priority)
+      .forEach((routeMapping: RouteMappingInfo) => {
+        this.registerRoute(controller, controllerMeta, routeMapping);
+      });
   }
 
   /**
