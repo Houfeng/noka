@@ -6,7 +6,7 @@ export * from 'typeorm';
 
 const MODEL_ENTITY_KEY = Symbol('Model');
 
-export type ModelLoaderOptions = LoaderOptions & DataSourceOptions
+export type EntityLoaderOptions = LoaderOptions & DataSourceOptions
 
 const defaultOptions = {
   type: "sqljs",
@@ -19,7 +19,7 @@ const defaultOptions = {
 /**
  * 模型加载器
  */
-export class ModelLoader extends AbstractLoader<ModelLoaderOptions> {
+export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     await super.load();
     const { path, ...others } = this.options;

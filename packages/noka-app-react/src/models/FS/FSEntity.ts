@@ -3,16 +3,19 @@ import { readdir, stat } from "fs/promises";
 import { basename, normalize } from "path";
 
 export type FSEntityInfo = {
-  type: 'folder' | 'file';
+  type: "folder" | "file";
   name: string;
   path: string;
   size?: number;
   ctime?: number;
   mtime?: number;
-}
+};
 
 export class FSEntity {
-  constructor(public root: string, public info: FSEntityInfo) { }
+  constructor(
+    public root: string,
+    public info: FSEntityInfo,
+  ) {}
 
   get path() {
     return normalize(this.info.path);
@@ -29,7 +32,7 @@ export class FSEntity {
     const statInfo = await stat(fullPath);
     if (!statInfo.isDirectory() && !statInfo.isFile()) return;
     const type = statInfo?.isDirectory?.() ? "folder" : "file";
-    const name = basename(path) || '';
+    const name = basename(path) || "";
     const size = statInfo.size;
     const ctime = statInfo.ctime.getTime();
     const mtime = statInfo.mtime.getTime();
@@ -38,9 +41,10 @@ export class FSEntity {
   }
 
   async children() {
-    if (this.info.type !== 'folder') return [];
-    const items = (await readdir(normalize(this.fullPath)))
-      .filter(it => !it.startsWith('.') && !it.startsWith('~'));
+    if (this.info.type !== "folder") return [];
+    const items = (await readdir(normalize(this.fullPath))).filter(
+      (it) => !it.startsWith(".") && !it.startsWith("~"),
+    );
     return Promise.all(items.map((name) => this.child(name)));
   }
 

@@ -34,7 +34,7 @@ const Pages = observer(function Pages() {
       <Route path="/tags" element={<Tags />} />
       <Route path="/Portrait" element={<Portrait />} />
       <Route path="/Location" element={<Location />} />
-      <Route path="/libraries" element={<Libraries />} />
+      <Route path="/libraries/*" element={<Libraries />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/preferences" element={<Preferences />} />
       <Route path="/settings" element={<Settings />} />

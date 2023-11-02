@@ -12,7 +12,7 @@ export const UploadButton = observer(function UploadButton() {
       aria-label="add"
       size="large"
       sx={{
-        position: "absolute",
+        position: "fixed",
         bottom: 24,
         right: 24,
       }}

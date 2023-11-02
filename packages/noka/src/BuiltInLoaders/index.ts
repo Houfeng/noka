@@ -4,7 +4,7 @@ import { ConfigLoader } from "./ConfigLoader";
 import { ControllerLoader } from "./ControllerLoader";
 import { HeadersLoader } from "./HeadersLoader";
 import { LoggerLoader } from "./LoggerLoader";
-import { ModelLoader } from "./ModelLoader";
+import { EntityLoader } from "./EntityLoader";
 import { ServiceLoader } from "./ServiceLoader";
 import { SessionLoader } from "./SessionLoader";
 import { SetupLoader } from "./SetupLoader";
@@ -19,7 +19,7 @@ export * from "./ServiceLoader";
 export * from "./ConfigLoader";
 export * from "./ViewLoader";
 export * from "./SessionLoader";
-export * from "./ModelLoader";
+export * from "./EntityLoader";
 export * from "./LoggerLoader";
 export * from "./HeadersLoader";
 export * from "./StaticLoader";
@@ -47,8 +47,8 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
     options: {},
   },
   model: {
-    loader: ModelLoader,
-    options: { path: "bin:/models/**/*:bin" },
+    loader: EntityLoader,
+    options: { path: "bin:/entities/**/*:bin" },
   },
   service: {
     loader: ServiceLoader,
