@@ -15,8 +15,7 @@ type Exports = Record<string, unknown>;
 export abstract class AbstractLoader<
   T extends LoaderOptions = LoaderOptions,
   C = unknown,
-> implements LoaderInstance
-{
+> implements LoaderInstance {
   /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
@@ -44,15 +43,15 @@ export abstract class AbstractLoader<
    * 导入一个模块
    * @param moduleFile 模块路径
    */
-  protected importModule<M = Exports>(moduleFile: string): M {
+  protected importModule<M = Exports>(moduleFile: string): M | undefined {
     try {
       return require(this.app.resolvePath(moduleFile));
     } catch {
-      return null;
+      return;
     }
   }
 
-  private watcher: FSWatcher;
+  private watcher: FSWatcher | undefined;
 
   /**
    * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
@@ -70,7 +69,7 @@ export abstract class AbstractLoader<
   protected unWatch() {
     if (!this.watcher) return;
     this.watcher.off("all", this.requestAppRestart);
-    this.watcher = null;
+    this.watcher = undefined;
   }
 
   /**

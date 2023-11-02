@@ -14,7 +14,7 @@ export interface ContainerType {
    * 通过类型名称创建一个实例
    * @param name 已注册的类型名称
    */
-  get<T>(name: string | symbol): T;
+  get<T>(name: string | symbol): T | undefined;
 
   /**
    * 在实例上应用注入

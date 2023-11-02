@@ -71,7 +71,7 @@ export class Container implements ContainerType {
    */
   public get<T = unknown>(name: string | symbol, ignoreNotFoundError = false) {
     if (!name) throw new Error("Invalid entity name");
-    const entity: EntityInfo<T> = this.entities.get(name);
+    const entity: EntityInfo<T> | undefined = this.entities.get(name);
     // 0. 不存在的 name，返回 undefined
     if (!entity && !ignoreNotFoundError) {
       throw new Error(`Entity not found: ${String(name)}`);

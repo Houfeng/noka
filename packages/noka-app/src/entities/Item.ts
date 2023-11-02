@@ -5,8 +5,8 @@ import { Entity, Column, PrimaryGeneratedColumn } from "noka";
 @Entity()
 export class Item {
   @PrimaryGeneratedColumn()
-  id: string;
+  id: string | undefined;
 
   @Column()
-  name: string;
+  name: string | undefined;
 }

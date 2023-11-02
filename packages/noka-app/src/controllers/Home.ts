@@ -12,18 +12,18 @@ export class HomeController {
   }
 
   @Inject("ItemService")
-  itemService: ItemService;
+  itemService?: ItemService;
 
   @Get("/demo")
   @Post("/demo")
   @View("demo")
   async demo(@Body("del") delId: string, @Body("add") isAdd: string) {
     if (isAdd) {
-      await this.itemService.create();
+      await this.itemService?.create();
     } else if (delId) {
-      await this.itemService.remove(delId);
+      await this.itemService?.remove(delId);
     }
-    const items = await this.itemService.list();
+    const items = await this.itemService?.list();
     return { items };
   }
 }

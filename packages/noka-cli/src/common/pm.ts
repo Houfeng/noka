@@ -23,10 +23,10 @@ export async function list() {
         apps.push({
           name: item.name,
           pid: item.pid,
-          status: item.pm2_env.status,
-          "🔄": item.pm2_env.restart_time,
-          cpu: item.monit.cpu,
-          memory: item.monit.memory,
+          status: item.pm2_env?.status,
+          "🔄": item.pm2_env?.restart_time,
+          cpu: item.monit?.cpu,
+          memory: item.monit?.memory,
         });
       });
       resolve(apps);

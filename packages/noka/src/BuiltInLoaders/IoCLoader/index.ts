@@ -8,7 +8,7 @@ import { LoaderOptions } from "../../Loader/LoaderOptions";
  */
 export class IoCLoader<
   T extends LoaderOptions = LoaderOptions,
-  C = unknown,
+  C extends object = object,
 > extends AbstractLoader<T, C>{
   /**
    * 加载指定类型到容器中

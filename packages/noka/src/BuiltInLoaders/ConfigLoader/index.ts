@@ -28,7 +28,7 @@ export function Config(path: string) {
  */
 export class ConfigLoader extends AbstractLoader {
   async load() {
-    const { path } = this.options;
+    const { path = 'app:/configs/config' } = this.options;
     const configPath = this.app.resolvePath(path);
     const configParser = new Parser({ env: this.app.env });
     const configObject = await configParser.load(configPath);

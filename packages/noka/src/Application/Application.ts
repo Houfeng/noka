@@ -41,7 +41,7 @@ export class Application implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) {}
+  constructor(protected options: ApplicationOptions = {}) { }
 
   /**
    * 当前环境标识
@@ -183,8 +183,9 @@ export class Application implements ApplicationInterface {
    * 创建一组 Loader 实例
    */
   private createLoaderInstances(
-    loaderConfigs: Record<string, string | LoaderConfigInfo<any>>,
+    loaderConfigs: Record<string, string | LoaderConfigInfo<any>> | undefined,
   ): LoaderInstance[] {
+    if (!loaderConfigs) return [];
     const loaderInstances: LoaderInstance[] = [];
     for (const loaderKey in loaderConfigs) {
       if (CONF_RESERVE_KEYS.includes(loaderKey)) {
@@ -198,7 +199,7 @@ export class Application implements ApplicationInterface {
           : loaderValue
       ) as LoaderConfigInfo;
       const instance = this.createLoaderInstance(loadConfigInfo, loaderKey);
-      loaderInstances.push(instance);
+      if (instance) loaderInstances.push(instance);
     }
     return loaderInstances;
   }
@@ -228,7 +229,7 @@ export class Application implements ApplicationInterface {
   /**
    * 当前应用端口私有变量
    */
-  private resolvedPort: number;
+  private resolvedPort: number | undefined;
 
   /**
    * 获取应用端口
@@ -243,7 +244,7 @@ export class Application implements ApplicationInterface {
   /**
    * 当前应用使用的端口
    */
-  get port(): number {
+  get port(): number | undefined {
     return this.resolvedPort;
   }
 

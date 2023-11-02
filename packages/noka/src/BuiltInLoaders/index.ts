@@ -46,7 +46,7 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
     loader: BodyLoader,
     options: {},
   },
-  model: {
+  entity: {
     loader: EntityLoader,
     options: { path: "bin:/entities/**/*:bin" },
   },

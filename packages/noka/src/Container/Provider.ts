@@ -27,6 +27,6 @@ export function Provider(name?: string | symbol, options?: ProviderOptions) {
  * 获取一个类型的 provider 元信息
  * @param target 类型
  */
-export function getProviderMetadata(target: unknown): ProviderMetadata {
+export function getProviderMetadata(target: object): ProviderMetadata {
   return Reflect.getMetadata(metadataKey, target);
 }

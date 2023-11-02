@@ -44,8 +44,8 @@ export function exec(script: string[] | string, opts?: any) {
 export async function resultOfExec(script: string[] | string, opts?: any) {
   const helper = new BufferHelper();
   const onStart = (child: ChildProcess) => {
-    child.stdout.on("data", (chunk) => helper.concat(chunk));
-    child.stderr.on("data", (chunk) => helper.concat(chunk));
+    child.stdout?.on("data", (chunk) => helper.concat(chunk));
+    child.stderr?.on("data", (chunk) => helper.concat(chunk));
   };
   await exec(script, { ...opts, stdio: "pipe", onStart });
   return helper.toBuffer().toString();

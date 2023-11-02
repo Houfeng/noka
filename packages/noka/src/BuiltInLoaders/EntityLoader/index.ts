@@ -22,7 +22,7 @@ const defaultOptions = {
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     await super.load();
-    const { path, ...others } = this.options;
+    const { path = "bin:/entities/**/*:bin", ...others } = this.options;
     defaultOptions.location = this.app.resolvePath(defaultOptions.location);
     const dataSource = new DataSource({
       ...defaultOptions,
@@ -47,7 +47,7 @@ export function entityRepoInjectHandler(
   meta: InjectPropMetadata,
 ) {
   const source = container.get<DataSource>(MODEL_ENTITY_KEY);
-  return source.getRepository(meta.options?.extra as Function);
+  return source?.getRepository(meta.options?.extra as Function);
 }
 
 
@@ -56,7 +56,7 @@ export function entityRepoInjectHandler(
  * @param entity 实体类型
  */
 export function EntityRepo(entity: { new: () => any } | Function) {
-  return Inject(null, { handle: entityRepoInjectHandler, extra: entity });
+  return Inject(undefined, { handle: entityRepoInjectHandler, extra: entity });
 }
 
 
@@ -67,7 +67,7 @@ export function EntityRepo(entity: { new: () => any } | Function) {
 export function entityManagerInjectHandler(
   container: ContainerType,
 ) {
-  return container.get<DataSource>(MODEL_ENTITY_KEY).manager;
+  return container.get<DataSource>(MODEL_ENTITY_KEY)?.manager;
 }
 
 /**
@@ -75,5 +75,5 @@ export function entityManagerInjectHandler(
  * @param entity 实体类型
  */
 export function EntityManager() {
-  return Inject(null, { handle: entityManagerInjectHandler });
+  return Inject(undefined, { handle: entityManagerInjectHandler });
 }

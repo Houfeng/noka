@@ -13,7 +13,7 @@ export interface ApplicationInterface {
   /**
    * 当前环境标识（取值 NOKA_ENV || NODE_ENV）
    */
-  readonly env: string;
+  readonly env: string | undefined;
 
   /**
    * 是否是开发模式
@@ -50,7 +50,7 @@ export interface ApplicationInterface {
   /**
    * 应用端口
    */
-  readonly port: number;
+  readonly port: number | undefined;
 
   /**
    * 应用配置
@@ -75,5 +75,5 @@ export interface ApplicationInterface {
   /**
    * 日志对象
    */
-  readonly logger: LoggerInterface;
+  readonly logger: LoggerInterface | undefined;
 }

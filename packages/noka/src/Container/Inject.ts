@@ -23,7 +23,7 @@ export type InjectOptions = {
 export type InjectPropMetadata = {
   name: string | symbol;
   member: string | symbol;
-  options: InjectOptions;
+  options: InjectOptions | undefined;
 };
 
 /**
