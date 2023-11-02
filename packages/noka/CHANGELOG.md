@@ -1,5 +1,13 @@
 # noka
 
+## 2.0.7
+
+### Patch Changes
+
+- 严格的非空检查
+- Updated dependencies
+  - noka-utility@2.0.7
+
 ## 2.0.6
 
 ### Patch Changes
