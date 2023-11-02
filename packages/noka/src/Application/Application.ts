@@ -229,7 +229,7 @@ export class Application implements ApplicationInterface {
   /**
    * 当前应用端口私有变量
    */
-  private resolvedPort: number | undefined;
+  private resolvedPort?: number;
 
   /**
    * 获取应用端口

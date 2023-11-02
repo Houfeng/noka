@@ -1,15 +1,15 @@
 /** @format */
 
 import { Provider, Repository, EntityRepo } from "noka";
-import { Item } from "../entities/Item";
+import { User } from "../entities/User";
 
 @Provider()
-export class ItemService {
-  @EntityRepo(Item)
-  repo: Repository<Item> | undefined;
+export class UserService {
+  @EntityRepo(User)
+  repo?: Repository<User>;
 
   async create() {
-    const demo = new Item();
+    const demo = new User();
     demo.name = "test";
     return this.repo?.save(demo);
   }

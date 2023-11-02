@@ -52,7 +52,7 @@ export abstract class AbstractLoader<
     }
   }
 
-  private watcher: FSWatcher | undefined;
+  private watcher?: FSWatcher;
 
   /**
    * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程

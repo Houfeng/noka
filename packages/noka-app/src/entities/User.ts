@@ -3,10 +3,10 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "noka";
 
 @Entity()
-export class Item {
+export class User {
   @PrimaryGeneratedColumn()
-  id: string | undefined;
+  id?: string;
 
   @Column()
-  name: string | undefined;
+  name?: string;
 }

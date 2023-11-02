@@ -1,7 +1,7 @@
 /** @format */
 
 import { Controller, Get, Inject, Body, Post, View } from "noka";
-import { ItemService } from "../services/ItemService";
+import { UserService } from "../services/UserService";
 
 @Controller("/")
 export class HomeController {
@@ -11,19 +11,19 @@ export class HomeController {
     return { message: "Noka" };
   }
 
-  @Inject("ItemService")
-  itemService?: ItemService;
+  @Inject("UserService")
+  userService?: UserService;
 
   @Get("/demo")
   @Post("/demo")
   @View("demo")
   async demo(@Body("del") delId: string, @Body("add") isAdd: string) {
     if (isAdd) {
-      await this.itemService?.create();
+      await this.userService?.create();
     } else if (delId) {
-      await this.itemService?.remove(delId);
+      await this.userService?.remove(delId);
     }
-    const items = await this.itemService?.list();
+    const items = await this.userService?.list();
     return { items };
   }
 }
