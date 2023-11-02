@@ -4,5 +4,8 @@
     "baseUrl": "./",
     "outDir": "./dist/",
     "declarationDir": "./types/",
-  }
+  },
+  "include": [
+    "./src/"
+  ]
 }

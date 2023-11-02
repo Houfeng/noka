@@ -13,7 +13,7 @@ export async function getClientAssets(): Promise<Assets> {
   const manifestFile = "pi-manifest.json";
   if (NOKA_ENV === "development") {
     const res = await fetch(`http://127.0.0.1:8081/${manifestFile}`);
-    return res.json();
+    return res.json() as Promise<Assets>;
   } else {
     if (cachedAssets) return cachedAssets;
     const file = resolve(__dirname, `../../assets/app/${manifestFile}`);

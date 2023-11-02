@@ -2,14 +2,15 @@
   "extends": "noka-tsconfig/tsconfig.json",
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "./dist/",
-    "declarationDir": "./types/",
+    "outDir": "../assets/app/",
+    "declarationDir": "./types/app/",
     "jsx": "react",
     "lib": [
+      "DOM",
       "ESNext"
     ],
   },
   "include": [
-    "./src/"
+    "./"
   ]
 }
