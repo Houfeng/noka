@@ -5,23 +5,23 @@ import { Entity, Column, PrimaryGeneratedColumn } from "noka";
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
-  id: string;
+  id?: string;
 
   @Column()
-  account: string;
+  account?: string;
 
   @Column()
-  password: string;
+  password?: string;
 
   @Column()
-  name: string;
+  name?: string;
 
   @Column()
-  avatar: string;
+  avatar?: string;
 
   @Column()
-  phone: string;
+  phone?: string;
 
   @Column()
-  email: string;
+  email?: string;
 }

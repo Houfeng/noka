@@ -4,10 +4,10 @@ import { UserService } from "../services/UserService";
 @Controller("/api/users", 10000)
 export class UserController {
   @Inject("UserService")
-  userService: UserService;
+  userService?: UserService;
 
   @Get("/")
   async list(@Query("skip") skip = 0, @Query("limit") limit = 10) {
-    return this.userService.list({ skip, limit });
+    return this.userService?.list({ skip, limit });
   }
 }
