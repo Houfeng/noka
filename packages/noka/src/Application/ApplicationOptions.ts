@@ -11,6 +11,11 @@ export type ApplicationOptions = {
   port?: number;
 
   /**
+   * 绑定的主机名
+   */
+  hostname?: string;
+
+  /**
    * 应用名称（优先级为 options.name>config.name>package.name）
    */
   name?: string;

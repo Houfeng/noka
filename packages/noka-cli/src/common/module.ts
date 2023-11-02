@@ -27,7 +27,7 @@ export async function getVersionInfo(name: string, version: string) {
   const distTags = modInfo["dist-tags"] || {};
   version = version || "latest";
   version = distTags[version] || version;
-  const lastVersion = Object.keys(modInfo.versions).pop() || '';
+  const lastVersion = Object.keys(modInfo.versions).pop() || "";
   return modInfo.versions[version] || modInfo.versions[lastVersion];
 }
 
@@ -54,7 +54,7 @@ export function mkdir(dir: string) {
 }
 
 export async function download(name: string, version?: string) {
-  const info = await getVersionInfo(name, version || '');
+  const info = await getVersionInfo(name, version || "");
   const pkgDir = resolve(homedir(), "./.noka-cli/modules");
   await mkdir(pkgDir);
   const pkgFile = resolve(pkgDir, `${name}@${info.version}.tgz`);

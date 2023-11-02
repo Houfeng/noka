@@ -41,7 +41,7 @@ export class Application implements ApplicationInterface {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) { }
+  constructor(protected options: ApplicationOptions = {}) {}
 
   /**
    * 当前环境标识
@@ -249,6 +249,13 @@ export class Application implements ApplicationInterface {
   }
 
   /**
+   * 绑定的主机名
+   */
+  get hostname() {
+    return this.options?.hostname || this.config.hostname;
+  }
+
+  /**
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationInterface> {
@@ -256,7 +263,7 @@ export class Application implements ApplicationInterface {
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     await this.resolvePort();
-    this.server.listen(this.port);
+    this.server.listen(this.port, this.hostname);
     return this;
   }
 }

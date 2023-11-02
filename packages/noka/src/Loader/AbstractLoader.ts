@@ -15,7 +15,8 @@ type Exports = Record<string, unknown>;
 export abstract class AbstractLoader<
   T extends LoaderOptions = LoaderOptions,
   C = unknown,
-> implements LoaderInstance {
+> implements LoaderInstance
+{
   /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
