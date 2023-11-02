@@ -1,1 +1,1 @@
-eslint ./packages/*/src/**/*.{ts,tsx} --fix
+eslint --fix --ext .ts,.tsx ./packages/*/src/

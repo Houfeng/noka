@@ -4,13 +4,16 @@ import { AbstractLoader } from "../../Loader";
 
 const { Parser } = require("confman/index");
 
-export const CONFIG_ENTITY_KEY = Symbol('Config');
+export const CONFIG_ENTITY_KEY = Symbol("Config");
 
 /**
  * 配置注入处理函数
  * @param options 注入选项
  */
-function configInjectHandler(container: ContainerType, meta: InjectPropMetadata) {
+function configInjectHandler(
+  container: ContainerType,
+  meta: InjectPropMetadata,
+) {
   const configObject = container.get(CONFIG_ENTITY_KEY);
   return getByPath(configObject, String(meta.name));
 }
@@ -28,17 +31,17 @@ export function Config(path: string) {
  */
 export class ConfigLoader extends AbstractLoader {
   async load() {
-    const { path = 'app:/configs/config' } = this.options;
+    const { path = "app:/configs/config" } = this.options;
     const configPath = this.app.resolvePath(path);
     const configParser = new Parser({ env: this.app.env });
     const configObject = await configParser.load(configPath);
     this.app.container.register(CONFIG_ENTITY_KEY, {
-      type: 'value',
+      type: "value",
       value: configObject,
     });
     this.watch([`${configPath}.*`, `${configPath}/**/*.*`]);
   }
   async unload(): Promise<void> {
-    this.unWatch()
+    this.unWatch();
   }
 }

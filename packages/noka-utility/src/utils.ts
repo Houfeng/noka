@@ -3,9 +3,9 @@
 import mkdirp from "mkdirp";
 import { existsSync, readFile, writeFile } from "fs";
 import { dirname, normalize } from "path";
-import { newGuid } from 'ntils';
+import { newGuid } from "ntils";
 
-export * from 'ntils';
+export * from "ntils";
 
 /**
  * 生成一个 UUID
@@ -88,7 +88,7 @@ export function isNodePackageDir(dir: string) {
 /**
  * 通过包内路径解析出来所在的包根目录
  * @param path 包内路径
- * @returns 
+ * @returns
  */
 export function resolvePackageRoot(path: string) {
   let root = path;

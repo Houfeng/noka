@@ -3,7 +3,7 @@ import { AbstractLoader } from "../../Loader";
 import { uuid } from "noka-utility";
 import { Ctx } from "../ControllerLoader";
 
-export { type Session as ContextSession } from 'koa-session';
+export { type Session as ContextSession } from "koa-session";
 
 export const Session = () => Ctx("session");
 
@@ -11,7 +11,7 @@ const SIGN_KEYS: string[] = [uuid()];
 
 type SessionLoaderOptions = {
   keys?: string[];
-}
+};
 
 /**
  * Session 加载器

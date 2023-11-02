@@ -5,13 +5,13 @@ import { getRouteMappingMetaItems, RouteMappingMeta } from "./RouteMapping";
 import { IoCLoader } from "../IoCLoader";
 import { normalize, resolve } from "path";
 
-export type DebugRouteInfo = Omit<RouteMappingMeta, 'priority'> & {
+export type DebugRouteInfo = Omit<RouteMappingMeta, "priority"> & {
   file: string;
   controller: string;
   priority: string;
-}
+};
 
-const metadataKey = Symbol('Controller');
+const metadataKey = Symbol("Controller");
 
 /**
  * 控制器信息
@@ -19,7 +19,7 @@ const metadataKey = Symbol('Controller');
 export type ControllerMetadata = {
   path: string;
   priority: number;
-}
+};
 
 /**
  * 控制器注解，可用来声明一个 Controller 类
@@ -39,7 +39,6 @@ export function getControllerMeta(target: any): ControllerMetadata {
   return Reflect.getMetadata(metadataKey, target);
 }
 
-
 /**
  * Controller 加载器
  */
@@ -55,7 +54,7 @@ export class ControllerLoader extends IoCLoader {
   protected debugRouteItems: DebugRouteInfo[] = [];
 
   protected get debugDir() {
-    return this.app.resolvePath('./debug');
+    return this.app.resolvePath("./debug");
   }
 
   protected appendDebugRouteItems(info: DebugRouteInfo) {
@@ -67,7 +66,10 @@ export class ControllerLoader extends IoCLoader {
     if (!this.app.isLaunchSourceCode || this.debugRouteItems.length < 1) return;
     await mkdir(this.debugDir);
     const dumpFile = resolve(this.debugDir, "./controllers.json");
-    return writeText(dumpFile, JSON.stringify(this.debugRouteItems, null, "  "));
+    return writeText(
+      dumpFile,
+      JSON.stringify(this.debugRouteItems, null, "  "),
+    );
   }
 
   /**
@@ -89,7 +91,9 @@ export class ControllerLoader extends IoCLoader {
       const controllerInstance = new controller();
       this.app.container.inject(controllerInstance);
       ctx.body = await this.invokeControllerMethod(
-        ctx, controllerInstance, method
+        ctx,
+        controllerInstance,
+        method,
       );
       ctx.preventCache = true;
     };
@@ -98,7 +102,7 @@ export class ControllerLoader extends IoCLoader {
       verb,
       path: routePath,
       priority: `${controllerMeta.priority}.${priority}`,
-      file: controller.__file__?.replace(this.app.rootDir, ''),
+      file: controller.__file__?.replace(this.app.rootDir, ""),
       controller: controller.name,
       method,
     });
@@ -142,10 +146,11 @@ export class ControllerLoader extends IoCLoader {
   public async load() {
     await super.load();
     const controllers = this.content.slice(0);
-    controllers.sort((a, b) =>
-      getControllerMeta(b).priority - getControllerMeta(a).priority)
+    controllers.sort(
+      (a, b) => getControllerMeta(b).priority - getControllerMeta(a).priority,
+    );
     controllers.forEach((controller) => {
-      this.registerController(controller)
+      this.registerController(controller);
     });
     await this.dumpDebugRouteItemsToFile();
     this.app.logger?.info("Controller ready");

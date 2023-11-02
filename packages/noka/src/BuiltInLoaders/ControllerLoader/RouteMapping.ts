@@ -8,7 +8,7 @@ export type RouteMappingMeta = {
   path: string;
   priority: number;
   method: string;
-}
+};
 
 /**
  * 获取所有路由映射

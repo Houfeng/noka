@@ -17,8 +17,7 @@ import { test } from "./commands/test";
 import { showBrand } from "./common/brand";
 import { release } from "./commands/release";
 
-export * from './common/Hooks';
-
+export * from "./common/Hooks";
 
 upgrade.check();
 const pkg = require("../package.json");

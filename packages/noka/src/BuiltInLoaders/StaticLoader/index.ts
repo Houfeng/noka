@@ -14,13 +14,13 @@ export class StaticLoader extends AbstractLoader {
    * 加载静态资源相关模块
    */
   public async load() {
-    const { path = 'app:/assets' } = this.options;
+    const { path = "app:/assets" } = this.options;
     const staticRoot = this.app.resolvePath(path);
     if (!existsSync(staticRoot)) return;
     this.app.server.use(async (ctx, next) => {
       await next();
       if (ctx.preventCache) return;
-      const noopNext: any = () => { };
+      const noopNext: any = () => {};
       await compose([conditional(), etag()])(ctx, noopNext);
     });
     this.app.server.use(serve(staticRoot));

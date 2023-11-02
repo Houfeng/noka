@@ -1,6 +1,4 @@
-
 export const metadataKey = Symbol("Context");
-
 
 /**
  * 请求上下文注入映射信息
@@ -9,7 +7,7 @@ export type ContextMappingMeta = {
   type: string;
   name: string;
   index: number;
-}
+};
 
 /**
  * 从 ctx 上获取内容

@@ -13,7 +13,7 @@ const VIEWS_ENTITY_KEY = Symbol("View");
 export type ViewLoaderOptions = {
   path?: string;
   extname?: string;
-}
+};
 
 /**
  * 静态资源 加载器
@@ -43,18 +43,17 @@ export class ViewLoader<
       }),
     );
     this.app.container.register(VIEWS_ENTITY_KEY, {
-      type: 'value',
-      value: viewMap
+      type: "value",
+      value: viewMap,
     });
     this.watch(viewPattern, { cwd: viewRoot });
     this.app.logger?.info("View ready");
   }
 
   async unload(): Promise<void> {
-    this.unWatch()
+    this.unWatch();
   }
 }
-
 
 /**
  * 视图注入处理函数
@@ -64,14 +63,14 @@ export function viewInjectHandler(
   container: ContainerType,
   meta: InjectPropMetadata,
   instance: unknown,
-  originMethod: unknown
+  originMethod: unknown,
 ) {
   const views = container.get(VIEWS_ENTITY_KEY);
   const render = getByPath(views, String(meta.name));
   return !originMethod || !isFunction(originMethod)
     ? render
     : async (...args: any[]) =>
-      render(await originMethod.call(instance, ...args));
+        render(await originMethod.call(instance, ...args));
 }
 
 /**

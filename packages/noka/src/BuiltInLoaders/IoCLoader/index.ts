@@ -1,5 +1,5 @@
 import { AbstractLoader } from "../../Loader/AbstractLoader";
-import { getProviderMetadata } from '../../Container/Provider';
+import { getProviderMetadata } from "../../Container/Provider";
 import { EntityConstructor } from "../../Container/EntityInfo";
 import { LoaderOptions } from "../../Loader/LoaderOptions";
 
@@ -9,13 +9,13 @@ import { LoaderOptions } from "../../Loader/LoaderOptions";
 export class IoCLoader<
   T extends LoaderOptions = LoaderOptions,
   C extends object = object,
-> extends AbstractLoader<T, C>{
+> extends AbstractLoader<T, C> {
   /**
    * 加载指定类型到容器中
    */
   public async load() {
     await super.loadContent();
-    this.content.forEach(value => {
+    this.content.forEach((value) => {
       const meta = getProviderMetadata(value);
       if (meta?.name && meta?.options?.static) {
         this.app.container.register(meta.name, {
@@ -26,7 +26,7 @@ export class IoCLoader<
         this.app.container.register(meta?.name, {
           type: "class",
           value: value as EntityConstructor<any>,
-          cacheable: meta.options?.singleton
+          cacheable: meta.options?.singleton,
         });
       }
     });

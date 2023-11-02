@@ -1,12 +1,12 @@
 import { DataSource, DataSourceOptions } from "typeorm";
-import { LoaderOptions } from '../../Loader/LoaderOptions';
+import { LoaderOptions } from "../../Loader/LoaderOptions";
 import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
-export * from 'typeorm';
+export * from "typeorm";
 
-const MODEL_ENTITY_KEY = Symbol('Model');
+const MODEL_ENTITY_KEY = Symbol("Model");
 
-export type EntityLoaderOptions = LoaderOptions & DataSourceOptions
+export type EntityLoaderOptions = LoaderOptions & DataSourceOptions;
 
 const defaultOptions = {
   type: "sqljs",
@@ -31,7 +31,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
     });
     this.app.container.register(MODEL_ENTITY_KEY, {
       type: "value",
-      value: dataSource
+      value: dataSource,
     });
     await dataSource.initialize();
     this.app.logger?.info("Model ready");
@@ -50,7 +50,6 @@ export function entityRepoInjectHandler(
   return source?.getRepository(meta.options?.extra as Function);
 }
 
-
 /**
  * 向目标注入数据实体仓库
  * @param entity 实体类型
@@ -59,14 +58,11 @@ export function EntityRepo(entity: { new: () => any } | Function) {
   return Inject(undefined, { handle: entityRepoInjectHandler, extra: entity });
 }
 
-
 /**
  * 实体管理器注入处理函数
  * @param options 注入选项
  */
-export function entityManagerInjectHandler(
-  container: ContainerType,
-) {
+export function entityManagerInjectHandler(container: ContainerType) {
   return container.get<DataSource>(MODEL_ENTITY_KEY)?.manager;
 }
 
