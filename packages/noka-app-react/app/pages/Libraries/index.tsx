@@ -18,7 +18,7 @@ export const Libraries = observer(function Libraries() {
       <Box
         sx={{
           position: "sticky",
-          boxShadow: 2,
+          boxShadow: 1,
           m: -3,
           top: { xs: 56, sm: 64 },
           zIndex: 1,
