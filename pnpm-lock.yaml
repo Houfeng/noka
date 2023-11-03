@@ -119,6 +119,9 @@ importers:
       koa-static:
         specifier: 5.0.0
         version: 5.0.0
+      mime:
+        specifier: 3.0.0
+        version: 3.0.0
       noka-utility:
         specifier: workspace:*
         version: link:../noka-utility
@@ -159,6 +162,9 @@ importers:
       '@types/koa-static':
         specifier: 4.0.1
         version: 4.0.1
+      '@types/mime':
+        specifier: 3.0.3
+        version: 3.0.3
       '@types/node':
         specifier: 20.8.9
         version: 20.8.9
@@ -6624,6 +6630,12 @@ packages:
     engines: {node: '>=4'}
     hasBin: true
     dev: true
+
+  /mime@3.0.0:
+    resolution: {integrity: sha512-jSCU7/VB1loIWBZe14aEYHU/+1UMEHoaO7qxCOVJOw9GgH72VAWppxNcjU+x9a2k3GSIBXNKxXQFqRvvZ7vr3A==}
+    engines: {node: '>=10.0.0'}
+    hasBin: true
+    dev: false
 
   /mimic-fn@1.2.0:
     resolution: {integrity: sha512-jf84uxzwiuiIVKiOLpfYk7N46TSy8ubTonmneY9vrpHNAnp0QBt2BxWV9dO3/j+BoVAb+a5G6YDPW3M5HOdMWQ==}
