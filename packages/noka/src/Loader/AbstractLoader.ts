@@ -86,33 +86,36 @@ export abstract class AbstractLoader<
   /**
    * 已加载的资源或类型列表
    */
-  protected content: C[] = [];
+  protected items: C[] = [];
 
   /**
    * 加载通过 path 指定的内容
    */
-  protected async loadContent() {
+  protected async loadModules(): Promise<C[]> {
     const { rootDir } = this.app;
-    if (!existsSync(rootDir)) return;
+    if (!existsSync(rootDir)) return [];
     const { path } = this.options;
-    if (!isString(path)) return;
+    if (!isString(path)) return [];
     const moduleFiles = await this.glob(path);
+    const items: C[] = [];
     moduleFiles.forEach((moduleFile) => {
-      const modules = this.importModule(moduleFile);
-      if (!modules) return;
-      Object.keys(modules).forEach((name) => {
-        const mod: any = modules[name];
+      const fileExports = this.importModule(moduleFile);
+      if (!fileExports) return;
+      Object.keys(fileExports).forEach((name) => {
+        const mod: any = fileExports[name];
+        // only debug
         mod.__file__ = moduleFile;
-        this.content.push(mod);
+        items.push(mod);
       });
     });
+    return items;
   }
 
   /**
    * 由应用调用的 load 方法
    */
   async load() {
-    await this.loadContent();
+    this.items = await this.loadModules();
   }
 
   /**

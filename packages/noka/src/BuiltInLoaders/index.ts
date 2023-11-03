@@ -13,7 +13,7 @@ import { ViewLoader } from "./ViewLoader";
 import { BodyLoader } from "./BodyLoader";
 import { LoaderConfigInfo } from "../Loader";
 
-export * from "./IoCLoader";
+export * from "./ProviderLoader";
 export * from "./ControllerLoader";
 export * from "./ServiceLoader";
 export * from "./ConfigLoader";

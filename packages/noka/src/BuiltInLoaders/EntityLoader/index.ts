@@ -4,7 +4,7 @@ import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 export * from "typeorm";
 
-const MODEL_ENTITY_KEY = Symbol("Model");
+const entityKey = Symbol("Entity");
 
 export type EntityLoaderOptions = LoaderOptions & DataSourceOptions;
 
@@ -29,7 +29,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
       ...others,
       entities: [this.app.resolvePath(path)],
     });
-    this.app.container.register(MODEL_ENTITY_KEY, {
+    this.app.container.register(entityKey, {
       type: "value",
       value: dataSource,
     });
@@ -46,7 +46,7 @@ export function entityRepoInjectHandler(
   container: ContainerType,
   meta: InjectPropMetadata,
 ) {
-  const source = container.get<DataSource>(MODEL_ENTITY_KEY);
+  const source = container.get<DataSource>(entityKey);
   return source?.getRepository(meta.options?.extra as Function);
 }
 
@@ -63,7 +63,7 @@ export function EntityRepo(entity: { new: () => any } | Function) {
  * @param options 注入选项
  */
 export function entityManagerInjectHandler(container: ContainerType) {
-  return container.get<DataSource>(MODEL_ENTITY_KEY)?.manager;
+  return container.get<DataSource>(entityKey)?.manager;
 }
 
 /**

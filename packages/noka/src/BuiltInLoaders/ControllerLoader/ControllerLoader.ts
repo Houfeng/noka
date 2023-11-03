@@ -2,7 +2,7 @@ import { ParameterizedContext } from "koa";
 import { getByPath, writeText, mkdir } from "noka-utility";
 import { getContextMeta } from "./ContextInjector";
 import { getRouteMappingMetaItems, RouteMappingMeta } from "./RouteMapping";
-import { IoCLoader } from "../IoCLoader";
+import { ProviderLoader } from "../ProviderLoader";
 import { normalize, resolve } from "path";
 
 export type DebugRouteInfo = Omit<RouteMappingMeta, "priority"> & {
@@ -42,7 +42,7 @@ export function getControllerMeta(target: any): ControllerMetadata {
 /**
  * Controller 加载器
  */
-export class ControllerLoader extends IoCLoader {
+export class ControllerLoader extends ProviderLoader {
   /**
    * 获取请求方法
    * @param verb 请求动作（HTTP Method）
@@ -145,7 +145,7 @@ export class ControllerLoader extends IoCLoader {
    */
   public async load() {
     await super.load();
-    const controllers = this.content.slice(0);
+    const controllers = this.items.slice(0);
     controllers.sort(
       (a, b) => getControllerMeta(b).priority - getControllerMeta(a).priority,
     );

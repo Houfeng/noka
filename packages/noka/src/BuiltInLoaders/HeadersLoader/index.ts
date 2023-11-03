@@ -10,7 +10,7 @@ export class HeadersLoader<
    * 配置默认响应头
    */
   public async load() {
-    const headers = { server: this.app.name, ...this.options };
+    const headers = { server: "Noka", ...this.options };
     this.app.server.use(async (ctx, next) => {
       for (const key in headers) ctx.set(key, headers[key]);
       await next();

@@ -11,7 +11,7 @@ export class HomeController {
     return { message: "Noka" };
   }
 
-  @Inject("UserService")
+  @Inject()
   userService?: UserService;
 
   @Get("/demo")

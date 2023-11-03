@@ -3,7 +3,7 @@ import { UserService } from "../services/UserService";
 
 @Controller("/api/users", 10000)
 export class UserController {
-  @Inject("UserService")
+  @Inject()
   userService?: UserService;
 
   @Get("/")

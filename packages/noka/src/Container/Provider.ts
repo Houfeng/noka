@@ -1,5 +1,3 @@
-/** @format */
-
 export type ProviderOptions = {
   singleton?: boolean;
   static?: boolean;
@@ -13,7 +11,7 @@ export type ProviderMetadata = {
 const metadataKey = Symbol("provider");
 
 /**
- * 声明一个类，将其放入 IoC 容器内
+ * 为一个类型声明向容器注册的信息，以备从 metadata 中读取并注册到 Ioc 容器中
  * @param name 名称
  */
 export function Provider(name?: string | symbol, options?: ProviderOptions) {

@@ -21,7 +21,7 @@ export type InjectOptions = {
  * 注入信息
  */
 export type InjectPropMetadata = {
-  name: string | symbol;
+  name?: string | symbol;
   member: string | symbol;
   options?: InjectOptions;
 };
@@ -32,7 +32,6 @@ export type InjectPropMetadata = {
  */
 export function Inject(name?: string | symbol, options?: InjectOptions) {
   return (target: any, member: string | symbol) => {
-    if (!name) name = member;
     const metadata: InjectPropMetadata = { name, member, options };
     const metadataList: InjectPropMetadata[] =
       Reflect.getMetadata(metadataKey, target) || [];
@@ -47,4 +46,14 @@ export function Inject(name?: string | symbol, options?: InjectOptions) {
  */
 export function getInjectMetadata(target: any): InjectPropMetadata[] {
   return Reflect.getMetadata(metadataKey, target) || [];
+}
+
+/**
+ * 获取在源码（TypeScript）中声明的类型
+ * @param target 目标实例
+ * @param member 成员名称
+ * @returns
+ */
+export function getDesignType(target: any, member: string | symbol) {
+  return Reflect.getMetadata("design:type", target, member);
 }
