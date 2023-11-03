@@ -24,6 +24,7 @@ import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 import PortraitIcon from "@mui/icons-material/Portrait";
 import { useNavigate } from "react-router-dom";
 import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 const DrawerHeaderWrapper = styled("div")(({ theme }) => ({
   display: "flex",
@@ -52,6 +53,16 @@ const DrawerHeader = observer(function DrawerHeader() {
   );
 });
 
+const menus = [
+  { path: "/recently", icon: <ReceiptIcon />, title: "Recently" },
+  { path: "/albums", icon: <ImageIcon />, title: "Albums" },
+  { path: "/favorites", icon: <FavoriteIcon />, title: "Favorites" },
+  { path: "/moments", icon: <AccessTimeIcon />, title: "Moments" },
+  { path: "/tags", icon: <LocalOfferIcon />, title: "Tags" },
+  { path: "/portraits", icon: <PortraitIcon />, title: "Portraits" },
+  { path: "/locations", icon: <AddLocationAltIcon />, title: "Locations" },
+];
+
 const DrawerMenus = observer(function DrawerMenus() {
   const { navDrawerOpen } = layoutViewModel;
   const minWidth = navDrawerOpen ? 40 : 0;
@@ -59,54 +70,14 @@ const DrawerMenus = observer(function DrawerMenus() {
   const nav = useNavigate();
   return (
     <List>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/recently")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <ReceiptIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Recently"} />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/albums")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <ImageIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Albums"} />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/moments")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <AccessTimeIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Moments"} />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/tags")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <LocalOfferIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Tags"} />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/portrait")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <PortraitIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Portrait"} />
-        </ListItemButton>
-      </ListItem>
-      <ListItem disablePadding>
-        <ListItemButton sx={{ height }} onClick={() => nav("/location")}>
-          <ListItemIcon sx={{ minWidth }}>
-            <AddLocationAltIcon />
-          </ListItemIcon>
-          <ListItemText primary={navDrawerOpen && "Location"} />
-        </ListItemButton>
-      </ListItem>
+      {menus.map((it) => (
+        <ListItem disablePadding key={it.path}>
+          <ListItemButton sx={{ height }} onClick={() => nav(it.path)}>
+            <ListItemIcon sx={{ minWidth }}>{it.icon}</ListItemIcon>
+            <ListItemText primary={navDrawerOpen && it.title} />
+          </ListItemButton>
+        </ListItem>
+      ))}
       <Divider />
       <ListItem disablePadding>
         <ListItemButton sx={{ height }} onClick={() => nav("/libraries")}>
@@ -139,7 +110,7 @@ export const NavDrawer = observer(function NavDrawer() {
       sx={{ width: navDrawerWidth || 56 }}
     >
       <DrawerHeader />
-      <Divider />
+      <Divider sx={{ opacity: navDrawerOpen ? 1 : 0 }} />
       <DrawerMenus />
     </Drawer>
   );

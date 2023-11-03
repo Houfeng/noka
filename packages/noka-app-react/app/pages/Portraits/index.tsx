@@ -1,6 +1,6 @@
 import { observer } from "mota";
 import React from "react";
 
-export const Portrait = observer(function Portrait() {
+export const Portraits = observer(function Portraits() {
   return <div>Portrait</div>;
 });

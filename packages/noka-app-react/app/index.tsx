@@ -17,8 +17,9 @@ import { Albums } from "./pages/Albums";
 import { Moments } from "./pages/Moments";
 import { Tags } from "./pages/Tags";
 import { Libraries } from "./pages/Libraries";
-import { Portrait } from "./pages/Portrait";
-import { Location } from "./pages/Location";
+import { Portraits } from "./pages/Portraits";
+import { Locations } from "./pages/Locations";
+import { Favorites } from "./pages/Favorites";
 
 const theme = createTheme({
   palette: { mode: "dark" },
@@ -30,10 +31,11 @@ const Pages = observer(function Pages() {
       <Route path="/" element={<Home />} />
       <Route path="/recently" element={<Recently />} />
       <Route path="/albums" element={<Albums />} />
+      <Route path="/favorites" element={<Favorites />} />
       <Route path="/moments" element={<Moments />} />
       <Route path="/tags" element={<Tags />} />
-      <Route path="/Portrait" element={<Portrait />} />
-      <Route path="/Location" element={<Location />} />
+      <Route path="/portraits" element={<Portraits />} />
+      <Route path="/locations" element={<Locations />} />
       <Route path="/libraries/*" element={<Libraries />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/preferences" element={<Preferences />} />
