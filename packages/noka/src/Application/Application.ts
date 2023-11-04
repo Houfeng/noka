@@ -1,8 +1,8 @@
-/** @format */
-
 import Koa from "koa";
 import Router from "koa-router";
-import { BIN_DIR_NAME, SRC_DIR_NAME } from "noka-utility";
+import http from "http";
+import https from "https";
+import { BIN_DIR_NAME, SRC_DIR_NAME, iife } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
 import { CONFIG_ENTITY_KEY } from "../loaders/ConfigLoader";
@@ -17,6 +17,7 @@ import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
 import { LoggerInterface, LOGGER_ENTITY_KEY } from "../loaders";
 import { isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
+import { readFileSync } from "fs";
 
 export {
   type Request,
@@ -41,7 +42,9 @@ export class Application implements ApplicationLike {
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
-  constructor(protected options: ApplicationOptions = {}) {}
+  constructor(protected options: ApplicationOptions = {}) {
+    process.once("beforeExit", () => this.unloadAllLoaders());
+  }
 
   /**
    * 当前环境标识
@@ -212,7 +215,7 @@ export class Application implements ApplicationLike {
   /**
    * 加载所有 loaders
    */
-  async loadAllLoaders() {
+  private async loadAllLoaders() {
     const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
     const configLoaders = this.createLoaderInstances(this.config.loaders);
     this.loaders = [...buildInLoaders, ...configLoaders];
@@ -222,8 +225,15 @@ export class Application implements ApplicationLike {
   /**
    * 卸载所有 loaders
    */
-  async unloadAllLoaders() {
-    for (const loader of this.loaders) await loader.unload();
+  private async launchAllLoaders() {
+    for (const loader of this.loaders) await loader.launch?.();
+  }
+
+  /**
+   * 卸载所有 loaders
+   */
+  private async unloadAllLoaders() {
+    for (const loader of this.loaders) await loader.unload?.();
   }
 
   /**
@@ -256,6 +266,26 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 负责实际监听客户端请求的 http(s) server 实例
+   */
+  readonly listener = iife(() => {
+    const { secure } = this.config;
+    if (secure) {
+      const { key, cert, ...others } = secure;
+      return https.createServer(
+        {
+          key: readFileSync(this.resolvePath(key)),
+          cert: readFileSync(this.resolvePath(cert)),
+          ...others,
+        },
+        this.server.callback,
+      );
+    } else {
+      return http.createServer(this.server.callback);
+    }
+  });
+
+  /**
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationLike> {
@@ -263,7 +293,8 @@ export class Application implements ApplicationLike {
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     await this.resolvePort();
-    this.server.listen(this.port, this.hostname);
+    this.listener.listen(this.port, this.hostname);
+    await this.launchAllLoaders();
     return this;
   }
 }

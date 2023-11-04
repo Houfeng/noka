@@ -9,7 +9,12 @@ export class SocketLoader extends ProviderLoader<
   SocketOptions,
   SocketController
 > {
+  bindApp() {
+    this.app.listener;
+  }
+
   async load() {
     await super.load();
+    this.bindApp();
   }
 }

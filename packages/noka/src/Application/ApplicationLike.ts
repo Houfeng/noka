@@ -5,6 +5,11 @@ import * as Router from "koa-router";
 import { Container } from "../Container";
 import { LoggerInterface } from "../loaders/LoggerLoader";
 import { ApplicationConfig } from "./ApplicationConfig";
+import { IncomingMessage, Server, ServerResponse } from "http";
+
+export type ListenServerLike = {
+  listen: (port: number, hostname: string, callback?: () => void) => void;
+};
 
 /**
  * 全局应用接口定义
@@ -61,6 +66,12 @@ export interface ApplicationLike {
    * 应用内部 server 实例（Koa）
    */
   readonly server: Koa;
+
+  /**
+   * 负责实际监听客户端请求的 http(s) server 实例
+   * @returns
+   */
+  readonly listener: Server<typeof IncomingMessage, typeof ServerResponse>;
 
   /**
    * 应用 Ioc 容器实例

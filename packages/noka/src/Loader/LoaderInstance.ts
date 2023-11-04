@@ -5,6 +5,7 @@
  */
 
 export interface LoaderInstance {
-  load(): Promise<void>;
-  unload(): Promise<void>;
+  load: () => Promise<void>;
+  launch?: () => Promise<void>;
+  unload?: () => Promise<void>;
 }
