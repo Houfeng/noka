@@ -6,6 +6,9 @@ import { LibraryViewModel } from "./LibraryViewModel";
 import { useParams } from "react-router-dom";
 import { LibrariesNavBar } from "./LibrariesNavBar";
 import { LibrariesList } from "./LibrariesList";
+import { LibrariesIndexed } from "./LibrariesIndexed";
+
+export { LibrariesIndexed };
 
 export const Libraries = observer(function Libraries() {
   const theme = useTheme();

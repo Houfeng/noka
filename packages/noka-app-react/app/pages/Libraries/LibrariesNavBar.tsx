@@ -1,22 +1,23 @@
-import { Breadcrumbs, Link, Typography } from "@mui/material";
+import { Box, Breadcrumbs, IconButton, Link, Typography } from "@mui/material";
 import { observer } from "mota";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import HomeIcon from "@mui/icons-material/Home";
 import { LibraryViewModel } from "./LibraryViewModel";
+import FactCheckIcon from "@mui/icons-material/FactCheck";
 
 export type LibrariesNavBarProps = {
   vm: LibraryViewModel;
 };
 
-export const LibrariesNavBar = observer(function LibrariesNavBar(
+const NavBreadcrumbs = observer(function NavBreadcrumbs(
   props: LibrariesNavBarProps,
 ) {
   const { vm } = props;
   const pathItems = vm.path.split("/").filter((it) => !!it);
   const nav = useNavigate();
   return (
-    <Breadcrumbs aria-label="breadcrumb">
+    <Breadcrumbs aria-label="breadcrumb" sx={{ flexGrow: 1 }}>
       <Link
         key="/"
         underline="hover"
@@ -42,5 +43,21 @@ export const LibrariesNavBar = observer(function LibrariesNavBar(
         );
       })}
     </Breadcrumbs>
+  );
+});
+
+export const LibrariesNavBar = observer(function LibrariesNavBar(
+  props: LibrariesNavBarProps,
+) {
+  const nav = useNavigate();
+  return (
+    <Box sx={{ display: "flex", alignItems: "center" }}>
+      <NavBreadcrumbs {...props} />
+      <Box sx={{ width: 100, textAlign: "right" }}>
+        <IconButton onClick={() => nav("/libraries-indexed")}>
+          <FactCheckIcon sx={{ fontSize: 18 }} />
+        </IconButton>
+      </Box>
+    </Box>
   );
 });

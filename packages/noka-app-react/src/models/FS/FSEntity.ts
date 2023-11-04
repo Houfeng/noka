@@ -1,6 +1,7 @@
 import { existsSync } from "fs";
 import { readdir, stat } from "fs/promises";
 import { basename, normalize } from "path";
+import { getMimeType } from "./FSUtils";
 
 export type FSEntityInfo = {
   type: "folder" | "file";
@@ -90,6 +91,22 @@ export class FSEntity {
       const subItem = await child.find(fn);
       if (subItem) return subItem;
     }
+  }
+
+  /**
+   * 通过 mime 类型进行文档查换
+   * @param matchType mime 类型
+   * @returns
+   */
+  async filterByMime(matchType: string) {
+    const isVague = matchType.includes("*");
+    const matchPrefix = isVague ? matchType.split("*")[0] : "";
+    return this.filter((it) => {
+      const fileType = getMimeType(it.path);
+      return isVague
+        ? fileType.startsWith(matchPrefix)
+        : fileType === matchType;
+    });
   }
 
   /**

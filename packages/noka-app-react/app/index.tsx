@@ -20,6 +20,7 @@ import { Libraries } from "./pages/Libraries";
 import { Portraits } from "./pages/Portraits";
 import { Locations } from "./pages/Locations";
 import { Favorites } from "./pages/Favorites";
+import { LibrariesIndexed } from "./pages/Libraries";
 
 const theme = createTheme({
   palette: { mode: "dark" },
@@ -37,6 +38,7 @@ const Pages = observer(function Pages() {
       <Route path="/portraits" element={<Portraits />} />
       <Route path="/locations" element={<Locations />} />
       <Route path="/libraries/*" element={<Libraries />} />
+      <Route path="/libraries-indexed" element={<LibrariesIndexed />} />
       <Route path="/upload" element={<Upload />} />
       <Route path="/preferences" element={<Preferences />} />
       <Route path="/settings" element={<Settings />} />
