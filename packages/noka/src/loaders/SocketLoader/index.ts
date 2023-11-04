@@ -1,7 +1,7 @@
 import { LoaderOptions } from "../../Loader";
 import { EntityConstructor } from "../../Container";
 import { ProviderLoader } from "../ProviderLoader";
-import { Server } from "socket.io";
+// import { WebSocketServer } from 'ws';
 
 export type SocketOptions = LoaderOptions & {};
 export type SocketController = EntityConstructor<{}>;
@@ -10,13 +10,10 @@ export class SocketLoader extends ProviderLoader<
   SocketOptions,
   SocketController
 > {
-  io?: Server;
-  bindApp() {
-    this.io = new Server(this.app.listener);
-  }
-
+  //ws = new WebSocketServer({ noServer: true });
   async load() {
-    await super.load();
-    this.bindApp();
+    // TODO:// 待实现
+    // await super.load();
+    // if (this.items.length < 1) return;
   }
 }

@@ -8,6 +8,7 @@ export type RouteMappingMeta = {
   path: string;
   priority: number;
   method: string;
+  ability?: string;
 };
 
 /**
@@ -23,11 +24,16 @@ export function getRouteMappingMetaItems(target: any): RouteMappingMeta[] {
  * @param verb Http Method
  * @param path 请求路径
  */
-export function RouteMapping(verb: string, path = "/", priority = 0) {
+export function RouteMapping(
+  verb: string | string[],
+  path = "/",
+  priority = 0,
+  ability?: string,
+) {
   return (target: any, method: string) => {
     const controller = target.constructor;
     const mappingItems = getRouteMappingMetaItems(controller);
-    mappingItems.push({ verb, path, priority, method });
+    mappingItems.push({ verb, path, method, priority, ability });
     Reflect.metadata(metadataKey, mappingItems)(controller);
   };
 }
@@ -80,3 +86,10 @@ export const Patch = (path = "/", priority = 0) =>
  */
 export const Head = (path = "/", priority = 0) =>
   RouteMapping("HEAD", path, priority);
+
+/**
+ * 映射 See 请求
+ * @param path 请求路径
+ */
+export const Sse = (path = "/", priority = 0) =>
+  RouteMapping("GET", path, priority, "SSE");

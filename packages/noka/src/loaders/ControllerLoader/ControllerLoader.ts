@@ -4,6 +4,7 @@ import { getContextMeta } from "./ContextInjector";
 import { getRouteMappingMetaItems, RouteMappingMeta } from "./RouteMapping";
 import { ProviderLoader } from "../ProviderLoader";
 import { normalize, resolve } from "path";
+import { EventSource } from "./EventSource";
 
 export type DebugRouteInfo = Omit<RouteMappingMeta, "priority"> & {
   file: string;
@@ -44,10 +45,10 @@ export function getControllerMeta(target: any): ControllerMetadata {
  */
 export class ControllerLoader extends ProviderLoader {
   /**
-   * 获取请求方法
+   * 预处理请求方法
    * @param verb 请求动作（HTTP Method）
    */
-  protected getHttpMethods(verb: string | string[]) {
+  protected normalizeHTTPMethods(verb: string | string[]) {
     return Array.isArray(verb) ? verb : [verb];
   }
 
@@ -73,42 +74,6 @@ export class ControllerLoader extends ProviderLoader {
   }
 
   /**
-   * 注册一个路由映射
-   * @param app 应用实例
-   * @param controller 控制器类
-   * @param controllerMeta 控制器信息
-   * @param routeMapping 映射信息
-   */
-  protected registerRoute(
-    controller: any,
-    controllerMeta: ControllerMetadata,
-    routeMapping: RouteMappingMeta,
-  ) {
-    const { verb, path, priority, method } = routeMapping;
-    const httpMethods = this.getHttpMethods(verb);
-    const routePath = normalize(`/${controllerMeta.path}/${path}`);
-    const routeHandler = async (ctx: ParameterizedContext<any, {}>) => {
-      const controllerInstance = new controller();
-      this.app.container.inject(controllerInstance);
-      ctx.body = await this.invokeControllerMethod(
-        ctx,
-        controllerInstance,
-        method,
-      );
-      ctx.preventCache = true;
-    };
-    this.app.router.register(routePath, httpMethods, routeHandler);
-    this.appendDebugRouteItems({
-      verb,
-      path: routePath,
-      priority: `${controllerMeta.priority}.${priority}`,
-      file: controller.__file__?.replace(this.app.rootDir, ""),
-      controller: controller.name,
-      method,
-    });
-  }
-
-  /**
    * 执行控制器方法
    * @param context 请求上下文
    * @param controllerInstance 控制器实例
@@ -126,6 +91,72 @@ export class ControllerLoader extends ProviderLoader {
   }
 
   /**
+   * 注册一个常规路由映射
+   * @param app 应用实例
+   * @param controller 控制器类
+   * @param controllerMeta 控制器信息
+   * @param routeMapping 映射信息
+   */
+  protected registerRoute(
+    controller: any,
+    controllerMeta: ControllerMetadata,
+    routeMapping: RouteMappingMeta,
+    writeHandler?: (ctx: ParameterizedContext<any, {}>, result: any) => void,
+  ) {
+    const { verb, path, priority, method } = routeMapping;
+    const httpMethods = this.normalizeHTTPMethods(verb);
+    const routePath = normalize(`/${controllerMeta.path}/${path}`);
+    const routeHandler = async (ctx: ParameterizedContext<any, {}>) => {
+      const controllerInstance = new controller();
+      this.app.container.inject(controllerInstance);
+      const result = await this.invokeControllerMethod(
+        ctx,
+        controllerInstance,
+        method,
+      );
+      ctx.preventCache = true;
+      if (writeHandler) return writeHandler(ctx, result);
+      ctx.body = result;
+    };
+    this.app.router.register(routePath, httpMethods, routeHandler);
+    this.appendDebugRouteItems({
+      verb,
+      path: routePath,
+      priority: `${controllerMeta.priority}.${priority}`,
+      file: controller.__file__?.replace(this.app.rootDir, ""),
+      controller: controller.name,
+      method,
+    });
+  }
+
+  /**
+   * 注册一个 SSE 路由映射
+   * @param app 应用实例
+   * @param controller 控制器类
+   * @param controllerMeta 控制器信息
+   * @param routeMapping 映射信息
+   */
+  protected registerSSERoute(
+    controller: any,
+    controllerMeta: ControllerMetadata,
+    routeMapping: RouteMappingMeta,
+  ) {
+    const handler = (
+      ctx: ParameterizedContext<any, {}>,
+      source: EventSource<any>,
+    ) => {
+      if (!(source instanceof EventSource)) {
+        const message = "The SSE method must return an EventSource";
+        const { name: controllerName } = controller;
+        const { method } = routeMapping;
+        throw new Error(`${message}: ${controllerName}.${method}`);
+      }
+      return source.accept(ctx.req, ctx.res);
+    };
+    this.registerRoute(controller, controllerMeta, routeMapping, handler);
+  }
+
+  /**
    * 注册 Controller
    * @param app 应用实例
    * @param controller 控制器类
@@ -136,7 +167,11 @@ export class ControllerLoader extends ProviderLoader {
     if (!controllerMeta || !routeMetaItems || routeMetaItems.length < 1) return;
     routeMetaItems.sort((a, b) => b.priority - a.priority);
     routeMetaItems.forEach((routeMapping: RouteMappingMeta) => {
-      this.registerRoute(controller, controllerMeta, routeMapping);
+      if (routeMapping.ability === "SSE") {
+        this.registerSSERoute(controller, controllerMeta, routeMapping);
+      } else {
+        this.registerRoute(controller, controllerMeta, routeMapping);
+      }
     });
   }
 

@@ -1,6 +1,15 @@
 /** @format */
 
-import { Controller, Get, Inject, Body, Post, View } from "noka";
+import {
+  Controller,
+  Get,
+  Inject,
+  Body,
+  Post,
+  View,
+  Sse,
+  EventSource,
+} from "noka";
 import { UserService } from "../services/UserService";
 
 @Controller("/")
@@ -25,5 +34,14 @@ export class HomeController {
     }
     const items = await this.userService?.list();
     return { items };
+  }
+
+  @Sse("/sub")
+  async sub() {
+    const source = new EventSource();
+    setInterval(() => {
+      source.send("test", String(Date.now()));
+    }, 2000);
+    return source;
   }
 }
