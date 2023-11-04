@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.0.8
+
+### Patch Changes
+
+- Supported Https & SSE
+- Updated dependencies
+  - noka@2.0.8
+
 ## 2.0.7
 
 ### Patch Changes
