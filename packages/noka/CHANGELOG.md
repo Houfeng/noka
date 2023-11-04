@@ -1,5 +1,13 @@
 # noka
 
+## 2.0.11
+
+### Patch Changes
+
+- 更新模板
+- Updated dependencies
+  - noka-utility@2.0.11
+
 ## 2.0.10
 
 ### Patch Changes
