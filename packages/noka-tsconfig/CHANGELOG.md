@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.0.9
+
+### Patch Changes
+
+- 更新示例
+
 ## 2.0.8
 
 ### Patch Changes
