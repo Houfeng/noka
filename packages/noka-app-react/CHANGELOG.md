@@ -1,5 +1,13 @@
 # noka-app-react
 
+## 2.0.10
+
+### Patch Changes
+
+- update cli
+- Updated dependencies
+  - noka@2.0.10
+
 ## 2.0.9
 
 ### Patch Changes

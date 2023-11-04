@@ -1,7 +1,7 @@
 import * as upgrade from "./common/upgrade";
 import { build } from "./commands/build";
 import { clean } from "./commands/clean";
-import { cmdline, Command } from "cmdline";
+import { cmdline } from "cmdline";
 import { dev } from "./commands/dev";
 import { init } from "./commands/init";
 import { lint } from "./commands/lint";
@@ -14,7 +14,6 @@ import { start } from "./commands/start";
 import { startup } from "./commands/startup";
 import { stop } from "./commands/stop";
 import { test } from "./commands/test";
-import { showBrand } from "./common/brand";
 import { release } from "./commands/release";
 
 export * from "./common/Hooks";
@@ -29,13 +28,8 @@ function onError(err: Error) {
 
 cmdline
   .console(logger)
-  .action((self: Command) => {
-    showBrand();
-    self.helpHandler();
-  }, false)
   .error(onError)
   .version(pkg.version)
-  .action(() => showBrand(), ["help"])
   .help(normalize(`@${__dirname}/assets/help.txt`))
 
   // init
