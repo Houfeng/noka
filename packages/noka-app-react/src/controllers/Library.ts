@@ -1,8 +1,10 @@
-import { Controller, Get, Req, Request } from "noka";
+import { Controller, Get, Post, Req, Request } from "noka";
 import { homedir } from "os";
-import { FSLibrary } from "../models/FS/FSLibrary";
+import { FSLibrary } from "../models/FSLibrary";
+import { PhotoManger } from "../models/PhotoManager";
 
 const library = new FSLibrary(homedir());
+const photoManger = new PhotoManger({ library });
 
 @Controller("/api/libraries", 10000)
 export class LibraryController {
@@ -15,5 +17,10 @@ export class LibraryController {
     if (!info) return { error: "Not found" };
     const children = await info.children();
     return { info, children };
+  }
+
+  @Post("/~indexing")
+  async indexing() {
+    photoManger.startIndexing();
   }
 }
