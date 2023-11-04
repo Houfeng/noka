@@ -270,19 +270,14 @@ export class Application implements ApplicationLike {
    */
   readonly listener = iife(() => {
     const { secure } = this.config;
-    if (secure) {
-      const { key, cert, ...others } = secure;
-      return https.createServer(
-        {
-          key: readFileSync(this.resolvePath(key)),
-          cert: readFileSync(this.resolvePath(cert)),
-          ...others,
-        },
-        this.server.callback,
-      );
-    } else {
-      return http.createServer(this.server.callback);
-    }
+    if (!secure) return http.createServer(this.server.callback);
+    const { key, cert, ...others } = secure;
+    const options = {
+      key: readFileSync(this.resolvePath(key)),
+      cert: readFileSync(this.resolvePath(cert)),
+      ...others,
+    };
+    return https.createServer(options, this.server.callback);
   });
 
   /**
