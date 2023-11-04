@@ -1,6 +1,6 @@
 import globby from "globby";
 import { existsSync } from "fs";
-import { ApplicationInterface } from "../Application/ApplicationInterface";
+import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
 import { isString } from "ntils";
 import { readText, writeText } from "noka-utility";
@@ -22,7 +22,7 @@ export abstract class AbstractLoader<
    * @param options 路径或匹配表达式
    */
   constructor(
-    protected app: ApplicationInterface,
+    protected app: ApplicationLike,
     protected options: T,
   ) {
     this.options = { ...options };

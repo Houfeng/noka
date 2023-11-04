@@ -1,7 +1,7 @@
 import { AbstractLoader } from "../../Loader";
-import { ApplicationInterface } from "../../Application";
+import { ApplicationLike } from "../../Application";
 
-export type SetupFunction = (app?: ApplicationInterface) => Promise<any> | any;
+export type SetupFunction = (app?: ApplicationLike) => Promise<any> | any;
 
 export class SetupLoader extends AbstractLoader<{}, SetupFunction> {
   async load() {

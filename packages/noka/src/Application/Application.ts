@@ -4,17 +4,17 @@ import Koa from "koa";
 import Router from "koa-router";
 import { BIN_DIR_NAME, SRC_DIR_NAME } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
-import { BuiltInLoaders } from "../BuiltInLoaders";
-import { CONFIG_ENTITY_KEY } from "../BuiltInLoaders/ConfigLoader";
+import { BuiltInLoaders } from "../loaders";
+import { CONFIG_ENTITY_KEY } from "../loaders/ConfigLoader";
 import { Container } from "../Container";
 import { extname, resolve, normalize } from "path";
 import { homedir } from "os";
-import { ApplicationInterface } from "./ApplicationInterface";
+import { ApplicationLike } from "./ApplicationLike";
 import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
-import { LoggerInterface, LOGGER_ENTITY_KEY } from "../BuiltInLoaders";
+import { LoggerInterface, LOGGER_ENTITY_KEY } from "../loaders";
 import { isString } from "ntils";
 import { ApplicationConfig } from "./ApplicationConfig";
 
@@ -32,7 +32,7 @@ const CONF_RESERVE_KEYS = ["port", "loaders"];
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
-export class Application implements ApplicationInterface {
+export class Application implements ApplicationLike {
   static create(options: ApplicationOptions = {}) {
     return new Application(options);
   }
@@ -258,7 +258,7 @@ export class Application implements ApplicationInterface {
   /**
    * 启动当前应用实例
    */
-  async launch(): Promise<ApplicationInterface> {
+  async launch(): Promise<ApplicationLike> {
     await this.loadAllLoaders();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());

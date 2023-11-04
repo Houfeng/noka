@@ -5,7 +5,7 @@ import { existsSync } from "fs";
 import { resolve } from "path";
 import { readText } from "noka-utility";
 import { getByPath } from "noka-utility";
-import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
 import { isFunction } from "ntils";
 
 const VIEWS_ENTITY_KEY = Symbol("View");
@@ -60,7 +60,7 @@ export class ViewLoader<
  * @param options 注入选项
  */
 export function viewInjectHandler(
-  container: ContainerType,
+  container: ContainerLike,
   meta: InjectPropMetadata,
   instance: unknown,
   originMethod: unknown,

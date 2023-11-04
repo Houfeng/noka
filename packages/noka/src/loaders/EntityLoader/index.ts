@@ -1,6 +1,6 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { LoaderOptions } from "../../Loader/LoaderOptions";
-import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 export * from "typeorm";
 
@@ -43,7 +43,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
  * @param options 注入选项
  */
 export function entityRepoInjectHandler(
-  container: ContainerType,
+  container: ContainerLike,
   meta: InjectPropMetadata,
 ) {
   const source = container.get<DataSource>(entityKey);
@@ -62,7 +62,7 @@ export function EntityRepo(entity: { new: () => any } | Function) {
  * 实体管理器注入处理函数
  * @param options 注入选项
  */
-export function entityManagerInjectHandler(container: ContainerType) {
+export function entityManagerInjectHandler(container: ContainerLike) {
   return container.get<DataSource>(entityKey)?.manager;
 }
 

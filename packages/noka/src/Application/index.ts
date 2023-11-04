@@ -1,6 +1,6 @@
 /** @format */
 
 export * from "./Application";
-export * from "./ApplicationInterface";
+export * from "./ApplicationLike";
 export * from "./ApplicationOptions";
 export * from "./ApplicationConfig";

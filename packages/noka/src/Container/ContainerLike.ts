@@ -2,7 +2,7 @@
 
 import { EntityInfo } from "./EntityInfo";
 
-export interface ContainerType {
+export interface ContainerLike {
   /**
    * 向容器中注册一个实体
    * @param name    注册名称

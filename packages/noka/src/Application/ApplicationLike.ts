@@ -3,13 +3,13 @@
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import { Container } from "../Container";
-import { LoggerInterface } from "../BuiltInLoaders/LoggerLoader";
+import { LoggerInterface } from "../loaders/LoggerLoader";
 import { ApplicationConfig } from "./ApplicationConfig";
 
 /**
  * 全局应用接口定义
  */
-export interface ApplicationInterface {
+export interface ApplicationLike {
   /**
    * 当前环境标识（取值 NOKA_ENV || NODE_ENV）
    */

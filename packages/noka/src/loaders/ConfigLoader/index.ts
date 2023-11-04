@@ -1,5 +1,5 @@
 import { getByPath } from "noka-utility";
-import { ContainerType, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 
 const { Parser } = require("confman/index");
@@ -11,7 +11,7 @@ export const CONFIG_ENTITY_KEY = Symbol("Config");
  * @param options 注入选项
  */
 function configInjectHandler(
-  container: ContainerType,
+  container: ContainerLike,
   meta: InjectPropMetadata,
 ) {
   const configObject = container.get(CONFIG_ENTITY_KEY);

@@ -1,6 +1,6 @@
 /** @format */
 
-import { ContainerType } from "./ContainerType";
+import { ContainerLike } from "./ContainerLike";
 
 const metadataKey = Symbol("inject");
 
@@ -9,7 +9,7 @@ const metadataKey = Symbol("inject");
  */
 export type InjectOptions = {
   handle?: (
-    container: ContainerType,
+    container: ContainerLike,
     meta: InjectPropMetadata,
     instance: unknown,
     originValue: unknown,

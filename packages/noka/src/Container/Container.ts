@@ -1,7 +1,7 @@
 /** @format */
 
 import { getDesignType, getInjectMetadata, InjectPropMetadata } from "./Inject";
-import { ContainerType } from "./ContainerType";
+import { ContainerLike } from "./ContainerLike";
 import {
   EntityConstructor,
   EntityInfo,
@@ -14,7 +14,7 @@ import { getProviderMetadata } from "./Provider";
 /**
  * IoC 容器类
  */
-export class Container implements ContainerType {
+export class Container implements ContainerLike {
   /**
    * 所有已注册的实体信息
    */
