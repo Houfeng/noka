@@ -1,11 +1,11 @@
-/** @format */
-
+import http from "http";
+import https from "https";
+import http2 from "http2";
 import * as Koa from "koa";
 import * as Router from "koa-router";
 import { Container } from "../Container";
 import { LoggerInterface } from "../loaders/LoggerLoader";
 import { ApplicationConfig } from "./ApplicationConfig";
-import { IncomingMessage, Server, ServerResponse } from "http";
 
 export type ListenServerLike = {
   listen: (port: number, hostname: string, callback?: () => void) => void;
@@ -71,7 +71,10 @@ export interface ApplicationLike {
    * 负责实际监听客户端请求的 http(s) server 实例
    * @returns
    */
-  readonly listener: Server<typeof IncomingMessage, typeof ServerResponse>;
+  readonly listener:
+    | ReturnType<typeof http.createServer>
+    | ReturnType<typeof https.createServer>
+    | ReturnType<typeof http2.createSecureServer>;
 
   /**
    * 应用 Ioc 容器实例
