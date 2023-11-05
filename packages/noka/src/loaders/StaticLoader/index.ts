@@ -6,13 +6,7 @@ import { existsSync } from "fs";
 const conditional = require("koa-conditional-get");
 const etag = require("koa-etag");
 
-/**
- * 静态资源 加载器
- */
 export class StaticLoader extends AbstractLoader {
-  /**
-   * 加载静态资源相关模块
-   */
   public async load() {
     const { path = "app:/assets" } = this.options;
     const staticRoot = this.app.resolvePath(path);
@@ -20,8 +14,8 @@ export class StaticLoader extends AbstractLoader {
     this.app.server.use(async (ctx, next) => {
       await next();
       if (ctx.preventCache) return;
-      const noopNext: any = () => {};
-      await compose([conditional(), etag()])(ctx, noopNext);
+      const noop: any = () => {};
+      await compose([conditional(), etag()])(ctx, noop);
     });
     this.app.server.use(serve(staticRoot));
     this.app.logger?.info("Static ready");

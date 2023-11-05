@@ -1,5 +1,3 @@
-/** @format */
-
 import { ContainerLike } from "./ContainerLike";
 
 const metadataKey = Symbol("inject");

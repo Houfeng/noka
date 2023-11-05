@@ -33,8 +33,6 @@ export interface LoggerInterface {
   error(dataOrFormatter: any, ...args: any[]): any;
 }
 
-export const LOGGER_ENTITY_KEY = Symbol("Logger");
-
 const defaultOptions = {
   writers: {
     error: {
@@ -102,7 +100,7 @@ export class LoggerLoader extends AbstractLoader {
     const options = this.getOptions();
     await Logger.init({ ...options, root: options?.path });
     const getLogger = (category?: string) => Logger.get(category);
-    this.app.container.register(LOGGER_ENTITY_KEY, {
+    this.app.container.register(this.app.loggerRegisterKey, {
       type: "value",
       value: getLogger,
     });

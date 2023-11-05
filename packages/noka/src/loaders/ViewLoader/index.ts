@@ -8,16 +8,13 @@ import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
 import { isFunction } from "ntils";
 
-const VIEWS_ENTITY_KEY = Symbol("View");
+const ViewEntityKey = Symbol("View");
 
 export type ViewLoaderOptions = {
   path?: string;
   extname?: string;
 };
 
-/**
- * 静态资源 加载器
- */
 export class ViewLoader<
   T extends ViewLoaderOptions = ViewLoaderOptions,
 > extends AbstractLoader<{ path: string; extname: string }, T> {
@@ -42,7 +39,7 @@ export class ViewLoader<
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
-    this.app.container.register(VIEWS_ENTITY_KEY, {
+    this.app.container.register(ViewEntityKey, {
       type: "value",
       value: viewMap,
     });
@@ -65,7 +62,7 @@ export function viewInjectHandler(
   instance: unknown,
   originMethod: unknown,
 ) {
-  const views = container.get(VIEWS_ENTITY_KEY);
+  const views = container.get(ViewEntityKey);
   const render = getByPath(views, String(meta.name));
   return !originMethod || !isFunction(originMethod)
     ? render

@@ -1,10 +1,9 @@
 import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
 import { AbstractLoader } from "../../Loader";
+import { ApplicationConfigRegisterKey } from "../../Application/ApplicationConfig";
 
 const { Parser } = require("confman/index");
-
-export const CONFIG_ENTITY_KEY = Symbol("Config");
 
 /**
  * 配置注入处理函数
@@ -14,7 +13,7 @@ function configInjectHandler(
   container: ContainerLike,
   meta: InjectPropMetadata,
 ) {
-  const configObject = container.get(CONFIG_ENTITY_KEY);
+  const configObject = container.get(ApplicationConfigRegisterKey);
   return getByPath(configObject, String(meta.name));
 }
 
@@ -35,7 +34,7 @@ export class ConfigLoader extends AbstractLoader {
     const configPath = this.app.resolvePath(path);
     const configParser = new Parser({ env: this.app.env });
     const configObject = await configParser.load(configPath);
-    this.app.container.register(CONFIG_ENTITY_KEY, {
+    this.app.container.register(ApplicationConfigRegisterKey, {
       type: "value",
       value: configObject,
     });

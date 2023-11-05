@@ -10,6 +10,7 @@ import {
   isValueEntity,
 } from "./EntityInfo";
 import { getProviderMetadata } from "./Provider";
+import { isObject } from "ntils";
 
 /**
  * IoC 容器类
@@ -97,6 +98,7 @@ export class Container implements ContainerLike {
    * @param instance
    */
   inject(instance: unknown) {
+    if (!isObject(instance)) return;
     const memberMetadataList = getInjectMetadata(instance);
     memberMetadataList.forEach((meta: InjectPropMetadata) =>
       this.injectProp(instance, meta),

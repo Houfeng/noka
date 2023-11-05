@@ -5,7 +5,6 @@ import https from "https";
 import { BIN_DIR_NAME, SRC_DIR_NAME, iife } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
-import { CONFIG_ENTITY_KEY } from "../loaders/ConfigLoader";
 import { Container } from "../Container";
 import { extname, resolve, normalize } from "path";
 import { homedir } from "os";
@@ -14,9 +13,14 @@ import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
-import { LoggerInterface, LOGGER_ENTITY_KEY } from "../loaders";
+import { LoggerInterface } from "../loaders";
 import { isString } from "ntils";
-import { ApplicationConfig } from "./ApplicationConfig";
+import {
+  ApplicationConfig,
+  ApplicationConfigKeys,
+  ApplicationConfigRegisterKey,
+  ApplicationLoggerRegisterKey,
+} from "./ApplicationConfig";
 import { readFileSync } from "fs";
 
 export {
@@ -28,8 +32,6 @@ export {
   type ParameterizedContext,
 } from "koa";
 
-const CONF_RESERVE_KEYS = ["port", "loaders"];
-
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
@@ -37,6 +39,9 @@ export class Application implements ApplicationLike {
   static create(options: ApplicationOptions = {}) {
     return new Application(options);
   }
+
+  readonly configRegisterKey = ApplicationConfigRegisterKey;
+  readonly loggerRegisterKey = ApplicationLoggerRegisterKey;
 
   /**
    * 全局应用构造函数
@@ -144,15 +149,16 @@ export class Application implements ApplicationLike {
    * 应用配置对象
    */
   get config(): ApplicationConfig {
-    return this.container.get(CONFIG_ENTITY_KEY, true) || {};
+    return this.container.get(this.configRegisterKey, true) || {};
   }
 
   /**
    * 应用日志对象
    */
   get logger() {
-    const getLogger =
-      this.container.get<(key: string) => LoggerInterface>(LOGGER_ENTITY_KEY);
+    const getLogger = this.container.get<(key: string) => LoggerInterface>(
+      this.loggerRegisterKey,
+    );
     return getLogger && getLogger("app");
   }
 
@@ -191,7 +197,7 @@ export class Application implements ApplicationLike {
     if (!loaderConfigs) return [];
     const loaderInstances: LoaderInstance[] = [];
     for (const loaderKey in loaderConfigs) {
-      if (CONF_RESERVE_KEYS.includes(loaderKey)) {
+      if (ApplicationConfigKeys.includes(loaderKey)) {
         throw new Error(`Invalid Loader configuration name: ${loaderKey}`);
       }
       const loaderValue = loaderConfigs[loaderKey];

@@ -6,3 +6,14 @@ export type ApplicationConfig = {
   loaders?: Record<string, string>;
   [key: string]: any;
 };
+
+export const ApplicationConfigKeys = [
+  "port",
+  "hostname",
+  "secure",
+  "name",
+  "loaders",
+];
+
+export const ApplicationConfigRegisterKey = Symbol("Config");
+export const ApplicationLoggerRegisterKey = Symbol("Logger");

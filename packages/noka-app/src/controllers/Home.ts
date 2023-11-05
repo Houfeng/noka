@@ -23,10 +23,10 @@ export class HomeController {
   @Inject()
   userService?: UserService;
 
-  @Get("/demo")
-  @Post("/demo")
-  @View("demo")
-  async demo(@Body("del") delId: string, @Body("add") isAdd: string) {
+  @Get("/users")
+  @Post("/users")
+  @View("users")
+  async users(@Body("del") delId: string, @Body("add") isAdd: string) {
     if (isAdd) {
       await this.userService?.create();
     } else if (delId) {
@@ -34,6 +34,14 @@ export class HomeController {
     }
     const items = await this.userService?.list();
     return { items };
+  }
+
+  @Inject("demo")
+  demoMessage?: string;
+
+  @Get("/demo")
+  async demo() {
+    return this.demoMessage;
   }
 
   @Sse("/sub")

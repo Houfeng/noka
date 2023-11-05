@@ -16,6 +16,16 @@ export type ListenServerLike = {
  */
 export interface ApplicationLike {
   /**
+   * 应用配置模块向应用容器注册所用的 KEY
+   */
+  readonly configRegisterKey: symbol;
+
+  /**
+   * 应用日志模块向应用容器注册所用的 KEY
+   */
+  readonly loggerRegisterKey: symbol;
+
+  /**
    * 当前环境标识（取值 NOKA_ENV || NODE_ENV）
    */
   readonly env: string | undefined;
@@ -34,11 +44,6 @@ export interface ApplicationLike {
    * 应用根目录
    */
   readonly rootDir: string;
-
-  /**
-   * 应用名称
-   */
-  readonly name: string;
 
   /**
    * 应用在 ~（Home） 中的目录
@@ -74,6 +79,7 @@ export interface ApplicationLike {
   readonly listener:
     | ReturnType<typeof http.createServer>
     | ReturnType<typeof https.createServer>
+    | ReturnType<typeof http2.createServer>
     | ReturnType<typeof http2.createSecureServer>;
 
   /**

@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.0.13
+
+### Patch Changes
+
+- 重构 config/logger/setuploader & 改进调试
+- Updated dependencies
+  - noka@2.0.13
+
 ## 2.0.12
 
 ### Patch Changes

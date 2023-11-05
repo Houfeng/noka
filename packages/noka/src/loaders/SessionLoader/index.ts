@@ -5,26 +5,30 @@ import { Ctx } from "../ControllerLoader";
 
 export { type Session as ContextSession } from "koa-session";
 
-export const Session = () => Ctx("session");
+const signKeys: string[] = [uuid()];
+const cookieName = "NOKA-SID";
 
-const SIGN_KEYS: string[] = [uuid()];
+const second = 1000;
+const minute = 60 * second;
+const hour = 60 * minute;
 
-type SessionLoaderOptions = {
-  keys?: string[];
+export type SessionLoaderOptions = {
+  signKeys?: string[];
 };
 
-/**
- * Session 加载器
- */
 export class SessionLoader extends AbstractLoader<SessionLoaderOptions> {
   public async load() {
     const options = {
-      key: this.app.name.toUpperCase(),
-      maxAge: 86400000,
+      key: cookieName,
+      signKeys: signKeys,
+      maxAge: 1 * hour,
+      renew: true,
       ...this.options,
     };
-    this.app.server.keys = options.keys || SIGN_KEYS;
+    this.app.server.keys = options.signKeys;
     this.app.server.use(session(options, this.app.server));
     this.app.logger?.info("Session ready");
   }
 }
+
+export const Session = () => Ctx("session");
