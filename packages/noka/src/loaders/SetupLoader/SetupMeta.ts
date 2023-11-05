@@ -15,5 +15,5 @@ export function Setup(name?: string, priority = 0) {
 }
 
 export function getSetupMeta(target: object): SetupMeta {
-  return Reflect.getMetadata(target, setupMetaKey);
+  return Reflect.getMetadata(setupMetaKey, target);
 }

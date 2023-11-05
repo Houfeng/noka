@@ -4,12 +4,8 @@ import http2 from "http2";
 import Koa from "koa";
 import Router from "koa-router";
 import { Container } from "../Container";
-import { LoggerInterface } from "../loaders/LoggerLoader";
+import { LoggerLike } from "src/loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
-
-export type ListenServerLike = {
-  listen: (port: number, hostname: string, callback?: () => void) => void;
-};
 
 /**
  * 全局应用接口定义
@@ -95,5 +91,5 @@ export interface ApplicationLike {
   /**
    * 日志对象
    */
-  readonly logger: LoggerInterface | undefined;
+  readonly logger: LoggerLike | undefined;
 }

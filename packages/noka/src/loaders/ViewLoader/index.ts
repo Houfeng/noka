@@ -6,7 +6,7 @@ import { resolve } from "path";
 import { readText } from "noka-utility";
 import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
-import { isFunction } from "ntils";
+import { isFunction } from "noka-utility";
 
 const ViewBeanKey = Symbol("View");
 

@@ -1,5 +1,5 @@
 import { HttpContext } from "../../Application/ApplicationTypes";
-import { getByPath, writeText, mkdir } from "noka-utility";
+import { getByPath, writeText, mkdir, isNull } from "noka-utility";
 import { getContextMeta } from "./ContextMeta";
 import { getRouteMetaItems, RouteMeta } from "./RouteMeta";
 import { normalize, resolve } from "path";
@@ -95,7 +95,7 @@ export class ControllerLoader extends AbstractLoader<
       );
       ctx.preventCache = true;
       if (writeHandler) return writeHandler(ctx, result);
-      ctx.body = result;
+      if (!isNull(result)) ctx.body = result;
     };
     this.app.router.register(routePath, httpMethods, routeHandler);
     this.appendDebugRouteItems({

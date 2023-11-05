@@ -2,7 +2,7 @@ import globby from "globby";
 import { existsSync } from "fs";
 import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
-import { isFunction, isString } from "ntils";
+import { isFunction, isString } from "noka-utility";
 import { readText, writeText } from "noka-utility";
 import { FSWatcher, watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";

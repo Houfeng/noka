@@ -6,7 +6,7 @@ import { ApplicationLike } from "../../Application";
 export type SetupOptions = LoaderOptions & {};
 
 export type SetupInstance = {
-  handle: (app?: ApplicationLike) => any;
+  handle: (app: ApplicationLike) => any;
 };
 
 export type SetupConstructor = BeanConstructor<SetupInstance>;
@@ -25,7 +25,7 @@ export class SetupLoader extends AbstractLoader<
       .forEach(async ({ Setup, meta }) => {
         // 应用启动时将自动执行
         const setup = new Setup();
-        const value = await setup.handle();
+        const value = await setup.handle(this.app);
         // 执行结果,可被 controller/service 等模块注入
         this.app.container.register(meta.name, { type: "value", value });
         this.app.container.register(Setup, { type: "value", value });

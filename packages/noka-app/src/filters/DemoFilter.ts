@@ -2,7 +2,8 @@ import { HttpContext, Filter } from "noka";
 
 @Filter("/")
 export class Demo {
-  handle(ctx: HttpContext) {
-    return `Current request: ${ctx.URL}`;
+  async handle(ctx: HttpContext, next: () => Promise<any>) {
+    ctx.logger?.debug(`Current request: ${ctx.URL}`, next);
+    await next();
   }
 }

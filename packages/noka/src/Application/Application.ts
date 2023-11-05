@@ -13,8 +13,8 @@ import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
-import { LoggerInterface } from "../loaders";
-import { isString } from "ntils";
+import { LoggerLike } from "../loaders";
+import { isString } from "noka-utility";
 import {
   ApplicationConfig,
   ApplicationConfigKeys,
@@ -147,7 +147,7 @@ export class Application implements ApplicationLike {
    * 应用日志对象
    */
   get logger() {
-    const getLogger = this.container.get<(key: string) => LoggerInterface>(
+    const getLogger = this.container.get<(key: string) => LoggerLike>(
       this.loggerRegisterKey,
     );
     return getLogger && getLogger("app");

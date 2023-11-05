@@ -29,9 +29,6 @@ importers:
       npm:
         specifier: 8.15.0
         version: 8.15.0
-      ntils:
-        specifier: 5.2.4
-        version: 5.2.4
       pnpm:
         specifier: 8.10.0
         version: 8.10.0
@@ -7053,6 +7050,7 @@ packages:
 
   /ntils@5.2.4:
     resolution: {integrity: sha512-VUdpPYb0bvVpxkzFYx2o3I0VWIYtz+8VGlA55dlSTb7eInvWrazV+InQAM3aNfWkdLZL4LFay7eitUYGuZKhjQ==}
+    dev: false
 
   /number-is-nan@1.0.1:
     resolution: {integrity: sha512-4jbtZXNAsfZbAHiiqjLPBiCl16dES1zI4Hpzzxw61Tk+loF+sBDBKx1ICKKKwIqQ7M0mFn1TmkN7euSncWgHiQ==}

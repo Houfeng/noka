@@ -8,7 +8,7 @@ import {
 } from "./BeanInfo";
 import { getProviderMeta } from "./ProviderMeta";
 import { getDesignType, getInjectMeta, InjectMeta } from "./InjectMeta";
-import { isObject } from "ntils";
+import { isObject } from "noka-utility";
 
 /**
  * IoC 容器类

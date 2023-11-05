@@ -7,12 +7,12 @@ export type FilterMeta = {
   priority: number;
 };
 
-export function Filter(path = "/", priority = 0) {
+export function Filter(path = "/*", priority = 0) {
   return (target: BeanConstructor) => {
     Reflect.metadata(filterMetaKey, { path, priority })(target);
   };
 }
 
 export function getFilterMeta(target: object): FilterMeta {
-  return Reflect.getMetadata(target, filterMetaKey);
+  return Reflect.getMetadata(filterMetaKey, target);
 }

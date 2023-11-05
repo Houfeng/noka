@@ -2,6 +2,7 @@ import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { HttpContext } from "../../Application/ApplicationTypes";
 import { BeanConstructor } from "../../Container";
 import { getFilterMeta } from "./FilterMeta";
+import { isNull } from "noka-utility";
 
 export type FilterOptions = LoaderOptions & {};
 
@@ -29,7 +30,8 @@ export class FilterLoader extends AbstractLoader<
           const filter = new Filter();
           container.inject(filter);
           ctx.preventCache = true;
-          ctx.body = await filter.handle(ctx, next);
+          const result = await filter.handle(ctx, next);
+          if (!isNull(result)) ctx.body = result;
         });
       });
     logger?.info("Filter ready");
