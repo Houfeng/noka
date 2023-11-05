@@ -1,5 +1,5 @@
 import { AbstractLoader, LoaderOptions } from "../../Loader";
-import { ParameterizedContext } from "../../Application/ApplicationTypes";
+import { HttpContext } from "../../Application/ApplicationTypes";
 import { JSONValue } from "noka-utility";
 import { BeanConstructor } from "../../Container";
 import { getFilterMeta } from "./FilterMeta";
@@ -7,7 +7,7 @@ import { getFilterMeta } from "./FilterMeta";
 export type FilterOptions = LoaderOptions & {};
 
 export type FilterInstance = {
-  handle: (ctx?: ParameterizedContext) => boolean | JSONValue;
+  handle: (ctx?: HttpContext) => boolean | JSONValue;
 };
 
 export type FilterConstructor = BeanConstructor<FilterInstance>;

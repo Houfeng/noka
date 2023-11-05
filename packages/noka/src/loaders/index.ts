@@ -12,6 +12,7 @@ import { StaticLoader } from "./StaticLoader";
 import { ViewLoader } from "./ViewLoader";
 import { BodyLoader } from "./BodyLoader";
 import { LoaderConfigInfo } from "../Loader";
+import { FilterLoader } from "./FilterLoader";
 
 export * from "./ProviderLoader";
 export * from "./ControllerLoader";
@@ -24,6 +25,8 @@ export * from "./LoggerLoader";
 export * from "./HeadersLoader";
 export * from "./StaticLoader";
 export * from "./SetupLoader";
+export * from "./FilterLoader";
+
 
 export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   config: {
@@ -37,10 +40,6 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   headers: {
     loader: HeadersLoader,
     options: {},
-  },
-  setup: {
-    loader: SetupLoader,
-    options: { path: "bin:/setups/**/*:bin" },
   },
   body: {
     loader: BodyLoader,
@@ -65,6 +64,14 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   static: {
     loader: StaticLoader,
     options: { path: "app:/assets" },
+  },
+  setup: {
+    loader: SetupLoader,
+    options: { path: "bin:/setups/**/*:bin" },
+  },
+  filter: {
+    loader: FilterLoader,
+    options: { path: "bin:/filters/**/*:bin" },
   },
   controller: {
     loader: ControllerLoader,

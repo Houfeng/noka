@@ -1,5 +1,5 @@
 import { getByPath } from "noka-utility";
-import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 import { ApplicationConfigRegisterKey } from "../../Application/ApplicationConfig";
 
@@ -9,10 +9,7 @@ const { Parser } = require("confman/index");
  * 配置注入处理函数
  * @param options 注入选项
  */
-function configInjectHandler(
-  container: ContainerLike,
-  meta: InjectPropMetadata,
-) {
+function configInjectHandler(container: ContainerLike, meta: InjectMeta) {
   const configObject = container.get(ApplicationConfigRegisterKey);
   return getByPath(configObject, String(meta.name));
 }

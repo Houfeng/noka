@@ -1,13 +1,13 @@
 /** @format */
 
-import { Provider, Repository, EntityRepo } from "noka";
+import { Provider, InjectEntityRepository, ORM } from "noka";
 import { User } from "../entities/User";
 import { PagingOptions, PagingResult } from "./Paging";
 
 @Provider()
 export class UserService {
-  @EntityRepo(User)
-  repo?: Repository<User>;
+  @InjectEntityRepository(User)
+  repo?: ORM.Repository<User>;
 
   async create(user: User) {
     return this.repo?.save(user);

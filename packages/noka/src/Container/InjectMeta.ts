@@ -8,7 +8,7 @@ const injectMetaKey = Symbol("Inject");
 export type InjectOptions = {
   handle?: (
     container: ContainerLike,
-    meta: InjectPropMetadata,
+    meta: InjectMeta,
     instance: unknown,
     originValue: unknown,
   ) => unknown;
@@ -18,7 +18,7 @@ export type InjectOptions = {
 /**
  * 注入信息
  */
-export type InjectPropMetadata = {
+export type InjectMeta = {
   name?: string | symbol | Function;
   member: string | symbol;
   options?: InjectOptions;
@@ -33,8 +33,8 @@ export function Inject(
   options?: InjectOptions,
 ) {
   return (target: any, member: string | symbol) => {
-    const metadata: InjectPropMetadata = { name, member, options };
-    const metadataList: InjectPropMetadata[] =
+    const metadata: InjectMeta = { name, member, options };
+    const metadataList: InjectMeta[] =
       Reflect.getMetadata(injectMetaKey, target) || [];
     metadataList.push(metadata);
     Reflect.metadata(injectMetaKey, metadataList)(target);
@@ -45,7 +45,7 @@ export function Inject(
  * 获取属性注入信息
  * @param target 类型
  */
-export function getInjectMetadata(target: object): InjectPropMetadata[] {
+export function getInjectMeta(target: object): InjectMeta[] {
   return Reflect.getMetadata(injectMetaKey, target) || [];
 }
 

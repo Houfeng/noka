@@ -8,7 +8,7 @@ export type FilterMeta = {
 };
 
 export function Filter(path = "/", priority = 0) {
-  return (target: BeanConstructor<any>) => {
+  return (target: BeanConstructor) => {
     Reflect.metadata(filterMetaKey, { path, priority })(target);
   };
 }

@@ -1,6 +1,3 @@
-/** @format */
-
-import { getDesignType, getInjectMetadata, InjectPropMetadata } from "./Inject";
 import { ContainerLike } from "./ContainerLike";
 import {
   BeanConstructor,
@@ -9,7 +6,8 @@ import {
   isFactoryBean,
   isValueBean,
 } from "./BeanInfo";
-import { getProviderMetadata } from "./Provider";
+import { getProviderMeta } from "./ProviderMeta";
+import { getDesignType, getInjectMeta, InjectMeta } from "./InjectMeta";
 import { isObject } from "ntils";
 
 /**
@@ -48,10 +46,10 @@ export class Container implements ContainerLike {
    * @param target 目标类
    */
   registryProvider(
-    target: BeanConstructor<any>,
+    target: BeanConstructor,
     ignoreInvalidProviderError = false,
   ) {
-    const meta = getProviderMetadata(target);
+    const meta = getProviderMeta(target);
     if (!meta && ignoreInvalidProviderError) return;
     if (!meta) throw new Error(`Invalid provider info: '${target.name}'`);
     if (meta.name && meta.options?.static) {
@@ -70,7 +68,7 @@ export class Container implements ContainerLike {
    * @param instance 将要执行注入的实例
    * @param meta 注入信息
    */
-  private injectProp(instance: any, meta: InjectPropMetadata) {
+  private injectProp(instance: any, meta: InjectMeta) {
     const { name, member, options } = meta || {};
     // 生成注入后的属性缓存
     const cacheKey = Symbol(String(member));
@@ -99,8 +97,8 @@ export class Container implements ContainerLike {
    */
   inject(instance: unknown) {
     if (!isObject(instance)) return;
-    const memberMetadataList = getInjectMetadata(instance);
-    memberMetadataList.forEach((meta: InjectPropMetadata) =>
+    const memberMetadataList = getInjectMeta(instance);
+    memberMetadataList.forEach((meta: InjectMeta) =>
       this.injectProp(instance, meta),
     );
   }

@@ -3,7 +3,7 @@ export const contextMetaKey = Symbol("Context");
 /**
  * 请求上下文注入映射信息
  */
-export type ContextMappingMeta = {
+export type ContextMeta = {
   type: string;
   name: string;
   index: number;
@@ -72,5 +72,5 @@ export const Header = (name?: string) =>
  */
 export function getContextMeta(target: object, member: string) {
   const list = Reflect.getMetadata(contextMetaKey, target, member) || [];
-  return list as ContextMappingMeta[];
+  return list as ContextMeta[];
 }

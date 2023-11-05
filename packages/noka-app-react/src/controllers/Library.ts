@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Req, Request } from "noka";
+import { Controller, Get, HttpRequest, Post, Req } from "noka";
 import { homedir } from "os";
 import { FSLibrary } from "../models/FSLibrary";
 import { PhotoManger } from "../models/PhotoManager";
@@ -10,7 +10,7 @@ const photoManger = new PhotoManger({ library });
 export class LibraryController {
   @Get("/")
   @Get("/*")
-  async list(@Req() req: Request) {
+  async list(@Req() req: HttpRequest) {
     const prefix = "/api/libraries";
     const path = req.path.replace(prefix, "");
     const info = await library.child(path);

@@ -1,12 +1,10 @@
-/** @format */
+import { ORM } from "noka";
 
-import { Entity, Column, PrimaryGeneratedColumn } from "noka";
-
-@Entity()
+@ORM.Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @ORM.PrimaryGeneratedColumn()
   id?: string;
 
-  @Column()
+  @ORM.Column()
   name?: string;
 }

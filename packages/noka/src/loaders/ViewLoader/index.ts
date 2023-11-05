@@ -5,10 +5,10 @@ import { existsSync } from "fs";
 import { resolve } from "path";
 import { readText } from "noka-utility";
 import { getByPath } from "noka-utility";
-import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { isFunction } from "ntils";
 
-const ViewEntityKey = Symbol("View");
+const ViewBeanKey = Symbol("View");
 
 export type ViewLoaderOptions = {
   path?: string;
@@ -39,7 +39,7 @@ export class ViewLoader<
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
-    this.app.container.register(ViewEntityKey, {
+    this.app.container.register(ViewBeanKey, {
       type: "value",
       value: viewMap,
     });
@@ -56,18 +56,18 @@ export class ViewLoader<
  * 视图注入处理函数
  * @param options 注入选项
  */
-export function viewInjectHandler(
+function viewInjectHandler(
   container: ContainerLike,
-  meta: InjectPropMetadata,
+  meta: InjectMeta,
   instance: unknown,
   originMethod: unknown,
 ) {
-  const views = container.get(ViewEntityKey);
+  const views = container.get(ViewBeanKey);
   const render = getByPath(views, String(meta.name));
   return !originMethod || !isFunction(originMethod)
     ? render
     : async (...args: any[]) =>
-        render(await originMethod.call(instance, ...args));
+      render(await originMethod.call(instance, ...args));
 }
 
 /**

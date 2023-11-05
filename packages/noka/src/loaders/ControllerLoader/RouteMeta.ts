@@ -1,9 +1,9 @@
-const metadataKey = Symbol("RouteMapping");
+const routeMetaKey = Symbol("Route");
 
 /**
  * 路由映射信息
  */
-export type RouteMappingMeta = {
+export type RouteMeta = {
   verb: string | string[];
   path: string;
   priority: number;
@@ -15,8 +15,8 @@ export type RouteMappingMeta = {
  * 获取所有路由映射
  * @param target 类或原型
  */
-export function getRouteMappingMetaItems(target: any): RouteMappingMeta[] {
-  return Reflect.getMetadata(metadataKey, target) || [];
+export function getRouteMetaItems(target: object): RouteMeta[] {
+  return Reflect.getMetadata(routeMetaKey, target) || [];
 }
 
 /**
@@ -32,9 +32,9 @@ export function RouteMapping(
 ) {
   return (target: any, method: string) => {
     const controller = target.constructor;
-    const mappingItems = getRouteMappingMetaItems(controller);
+    const mappingItems = getRouteMetaItems(controller);
     mappingItems.push({ verb, path, method, priority, ability });
-    Reflect.metadata(metadataKey, mappingItems)(controller);
+    Reflect.metadata(routeMetaKey, mappingItems)(controller);
   };
 }
 

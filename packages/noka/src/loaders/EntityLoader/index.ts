@@ -1,10 +1,12 @@
 import { DataSource, DataSourceOptions } from "typeorm";
 import { LoaderOptions } from "../../Loader/LoaderOptions";
-import { ContainerLike, Inject, InjectPropMetadata } from "../../Container";
+import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { AbstractLoader } from "../../Loader";
-export * from "typeorm";
 
-const entityKey = Symbol("Entity");
+export * as ORM from "typeorm";
+export * as Entities from "typeorm";
+
+const entityBeanKey = Symbol("Entity");
 
 export type EntityLoaderOptions = LoaderOptions & DataSourceOptions;
 
@@ -29,7 +31,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
       ...others,
       entities: [this.app.resolvePath(path)],
     });
-    this.app.container.register(entityKey, {
+    this.app.container.register(entityBeanKey, {
       type: "value",
       value: dataSource,
     });
@@ -38,38 +40,31 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   }
 }
 
-/**
- * 实体仓库注入处理函数
- * @param options 注入选项
- */
-export function entityRepoInjectHandler(
-  container: ContainerLike,
-  meta: InjectPropMetadata,
-) {
-  const source = container.get<DataSource>(entityKey);
-  return source?.getRepository(meta.options?.extra as Function);
-}
 
 /**
  * 向目标注入数据实体仓库
  * @param entity 实体类型
  */
-export function EntityRepo(entity: { new: () => any } | Function) {
-  return Inject(undefined, { handle: entityRepoInjectHandler, extra: entity });
-}
-
-/**
- * 实体管理器注入处理函数
- * @param options 注入选项
- */
-export function entityManagerInjectHandler(container: ContainerLike) {
-  return container.get<DataSource>(entityKey)?.manager;
+export function InjectEntityRepository(entity: { new: () => any } | Function) {
+  return Inject(undefined, {
+    handle: (
+      container: ContainerLike,
+      meta: InjectMeta,
+    ) => {
+      const source = container.get<DataSource>(entityBeanKey);
+      return source?.getRepository(meta.options?.extra as Function);
+    }, extra: entity
+  });
 }
 
 /**
  * 向目标注入实体管理器
  * @param entity 实体类型
  */
-export function EntityManager() {
-  return Inject(undefined, { handle: entityManagerInjectHandler });
+export function InjectEntityManager() {
+  return Inject(undefined, {
+    handle: (container: ContainerLike) => {
+      return container.get<DataSource>(entityBeanKey)?.manager;
+    }
+  });
 }

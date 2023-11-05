@@ -7,7 +7,7 @@ import { LoaderOptions } from "../../Loader/LoaderOptions";
  */
 export class ProviderLoader<
   T extends LoaderOptions = LoaderOptions,
-  C extends BeanConstructor<any> = BeanConstructor<any>,
+  C extends BeanConstructor = BeanConstructor,
 > extends AbstractLoader<T, C> {
   public async load() {
     await super.load();
