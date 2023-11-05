@@ -1,5 +1,11 @@
 # noka
 
+## 2.0.15
+
+### Patch Changes
+
+- update build config
+
 ## 2.0.14
 
 ### Patch Changes

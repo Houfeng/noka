@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.0.15
+
+### Patch Changes
+
+- update build config
+- Updated dependencies
+  - noka@2.0.15
+
 ## 2.0.14
 
 ### Patch Changes
