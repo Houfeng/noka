@@ -205,6 +205,9 @@ importers:
       '@types/node':
         specifier: 20.8.9
         version: 20.8.9
+      eslint-config-noka:
+        specifier: workspace:*
+        version: link:../eslint-config-noka
       noka-cli:
         specifier: workspace:*
         version: link:../noka-cli
@@ -287,6 +290,9 @@ importers:
       eslint:
         specifier: 8.52.0
         version: 8.52.0
+      eslint-config-noka:
+        specifier: workspace:*
+        version: link:../eslint-config-noka
       noka-cli:
         specifier: workspace:*
         version: link:../noka-cli

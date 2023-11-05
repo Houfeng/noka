@@ -46,6 +46,7 @@
   "devDependencies": {
     "@types/mocha": "5.2.7",
     "@types/node": "20.8.9",
+    "eslint-config-noka": "workspace:*",
     "noka-cli": "workspace:*",
     "noka-tsconfig": "workspace:*",
     "pnpm": "8.10.0",
