@@ -19,7 +19,7 @@ export type InjectOptions = {
  * 注入信息
  */
 export type InjectPropMetadata = {
-  name?: string | symbol;
+  name?: string | symbol | Function;
   member: string | symbol;
   options?: InjectOptions;
 };
@@ -28,7 +28,10 @@ export type InjectPropMetadata = {
  * 注入一个类成员，通过名称在容器中查找类型并实例化后注入
  * @param name 名称
  */
-export function Inject(name?: string | symbol, options?: InjectOptions) {
+export function Inject(
+  name?: string | symbol | Function,
+  options?: InjectOptions,
+) {
   return (target: any, member: string | symbol) => {
     const metadata: InjectPropMetadata = { name, member, options };
     const metadataList: InjectPropMetadata[] =

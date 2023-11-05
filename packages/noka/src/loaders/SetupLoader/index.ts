@@ -13,6 +13,7 @@ export class SetupLoader extends AbstractLoader<{}, SetupFunction> {
         // 执行结果,可被 controller/service 等模块注入
         // 注入的名称为 fn.setupName > fn.displayName > fn.name
         this.app.container.register(func.name, { type: "value", value });
+        this.app.container.register(func, { type: "value", value });
       }),
     );
     this.app.logger?.info("Setup ready");

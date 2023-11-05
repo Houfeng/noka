@@ -27,7 +27,7 @@ export class Container implements ContainerLike {
    * @param entity  实例信息
    */
   register<T extends EntityInfo = EntityInfo>(
-    name: string | symbol,
+    name: string | symbol | Function,
     entity: T,
   ) {
     if (this.entities.has(name)) {

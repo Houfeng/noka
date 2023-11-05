@@ -9,6 +9,7 @@ import {
   View,
   Sse,
   EventSource,
+  Session,
 } from "noka";
 import { UserService } from "../services/UserService";
 
@@ -40,7 +41,8 @@ export class HomeController {
   demoMessage?: string;
 
   @Get("/demo")
-  async demo() {
+  async demo(@Session() session: Record<string, any>) {
+    session["test"] = "test";
     return this.demoMessage;
   }
 
