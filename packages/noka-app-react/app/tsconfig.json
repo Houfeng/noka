@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../assets/app/",
-    "declarationDir": "./types/app/",
+    "declarationDir": "../types/app/",
     "jsx": "react",
     "lib": [
       "DOM",

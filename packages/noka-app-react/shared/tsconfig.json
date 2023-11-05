@@ -3,7 +3,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "outDir": "../dist/shared/",
-    "declarationDir": "./types/shared/",
+    "declarationDir": "../types/shared/",
     "jsx": "react",
     "lib": [
       "ESNext"
