@@ -30,6 +30,6 @@ export class SetupLoader extends AbstractLoader<
         this.app.container.register(meta.name, { type: "value", value });
         this.app.container.register(Setup, { type: "value", value });
       });
-    logger?.info("Filter ready");
+    logger?.info("Setup ready");
   }
 }

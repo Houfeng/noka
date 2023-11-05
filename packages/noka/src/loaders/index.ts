@@ -38,14 +38,6 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
     loader: LoggerLoader,
     options: { path: "home:/logs" },
   },
-  headers: {
-    loader: HeadersLoader,
-    options: {},
-  },
-  body: {
-    loader: BodyLoader,
-    options: {},
-  },
   entity: {
     loader: EntityLoader,
     options: { path: "bin:/entities/**/*:bin" },
@@ -58,13 +50,17 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
     loader: ModelLoader,
     options: { path: "bin:/models/**/*:bin" },
   },
+  headers: {
+    loader: HeadersLoader,
+    options: {},
+  },
+  body: {
+    loader: BodyLoader,
+    options: {},
+  },
   session: {
     loader: SessionLoader,
     options: {},
-  },
-  view: {
-    loader: ViewLoader,
-    options: { path: "app:/views", extname: ".html" },
   },
   static: {
     loader: StaticLoader,
@@ -73,6 +69,10 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   setup: {
     loader: SetupLoader,
     options: { path: "bin:/setups/**/*:bin" },
+  },
+  view: {
+    loader: ViewLoader,
+    options: { path: "app:/views", extname: ".html" },
   },
   filter: {
     loader: FilterLoader,

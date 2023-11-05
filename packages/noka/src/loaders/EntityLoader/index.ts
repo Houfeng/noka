@@ -36,7 +36,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
       value: dataSource,
     });
     await dataSource.initialize();
-    this.app.logger?.info("Model ready");
+    this.app.logger?.info("Entity ready");
   }
 }
 
