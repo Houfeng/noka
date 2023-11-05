@@ -1,18 +1,17 @@
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { HttpContext } from "../../Application/ApplicationTypes";
-import { JSONValue } from "noka-utility";
 import { BeanConstructor } from "../../Container";
 import { getFilterMeta } from "./FilterMeta";
 
 export type FilterOptions = LoaderOptions & {};
 
 export type FilterInstance = {
-  handle: (ctx?: HttpContext) => boolean | JSONValue;
+  handle: (ctx: HttpContext, next: () => Promise<any>) => any;
 };
 
 export type FilterConstructor = BeanConstructor<FilterInstance>;
 
-const allMethods = ["GET", "POST", "DELETE", "PUT", "OPTION", "PATCH"];
+const allMethods = ["GET", "POST", "DELETE", "PUT", "OPTION", "HEAD", "PATCH"];
 
 export class FilterLoader extends AbstractLoader<
   FilterOptions,
@@ -26,10 +25,11 @@ export class FilterLoader extends AbstractLoader<
       .filter((it) => !!it.Filter && !!it.meta)
       .sort((a, b) => b.meta.priority - a.meta.priority)
       .forEach(async ({ Filter, meta }) => {
-        router.register(meta.path, allMethods, async (ctx) => {
+        router.register(meta.path, allMethods, async (ctx, next) => {
           const filter = new Filter();
           container.inject(filter);
-          filter.handle(ctx);
+          ctx.preventCache = true;
+          ctx.body = await filter.handle(ctx, next);
         });
       });
     logger?.info("Filter ready");

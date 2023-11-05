@@ -13,10 +13,12 @@ import { ViewLoader } from "./ViewLoader";
 import { BodyLoader } from "./BodyLoader";
 import { LoaderConfigInfo } from "../Loader";
 import { FilterLoader } from "./FilterLoader";
+import { ModelLoader } from "./ModelLoader";
 
 export * from "./ProviderLoader";
 export * from "./ControllerLoader";
 export * from "./ServiceLoader";
+export * from "./ModelLoader";
 export * from "./ConfigLoader";
 export * from "./ViewLoader";
 export * from "./SessionLoader";
@@ -26,7 +28,6 @@ export * from "./HeadersLoader";
 export * from "./StaticLoader";
 export * from "./SetupLoader";
 export * from "./FilterLoader";
-
 
 export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   config: {
@@ -52,6 +53,10 @@ export const BuiltInLoaders: Record<string, LoaderConfigInfo<any>> = {
   service: {
     loader: ServiceLoader,
     options: { path: "bin:/services/**/*:bin" },
+  },
+  model: {
+    loader: ModelLoader,
+    options: { path: "bin:/models/**/*:bin" },
   },
   session: {
     loader: SessionLoader,

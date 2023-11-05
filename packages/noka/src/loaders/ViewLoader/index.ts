@@ -67,7 +67,7 @@ function viewInjectHandler(
   return !originMethod || !isFunction(originMethod)
     ? render
     : async (...args: any[]) =>
-      render(await originMethod.call(instance, ...args));
+        render(await originMethod.call(instance, ...args));
 }
 
 /**

@@ -1,5 +1,5 @@
 export type BeanConstructor<T = any> = { new (): T };
-export type BeanFactory<T> = () => T;
+export type BeanFactory<T = any> = () => T;
 
 type ClassBeanInfo<T> = {
   type: "class";

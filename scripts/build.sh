@@ -46,11 +46,11 @@ nk build
 
 
 # app-react
-cd $CWD
-APP=./packages/noka-app-react
-echo ------------------------------------------------------
-echo PROJECT: $APP
-echo ------------------------------------------------------
-rm -rf $APP/dist/
-cd $APP
-nk build
+# cd $CWD
+# APP=./packages/noka-app-react
+# echo ------------------------------------------------------
+# echo PROJECT: $APP
+# echo ------------------------------------------------------
+# rm -rf $APP/dist/
+# cd $APP
+# nk build

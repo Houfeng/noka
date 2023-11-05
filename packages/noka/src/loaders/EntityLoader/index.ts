@@ -40,20 +40,17 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   }
 }
 
-
 /**
  * 向目标注入数据实体仓库
  * @param entity 实体类型
  */
 export function InjectEntityRepository(entity: { new: () => any } | Function) {
   return Inject(undefined, {
-    handle: (
-      container: ContainerLike,
-      meta: InjectMeta,
-    ) => {
+    handle: (container: ContainerLike, meta: InjectMeta) => {
       const source = container.get<DataSource>(entityBeanKey);
       return source?.getRepository(meta.options?.extra as Function);
-    }, extra: entity
+    },
+    extra: entity,
   });
 }
 
@@ -65,6 +62,6 @@ export function InjectEntityManager() {
   return Inject(undefined, {
     handle: (container: ContainerLike) => {
       return container.get<DataSource>(entityBeanKey)?.manager;
-    }
+    },
   });
 }
