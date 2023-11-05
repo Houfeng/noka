@@ -15,6 +15,8 @@ import { UserService } from "../services/UserService";
 
 @Controller("/")
 export class HomeController {
+  constructor() {}
+
   @Get("/")
   @View("index")
   async index() {

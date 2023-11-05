@@ -1,10 +1,13 @@
-import { ParameterizedContext } from "koa";
+import { ParameterizedContext } from "../../Application/ApplicationTypes";
 import { getByPath, writeText, mkdir } from "noka-utility";
 import { getContextMeta } from "./ContextInjector";
 import { getRouteMappingMetaItems, RouteMappingMeta } from "./RouteMapping";
-import { ProviderLoader } from "../ProviderLoader";
 import { normalize, resolve } from "path";
 import { EventSource } from "./EventSource";
+import { AbstractLoader } from "../../Loader/AbstractLoader";
+import { LoaderOptions } from "../../Loader/LoaderOptions";
+import { BeanConstructor } from "../../Container";
+import { getFileMeta } from "src/Loader/FileMetadata";
 
 export type DebugRouteInfo = Omit<RouteMappingMeta, "priority"> & {
   file: string;
@@ -12,7 +15,7 @@ export type DebugRouteInfo = Omit<RouteMappingMeta, "priority"> & {
   priority: string;
 };
 
-const metadataKey = Symbol("Controller");
+const controllerMetaKey = Symbol("Controller");
 
 /**
  * 控制器信息
@@ -28,7 +31,7 @@ export type ControllerMetadata = {
  */
 export function Controller(path = "/", priority = 0) {
   return (target: any) => {
-    Reflect.metadata(metadataKey, { path, priority })(target);
+    Reflect.metadata(controllerMetaKey, { path, priority })(target);
   };
 }
 
@@ -37,13 +40,16 @@ export function Controller(path = "/", priority = 0) {
  * @param target 对应的 controller 类
  */
 export function getControllerMeta(target: any): ControllerMetadata {
-  return Reflect.getMetadata(metadataKey, target);
+  return Reflect.getMetadata(controllerMetaKey, target);
 }
 
 /**
  * Controller 加载器
  */
-export class ControllerLoader extends ProviderLoader {
+export class ControllerLoader extends AbstractLoader<
+  LoaderOptions,
+  BeanConstructor<any>
+> {
   /**
    * 预处理请求方法
    * @param verb 请求动作（HTTP Method）
@@ -93,12 +99,12 @@ export class ControllerLoader extends ProviderLoader {
   /**
    * 注册一个常规路由映射
    * @param app 应用实例
-   * @param controller 控制器类
+   * @param Controller 控制器类
    * @param controllerMeta 控制器信息
    * @param routeMapping 映射信息
    */
   protected registerRoute(
-    controller: any,
+    Controller: BeanConstructor<any>,
     controllerMeta: ControllerMetadata,
     routeMapping: RouteMappingMeta,
     writeHandler?: (ctx: ParameterizedContext<any, {}>, result: any) => void,
@@ -107,7 +113,7 @@ export class ControllerLoader extends ProviderLoader {
     const httpMethods = this.normalizeHTTPMethods(verb);
     const routePath = normalize(`/${controllerMeta.path}/${path}`);
     const routeHandler = async (ctx: ParameterizedContext<any, {}>) => {
-      const controllerInstance = new controller();
+      const controllerInstance = new Controller();
       this.app.container.inject(controllerInstance);
       const result = await this.invokeControllerMethod(
         ctx,
@@ -123,8 +129,8 @@ export class ControllerLoader extends ProviderLoader {
       verb,
       path: routePath,
       priority: `${controllerMeta.priority}.${priority}`,
-      file: controller.__file__?.replace(this.app.rootDir, ""),
-      controller: controller.name,
+      file: getFileMeta(Controller)?.path?.replace(this.app.rootDir, ""),
+      controller: Controller.name,
       method,
     });
   }
@@ -132,12 +138,12 @@ export class ControllerLoader extends ProviderLoader {
   /**
    * 注册一个 SSE 路由映射
    * @param app 应用实例
-   * @param controller 控制器类
+   * @param Controller 控制器类
    * @param controllerMeta 控制器信息
    * @param routeMapping 映射信息
    */
   protected registerSSERoute(
-    controller: any,
+    Controller: BeanConstructor<any>,
     controllerMeta: ControllerMetadata,
     routeMapping: RouteMappingMeta,
   ) {
@@ -147,30 +153,30 @@ export class ControllerLoader extends ProviderLoader {
     ) => {
       if (!(source instanceof EventSource)) {
         const message = "The SSE method must return an EventSource";
-        const { name: controllerName } = controller;
+        const { name: controllerName } = Controller;
         const { method } = routeMapping;
         throw new Error(`${message}: ${controllerName}.${method}`);
       }
       return source.accept(ctx.req, ctx.res);
     };
-    this.registerRoute(controller, controllerMeta, routeMapping, handler);
+    this.registerRoute(Controller, controllerMeta, routeMapping, handler);
   }
 
   /**
    * 注册 Controller
    * @param app 应用实例
-   * @param controller 控制器类
+   * @param Controller 控制器类
    */
-  protected registerController(controller: unknown) {
-    const controllerMeta = getControllerMeta(controller);
-    const routeMetaItems = getRouteMappingMetaItems(controller);
+  protected registerController(Controller: BeanConstructor<any>) {
+    const controllerMeta = getControllerMeta(Controller);
+    const routeMetaItems = getRouteMappingMetaItems(Controller);
     if (!controllerMeta || !routeMetaItems || routeMetaItems.length < 1) return;
     routeMetaItems.sort((a, b) => b.priority - a.priority);
     routeMetaItems.forEach((routeMapping: RouteMappingMeta) => {
       if (routeMapping.ability === "SSE") {
-        this.registerSSERoute(controller, controllerMeta, routeMapping);
+        this.registerSSERoute(Controller, controllerMeta, routeMapping);
       } else {
-        this.registerRoute(controller, controllerMeta, routeMapping);
+        this.registerRoute(Controller, controllerMeta, routeMapping);
       }
     });
   }
@@ -184,8 +190,8 @@ export class ControllerLoader extends ProviderLoader {
     controllers.sort(
       (a, b) => getControllerMeta(b).priority - getControllerMeta(a).priority,
     );
-    controllers.forEach((controller) => {
-      this.registerController(controller);
+    controllers.forEach((Controller) => {
+      this.registerController(Controller);
     });
     await this.dumpDebugRouteItemsToFile();
     this.app.logger?.info("Controller ready");

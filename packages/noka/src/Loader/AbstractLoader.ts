@@ -2,12 +2,13 @@ import globby from "globby";
 import { existsSync } from "fs";
 import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
-import { isString } from "ntils";
+import { isFunction, isString } from "ntils";
 import { readText, writeText } from "noka-utility";
 import { FSWatcher, watch, WatchOptions } from "chokidar";
 import { LoaderOptions } from "./LoaderOptions";
+import { setFileMeta } from "./FileMetadata";
 
-type Exports = Record<string, unknown>;
+type ModuleExports = Record<string, unknown>;
 
 /**
  * 资源加载器抽象基类
@@ -44,7 +45,7 @@ export abstract class AbstractLoader<
    * 导入一个模块
    * @param moduleFile 模块路径
    */
-  protected importModule<M = Exports>(moduleFile: string): M | undefined {
+  protected importModule<M = ModuleExports>(moduleFile: string): M | undefined {
     try {
       return require(this.app.resolvePath(moduleFile));
     } catch {
@@ -103,9 +104,9 @@ export abstract class AbstractLoader<
       if (!fileExports) return;
       Object.keys(fileExports).forEach((name) => {
         const mod: any = fileExports[name];
-        // only debug
-        mod.__file__ = moduleFile;
         items.push(mod);
+        // 用于 debug
+        if (isFunction(mod)) setFileMeta(mod, { path: moduleFile });
       });
     });
     return items;

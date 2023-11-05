@@ -3,12 +3,12 @@
 import { getDesignType, getInjectMetadata, InjectPropMetadata } from "./Inject";
 import { ContainerLike } from "./ContainerLike";
 import {
-  EntityConstructor,
-  EntityInfo,
-  isClassEntity,
-  isFactoryEntity,
-  isValueEntity,
-} from "./EntityInfo";
+  BeanConstructor,
+  BeanInfo,
+  isClassBean,
+  isFactoryBean,
+  isValueBean,
+} from "./BeanInfo";
 import { getProviderMetadata } from "./Provider";
 import { isObject } from "ntils";
 
@@ -19,27 +19,27 @@ export class Container implements ContainerLike {
   /**
    * 所有已注册的实体信息
    */
-  private readonly entities = new Map<string | symbol | Function, EntityInfo>();
+  private readonly beans = new Map<string | symbol | Function, BeanInfo>();
 
   /**
    * 向容器中注册一个实体
    * @param name    注册名称
-   * @param entity  实例信息
+   * @param bean  实例信息
    */
-  register<T extends EntityInfo = EntityInfo>(
+  register<T extends BeanInfo = BeanInfo>(
     name: string | symbol | Function,
-    entity: T,
+    bean: T,
   ) {
-    if (this.entities.has(name)) {
-      throw new Error(`IoC entity name is duplicated: ${String(name)}`);
+    if (this.beans.has(name)) {
+      throw new Error(`IoC bean name is duplicated: ${String(name)}`);
     }
-    this.entities.set(name, entity);
+    this.beans.set(name, bean);
     // 如果是类或工厂函数，用类型和工厂函数也注册一下
     // 在 inject 时可使用两种方式：
     //   1、name + interface
     //   2、直接能通过 design:type 读取类型
-    if (isClassEntity(entity) || isFactoryEntity(entity)) {
-      this.entities.set(entity.value, entity);
+    if (isClassBean(bean) || isFactoryBean(bean)) {
+      this.beans.set(bean.value, bean);
     }
   }
 
@@ -48,7 +48,7 @@ export class Container implements ContainerLike {
    * @param target 目标类
    */
   registryProvider(
-    target: EntityConstructor<any>,
+    target: BeanConstructor<any>,
     ignoreInvalidProviderError = false,
   ) {
     const meta = getProviderMetadata(target);
@@ -113,43 +113,43 @@ export class Container implements ContainerLike {
     name: string | symbol | Function,
     ignoreNotFoundError = false,
   ) {
-    if (!name) throw new Error("Invalid entity name");
-    const entity: EntityInfo<T> | undefined = this.entities.get(name);
+    if (!name) throw new Error("Invalid bean name");
+    const bean: BeanInfo<T> | undefined = this.beans.get(name);
     // 0. 不存在的 name，返回 undefined
-    if (!entity && ignoreNotFoundError) return;
-    if (!entity) throw new Error(`Entity not found: ${String(name)}`);
+    if (!bean && ignoreNotFoundError) return;
+    if (!bean) throw new Error(`Bean not found: ${String(name)}`);
     // 1. 如果注册为值直接返回 value
-    if (isValueEntity(entity)) {
-      if (!entity.injected) this.inject(entity.value);
-      entity.injected = true;
-      return entity.value;
+    if (isValueBean(bean)) {
+      if (!bean.injected) this.inject(bean.value);
+      bean.injected = true;
+      return bean.value;
     }
     // 2.1. 如果注册为工厂函数，且启用了缓存，将执行结果缓存并返回，再次获取直接返回缓存
-    if (isFactoryEntity(entity) && entity.cacheable) {
-      if (entity.cached) return entity.cached;
-      entity.cached = entity.value();
-      this.inject(entity.cached);
-      return entity.cached;
+    if (isFactoryBean(bean) && bean.cacheable) {
+      if (bean.cached) return bean.cached;
+      bean.cached = bean.value();
+      this.inject(bean.cached);
+      return bean.cached;
     }
     // 2.2. 如果注册为工厂函数，且未启用缓存，将执行结果直接返回
-    if (isFactoryEntity(entity)) {
-      const instance = entity.value();
+    if (isFactoryBean(bean)) {
+      const instance = bean.value();
       this.inject(instance);
       return instance;
     }
     // 3.1. 如果注册为类，且启用了缓存，将新实例缓存并返回，再次获取直接返回缓存实例
-    if (isClassEntity(entity) && entity.cacheable) {
-      if (entity.cached) return entity.cached;
-      entity.cached = new entity.value();
-      this.inject(entity.cached);
-      return entity.cached;
+    if (isClassBean(bean) && bean.cacheable) {
+      if (bean.cached) return bean.cached;
+      bean.cached = new bean.value();
+      this.inject(bean.cached);
+      return bean.cached;
     }
     // 3.2. 如果注册为工厂函数，且未启用缓存，直接返回新实例
-    if (isClassEntity(entity)) {
-      const instance = new entity.value();
+    if (isClassBean(bean)) {
+      const instance = new bean.value();
       this.inject(instance);
       return instance;
     }
-    throw new Error(`Cannot create entity: ${JSON.stringify(entity)}`);
+    throw new Error(`Cannot create the Bean: ${JSON.stringify(bean)}`);
   }
 }

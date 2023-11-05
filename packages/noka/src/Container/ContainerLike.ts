@@ -1,6 +1,6 @@
 /** @format */
 
-import { EntityInfo } from "./EntityInfo";
+import { BeanInfo } from "./BeanInfo";
 
 export interface ContainerLike {
   /**
@@ -8,7 +8,7 @@ export interface ContainerLike {
    * @param name    注册名称
    * @param entity  实例信息
    */
-  register(name: string | symbol, entity: EntityInfo): void;
+  register(name: string | symbol, entity: BeanInfo): void;
 
   /**
    * 通过类型名称创建一个实例

@@ -1,3 +1,5 @@
+import { BeanConstructor } from "./BeanInfo";
+
 export type ProviderOptions = {
   singleton?: boolean;
   static?: boolean;
@@ -8,16 +10,16 @@ export type ProviderMetadata = {
   options: ProviderOptions;
 };
 
-const metadataKey = Symbol("provider");
+const providerMetaKey = Symbol("Provider");
 
 /**
  * 为一个类型声明向容器注册的信息，以备从 metadata 中读取并注册到 Ioc 容器中
  * @param name 名称
  */
 export function Provider(name?: string | symbol, options?: ProviderOptions) {
-  return (target: any) => {
+  return (target: BeanConstructor<any>) => {
     name = name || target.name;
-    Reflect.metadata(metadataKey, { name, options })(target);
+    Reflect.metadata(providerMetaKey, { name, options })(target);
   };
 }
 
@@ -26,5 +28,5 @@ export function Provider(name?: string | symbol, options?: ProviderOptions) {
  * @param target 类型
  */
 export function getProviderMetadata(target: object): ProviderMetadata {
-  return Reflect.getMetadata(metadataKey, target);
+  return Reflect.getMetadata(providerMetaKey, target);
 }

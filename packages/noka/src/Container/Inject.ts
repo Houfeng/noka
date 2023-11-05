@@ -1,6 +1,6 @@
 import { ContainerLike } from "./ContainerLike";
 
-const metadataKey = Symbol("inject");
+const injectMetaKey = Symbol("Inject");
 
 /**
  * 注入选项
@@ -35,9 +35,9 @@ export function Inject(
   return (target: any, member: string | symbol) => {
     const metadata: InjectPropMetadata = { name, member, options };
     const metadataList: InjectPropMetadata[] =
-      Reflect.getMetadata(metadataKey, target) || [];
+      Reflect.getMetadata(injectMetaKey, target) || [];
     metadataList.push(metadata);
-    Reflect.metadata(metadataKey, metadataList)(target);
+    Reflect.metadata(injectMetaKey, metadataList)(target);
   };
 }
 
@@ -45,8 +45,8 @@ export function Inject(
  * 获取属性注入信息
  * @param target 类型
  */
-export function getInjectMetadata(target: any): InjectPropMetadata[] {
-  return Reflect.getMetadata(metadataKey, target) || [];
+export function getInjectMetadata(target: object): InjectPropMetadata[] {
+  return Reflect.getMetadata(injectMetaKey, target) || [];
 }
 
 /**
@@ -55,6 +55,6 @@ export function getInjectMetadata(target: any): InjectPropMetadata[] {
  * @param member 成员名称
  * @returns
  */
-export function getDesignType(target: any, member: string | symbol) {
+export function getDesignType(target: object, member: string | symbol) {
   return Reflect.getMetadata("design:type", target, member);
 }

@@ -1,5 +1,5 @@
 import { AbstractLoader } from "../../Loader/AbstractLoader";
-import { EntityConstructor } from "../../Container/EntityInfo";
+import { BeanConstructor } from "../../Container/BeanInfo";
 import { LoaderOptions } from "../../Loader/LoaderOptions";
 
 /**
@@ -7,7 +7,7 @@ import { LoaderOptions } from "../../Loader/LoaderOptions";
  */
 export class ProviderLoader<
   T extends LoaderOptions = LoaderOptions,
-  C extends EntityConstructor<any> = EntityConstructor<any>,
+  C extends BeanConstructor<any> = BeanConstructor<any>,
 > extends AbstractLoader<T, C> {
   public async load() {
     await super.load();

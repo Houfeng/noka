@@ -1,12 +1,11 @@
-import { LoaderOptions } from "../../Loader";
-import { EntityConstructor } from "../../Container";
-import { ProviderLoader } from "../ProviderLoader";
+import { AbstractLoader, LoaderOptions } from "../../Loader";
+import { BeanConstructor } from "../../Container";
 // import { WebSocketServer } from 'ws';
 
 export type SocketOptions = LoaderOptions & {};
-export type SocketController = EntityConstructor<{}>;
+export type SocketController = BeanConstructor<{}>;
 
-export class SocketLoader extends ProviderLoader<
+export class SocketLoader extends AbstractLoader<
   SocketOptions,
   SocketController
 > {

@@ -1,4 +1,4 @@
-export const metadataKey = Symbol("Context");
+export const contextMetaKey = Symbol("Context");
 
 /**
  * 请求上下文注入映射信息
@@ -14,11 +14,11 @@ export type ContextMappingMeta = {
  * @param name JSON Path
  */
 export function Ctx(name = ".") {
-  return (target: any, member: string, index: number) => {
+  return (target: object, member: string, index: number) => {
     const type = "ctx";
     const list = getContextMeta(target, member);
     list.push({ type, name, index });
-    Reflect.metadata(metadataKey, list)(target, member);
+    Reflect.metadata(contextMetaKey, list)(target, member);
   };
 }
 
@@ -70,7 +70,7 @@ export const Header = (name?: string) =>
  * @param target 控制器
  * @param member 控制器方法名
  */
-export function getContextMeta(target: any, member: string) {
-  const list = Reflect.getMetadata(metadataKey, target, member) || [];
+export function getContextMeta(target: object, member: string) {
+  const list = Reflect.getMetadata(contextMetaKey, target, member) || [];
   return list as ContextMappingMeta[];
 }

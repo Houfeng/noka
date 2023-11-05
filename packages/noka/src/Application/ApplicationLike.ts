@@ -1,8 +1,8 @@
 import http from "http";
 import https from "https";
 import http2 from "http2";
-import * as Koa from "koa";
-import * as Router from "koa-router";
+import Koa from "koa";
+import Router from "koa-router";
 import { Container } from "../Container";
 import { LoggerInterface } from "../loaders/LoggerLoader";
 import { ApplicationConfig } from "./ApplicationConfig";

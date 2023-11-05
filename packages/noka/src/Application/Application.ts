@@ -23,15 +23,6 @@ import {
 } from "./ApplicationConfig";
 import { readFileSync } from "fs";
 
-export {
-  type Request,
-  type Request as ClientRequest,
-  type Response,
-  type Response as ServerResponse,
-  type Context,
-  type ParameterizedContext,
-} from "koa";
-
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
