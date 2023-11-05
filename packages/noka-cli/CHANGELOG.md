@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.0.12
+
+### Patch Changes
+
+- 更新模板基础依赖配置
+- Updated dependencies
+  - noka-utility@2.0.12
+
 ## 2.0.11
 
 ### Patch Changes

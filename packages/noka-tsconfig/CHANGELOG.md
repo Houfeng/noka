@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.0.12
+
+### Patch Changes
+
+- 更新模板基础依赖配置
+
 ## 2.0.11
 
 ### Patch Changes
