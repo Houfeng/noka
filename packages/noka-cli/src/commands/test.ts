@@ -19,8 +19,7 @@ export async function test(env: string, $1: string) {
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.test();
   const mocha = findCommand(__dirname, "mocha");
-  const tsNode = findCommand(__dirname, "ts-node") || "";
-  const tsRegister = resolve(tsNode, "../../ts-node/register");
+  const tsRegister = require.resolve("ts-node/register");
   const testFiles = resolve(appInfo.srcDir, "./**/*.spec.ts");
   const command = `${mocha} -r ${tsRegister} ${testFiles}`;
   await exec(command, {

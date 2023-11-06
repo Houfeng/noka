@@ -53,7 +53,7 @@ module.exports = {
     }),
     new WebpackManifestPlugin({
       publicPath: NODE_ENV === 'development'
-        ? 'http://127.0.0.1:8081/' : '/app/',
+        ? 'http://{host}:8081/' : '/app/',
       fileName: 'pi-manifest.json',
       filter: (it) => it.isInitial || it.path.endsWith('.css'),
       serialize: (manifest) => {

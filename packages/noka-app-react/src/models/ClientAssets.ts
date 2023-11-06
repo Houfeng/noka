@@ -3,17 +3,18 @@
 import { readFile } from "fs/promises";
 import { resolve } from "path";
 
-const { NOKA_ENV } = process.env;
-
 type Assets = { styles: string[]; scripts: string[] };
-
+const { NOKA_ENV } = process.env;
 let cachedAssets: Assets;
 
-export async function getClientAssets(): Promise<Assets> {
+export async function getClientAssets(host: string): Promise<Assets> {
   const manifestFile = "pi-manifest.json";
   if (NOKA_ENV === "development") {
     const res = await fetch(`http://127.0.0.1:8081/${manifestFile}`);
-    return res.json() as Promise<Assets>;
+    const assets = (await res.json()) as Assets;
+    assets.styles = assets.styles.map((it) => it.replace("{host}", host));
+    assets.scripts = assets.scripts.map((it) => it.replace("{host}", host));
+    return assets;
   } else {
     if (cachedAssets) return cachedAssets;
     const file = resolve(__dirname, `../../assets/app/${manifestFile}`);
