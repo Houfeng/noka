@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.0.18
+
+### Patch Changes
+
+- Update react template
+
 ## 2.0.17
 
 ### Patch Changes

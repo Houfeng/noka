@@ -1,5 +1,13 @@
 # noka-app-react
 
+## 2.0.18
+
+### Patch Changes
+
+- Update react template
+- Updated dependencies
+  - noka@2.0.18
+
 ## 2.0.17
 
 ### Patch Changes
