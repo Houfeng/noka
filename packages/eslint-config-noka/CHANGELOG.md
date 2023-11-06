@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.0.16
+
+### Patch Changes
+
+- 改进 cli & react template
+
 ## 2.0.15
 
 ### Patch Changes
