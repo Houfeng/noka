@@ -1,7 +1,7 @@
 import { Controller, Get, HttpRequest, Req, View } from "noka";
 import { getClientAssets } from "../models/ClientAssets";
 
-const { NOKA_ENV } = process.env;
+const { NOKA_ENV = "production" } = process.env;
 
 @Controller("/")
 export class HomeController {

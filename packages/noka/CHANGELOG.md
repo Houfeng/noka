@@ -1,5 +1,13 @@
 # noka
 
+## 2.0.17
+
+### Patch Changes
+
+- 改进 cli
+- Updated dependencies
+  - noka-utility@2.0.17
+
 ## 2.0.16
 
 ### Patch Changes

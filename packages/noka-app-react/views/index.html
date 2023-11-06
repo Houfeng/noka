@@ -14,8 +14,7 @@
   {% if NOKA_ENV==='development' %}
   <script crossorigin src="/libs/react.development.js"></script>
   <script crossorigin src="/libs/react-dom.development.js"></script>
-  {% endif %}
-  {% if NOKA_ENV==='production' %}
+  {% else %}
   <script crossorigin src="/libs/react.production.min.js"></script>
   <script crossorigin src="/libs/umd/react-dom.production.min.js"></script>
   {% endif %}

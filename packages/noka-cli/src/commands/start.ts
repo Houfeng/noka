@@ -14,7 +14,7 @@ export async function start(
   cluster: string,
 ) {
   showBrand();
-  if (!env || env === "production") env = "prod";
+  if (!env) env = "production";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.binEntry)) throw new Error("No entry file found");
   await pm.start({

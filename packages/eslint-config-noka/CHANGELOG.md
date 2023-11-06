@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.0.17
+
+### Patch Changes
+
+- 改进 cli
+
 ## 2.0.16
 
 ### Patch Changes
