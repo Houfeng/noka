@@ -1,5 +1,5 @@
 import session from "koa-session";
-import { AbstractLoader } from "../../Loader";
+import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { uuid } from "noka-utility";
 import { Ctx } from "../ControllerLoader";
 
@@ -12,9 +12,9 @@ const second = 1000;
 const minute = 60 * second;
 const hour = 60 * minute;
 
-export type SessionLoaderOptions = {
+export type SessionLoaderOptions = LoaderOptions<{
   signKeys?: string[];
-};
+}>;
 
 export class SessionLoader extends AbstractLoader<SessionLoaderOptions> {
   public async load() {

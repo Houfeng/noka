@@ -12,7 +12,7 @@ import { ApplicationLike } from "./ApplicationLike";
 import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
-import { LoaderConfigInfo } from "../Loader/LoadConfigInfo";
+import { LoaderConfigItem } from "../Loader/LoaderConfigTypes";
 import { LoggerLike } from "../loaders";
 import { isString } from "noka-utility";
 import {
@@ -166,14 +166,14 @@ export class Application implements ApplicationLike {
 
   /**
    * 创建一个 loader 实例
-   * @param loaderConfigInfo loader 信息
+   * @param loaderConfigItem loader 信息
    * @param configKey 配置名称
    */
   private createLoaderInstance(
-    loaderConfigInfo: LoaderConfigInfo,
+    loaderConfigItem: LoaderConfigItem,
     configKey: string,
   ) {
-    const { loader, options } = loaderConfigInfo;
+    const { loader, options } = loaderConfigItem;
     const loaderConfig = this.config[configKey];
     if (loaderConfig === false) return;
     return new loader(this, { ...options, ...loaderConfig });
@@ -183,7 +183,7 @@ export class Application implements ApplicationLike {
    * 创建一组 Loader 实例
    */
   private createLoaderInstances(
-    loaderConfigs: Record<string, string | LoaderConfigInfo<any>> | undefined,
+    loaderConfigs: Record<string, string | LoaderConfigItem> | undefined,
   ): LoaderInstance[] {
     if (!loaderConfigs) return [];
     const loaderInstances: LoaderInstance[] = [];
@@ -197,7 +197,7 @@ export class Application implements ApplicationLike {
         isString(loaderValue)
           ? { loader: this.importLoader(loaderValue) }
           : loaderValue
-      ) as LoaderConfigInfo;
+      ) as LoaderConfigItem;
       const instance = this.createLoaderInstance(loadConfigInfo, loaderKey);
       if (instance) loaderInstances.push(instance);
     }

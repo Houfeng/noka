@@ -3,7 +3,7 @@ import { BeanConstructor } from "../../Container";
 import { getSetupMeta } from "./SetupMeta";
 import { ApplicationLike } from "../../Application";
 
-export type SetupOptions = LoaderOptions & {};
+export type SetupOptions = LoaderOptions;
 
 export type SetupInstance = {
   handle: (app: ApplicationLike) => any;

@@ -2,8 +2,8 @@ import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { BeanConstructor } from "../../Container";
 // import { WebSocketServer } from 'ws';
 
-export type SocketOptions = LoaderOptions & {};
-export type SocketController = BeanConstructor<{}>;
+export type SocketOptions = LoaderOptions;
+export type SocketController = BeanConstructor;
 
 export class SocketLoader extends AbstractLoader<
   SocketOptions,

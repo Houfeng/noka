@@ -4,7 +4,7 @@ import { BeanConstructor } from "../../Container";
 import { getFilterMeta } from "./FilterMeta";
 import { isNull } from "noka-utility";
 
-export type FilterOptions = LoaderOptions & {};
+export type FilterOptions = LoaderOptions;
 
 export type FilterInstance = {
   handle: (ctx: HttpContext, next: () => Promise<any>) => any;

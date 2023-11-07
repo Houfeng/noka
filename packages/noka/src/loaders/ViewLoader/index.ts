@@ -1,5 +1,5 @@
 import globby from "globby";
-import { AbstractLoader } from "../../Loader";
+import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
 import { resolve } from "path";
@@ -10,19 +10,16 @@ import { isFunction } from "noka-utility";
 
 const ViewBeanKey = Symbol("View");
 
-export type ViewLoaderOptions = {
-  path?: string;
+export type ViewLoaderOptions = LoaderOptions<{
   extname?: string;
-};
+}>;
 
-export class ViewLoader<
-  T extends ViewLoaderOptions = ViewLoaderOptions,
-> extends AbstractLoader<{ path: string; extname: string }, T> {
+export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
   /**
    * 加载所有视图
    */
   public async load() {
-    const { path, extname = ".html" } = this.options;
+    const { path = "", extname = ".html" } = this.options;
     const viewRoot = this.app.resolvePath(path);
     if (!existsSync(viewRoot)) return;
     const viewPattern = `./**/*${extname}`;

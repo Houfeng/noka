@@ -1,7 +1,3 @@
-/** @format */
-
-import { JSONValue } from "noka-utility";
-
-export type LoaderOptions = Record<string, JSONValue> & {
+export type LoaderOptions<T = unknown> = {
   path?: string;
-};
+} & T;

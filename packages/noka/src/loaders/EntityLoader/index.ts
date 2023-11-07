@@ -8,7 +8,7 @@ export * as Entities from "typeorm";
 
 const entityBeanKey = Symbol("Entity");
 
-export type EntityLoaderOptions = LoaderOptions & DataSourceOptions;
+export type EntityLoaderOptions = LoaderOptions<Partial<DataSourceOptions>>;
 
 const defaultOptions = {
   type: "sqljs",
@@ -30,7 +30,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
       ...defaultOptions,
       ...others,
       entities: [this.app.resolvePath(path)],
-    });
+    } as DataSourceOptions);
     this.app.container.register(entityBeanKey, {
       type: "value",
       value: dataSource,
