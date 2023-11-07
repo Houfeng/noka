@@ -3,7 +3,7 @@ import { BeanConstructor } from "../../Container";
 const filterMetaKey = Symbol("Filter");
 
 export type FilterMeta = {
-  path: string;
+  path: string | RegExp | string[] | RegExp[];
   priority: number;
 };
 

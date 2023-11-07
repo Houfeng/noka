@@ -26,13 +26,15 @@ export class FilterLoader extends AbstractLoader<
       .filter((it) => !!it.Filter && !!it.meta)
       .sort((a, b) => b.meta.priority - a.meta.priority)
       .forEach(async ({ Filter, meta }) => {
-        router.register(meta.path, allMethods, async (ctx, next) => {
+        const handler = async (ctx: HttpContext, next: () => Promise<void>) => {
           const filter = new Filter();
           container.inject(filter);
           ctx.preventCache = true;
           const result = await filter.handle(ctx, next);
           if (!isNull(result)) ctx.body = result;
-        });
+        };
+        const paths = Array.isArray(meta.path) ? meta.path : [meta.path];
+        paths.forEach((path) => router.register(path, allMethods, handler));
       });
     logger?.info("Filter ready");
   }
