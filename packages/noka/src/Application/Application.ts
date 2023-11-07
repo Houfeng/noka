@@ -265,7 +265,7 @@ export class Application implements ApplicationLike {
   /**
    * 负责实际监听客户端请求的 http(s) server 实例
    */
-  readonly listener = iife((): any => {
+  readonly listener = iife(() => {
     const { secure } = this.config;
     const handler = this.server.callback();
     if (!secure) return http.createServer(handler);
@@ -275,7 +275,7 @@ export class Application implements ApplicationLike {
       cert: readFileSync(this.resolvePath(cert)),
       ...others,
     };
-    return false && https.createServer(options, handler);
+    return https.createServer(options, handler);
   });
 
   /**

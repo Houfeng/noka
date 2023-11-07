@@ -19,7 +19,7 @@ export type AppInfoOptions = {
  * 当前应用信息
  */
 export class AppInfo {
-  constructor(private options: AppInfoOptions) { }
+  constructor(private options: AppInfoOptions) {}
 
   readonly root = iife(() => {
     const cwd = process.cwd();
@@ -42,5 +42,5 @@ export class AppInfo {
     if (existsSync(file)) return require(file);
   });
 
-  readonly name = this.packageConf?.name || '';
+  readonly name = this.packageConf?.name || "";
 }

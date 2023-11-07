@@ -1,5 +1,4 @@
 export type ApplicationConfig = {
-  name?: string;
   port?: number;
   hostname?: string;
   secure?: { key: string; cert: string };
@@ -11,8 +10,9 @@ export const ApplicationConfigKeys = [
   "port",
   "hostname",
   "secure",
-  "name",
   "loaders",
+  // name 目前没有用暂保留
+  "name",
 ];
 
 export const ApplicationConfigRegisterKey = Symbol("Config");

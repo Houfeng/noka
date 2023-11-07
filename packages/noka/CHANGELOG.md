@@ -1,5 +1,13 @@
 # noka
 
+## 2.0.20
+
+### Patch Changes
+
+- 移除 debug 无用代码
+- Updated dependencies
+  - noka-utility@2.0.20
+
 ## 2.0.19
 
 ### Patch Changes
