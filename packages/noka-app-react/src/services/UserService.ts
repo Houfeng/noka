@@ -9,8 +9,15 @@ export class UserService {
   @InjectEntityRepository(User)
   repo?: ORM.Repository<User>;
 
-  async create(user: User) {
-    return this.repo?.save(user);
+  async create() {
+    const demo = new User();
+    demo.account = "test";
+    demo.name = "test";
+    demo.password = "test";
+    demo.phone = "test";
+    demo.email = "test";
+    demo.avatar = "test";
+    return this.repo?.save(demo);
   }
 
   async remove(id: string) {

@@ -13,7 +13,7 @@ nk dev
 
 # app-react
 # cd $CWD
-# APP=./packages/noka-app-rect
+# APP=./packages/noka-app-react
 # echo ------------------------------------------------------
 # echo PROJECT: $APP
 # echo ------------------------------------------------------
