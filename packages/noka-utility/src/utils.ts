@@ -3,7 +3,7 @@
 import mkdirp from "mkdirp";
 import { existsSync, readFile, writeFile } from "fs";
 import { dirname, normalize } from "path";
-import { newGuid } from "ntils";
+import { isArray, isFunction, isObject, newGuid } from "ntils";
 
 export * from "ntils";
 
@@ -106,4 +106,30 @@ export function resolvePackageRoot(path: string) {
  */
 export function iife<T>(fn: () => T): T {
   return fn();
+}
+
+/**
+ * 检查一个对象是否是一个普通 Record<string, unknown> 对象
+ * @param value
+ * @returns
+ */
+function isRecordObject(value: any): value is Record<string, unknown> {
+  return isObject(value) && !isArray(value) && !isFunction(value);
+}
+
+/**
+ * 合并两个对象，obj2 将覆盖 obj1，并产生一个新的 obj3
+ * @param obj1 原始对象1
+ * @param obj2 原始对象2
+ */
+export function merge<T1 extends object, T2 extends object>(
+  obj1: T1,
+  obj2: T2,
+): T1 & T2 {
+  const obj3: any = { ...obj1 };
+  Object.entries(obj2).forEach(([key, value]) => {
+    const isRecursion = isRecordObject(value) && isRecordObject(obj3[key]);
+    obj3[key] = isRecursion ? merge(obj3[key], value) : value;
+  });
+  return obj3;
 }

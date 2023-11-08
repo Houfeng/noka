@@ -1,6 +1,6 @@
 import { AbstractLoader } from "../../Loader";
 import { Logger, Level } from "hilog";
-import { mix } from "noka-utility";
+import { merge } from "noka-utility";
 import { EOL } from "os";
 
 const defaultOptions = {
@@ -30,7 +30,7 @@ const defaultOptions = {
       format: "[{time}] - {method} {url} {status} {rt}ms {hostname} #{pid}",
       location: "./access-{yyyy-MM-dd}.log",
     },
-  },
+  } as Record<string, { type: string }>,
 };
 
 /**
@@ -51,8 +51,8 @@ export class LoggerLoader extends AbstractLoader {
    * 获取日志选项
    */
   protected getOptions() {
-    const options = mix({ ...defaultOptions }, this.options);
-    options.path = this.app.resolvePath(options.path);
+    const options = merge(defaultOptions, this.options);
+    options.path = this.app.resolvePath(options.path || "");
     if (options.writers && this.onlyConsole) {
       Object.keys(options.writers).forEach((key) => {
         const writerConf = options.writers[key];

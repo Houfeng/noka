@@ -2,7 +2,7 @@ import Koa from "koa";
 import Router from "koa-router";
 import http from "http";
 import https from "https";
-import { BIN_DIR_NAME, SRC_DIR_NAME, iife } from "noka-utility";
+import { BIN_DIR_NAME, SRC_DIR_NAME, iife, merge } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
 import { Container } from "../Container";
@@ -12,16 +12,15 @@ import { ApplicationLike } from "./ApplicationLike";
 import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
-import { LoaderConfigItem } from "../Loader/LoaderConfigTypes";
+import { LoaderConfigItem, LoaderConfigMap } from "../Loader/LoaderConfigTypes";
 import { LoggerLike } from "../loaders";
-import { isString } from "noka-utility";
 import {
   ApplicationConfig,
-  ApplicationConfigKeys,
   ApplicationConfigRegisterKey,
   ApplicationLoggerRegisterKey,
 } from "./ApplicationConfig";
 import { readFileSync } from "fs";
+import { LoaderOptions } from "../Loader/LoaderOptions";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -39,7 +38,7 @@ export class Application implements ApplicationLike {
    * @param options 应用程序类构建选项
    */
   constructor(protected options: ApplicationOptions = {}) {
-    process.once("beforeExit", () => this.unloadAllLoaders());
+    process.once("beforeExit", () => this.stop());
   }
 
   /**
@@ -154,6 +153,11 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 所有 loader 实例
+   */
+  private loaderInstances: LoaderInstance[] = [];
+
+  /**
    * 加载一个 loader
    * @param name loader 名称
    */
@@ -165,72 +169,66 @@ export class Application implements ApplicationLike {
   }
 
   /**
-   * 创建一个 loader 实例
-   * @param loaderConfigItem loader 信息
+   * 导入用户配置的 loaders
+   */
+  private importUserLoaders(): LoaderConfigMap {
+    const { loader_imports = {} } = this.config;
+    return Object.entries(loader_imports || {}).reduce<LoaderConfigMap>(
+      (map, [key, value]) => {
+        const loader = this.importLoader(value);
+        const options: LoaderOptions = {};
+        return { ...map, [key]: { loader, options } };
+      },
+      {},
+    );
+  }
+
+  /**
+   * 通过 loaderConfigItem 创建一个 loader 实例
    * @param configKey 配置名称
+   * @param configItem 配置信息
    */
   private createLoaderInstance(
-    loaderConfigItem: LoaderConfigItem,
     configKey: string,
+    configItem: LoaderConfigItem,
   ) {
-    const { loader, options } = loaderConfigItem;
-    const loaderConfig = this.config[configKey];
-    if (loaderConfig === false) return;
-    return new loader(this, { ...options, ...loaderConfig });
+    const { loader, options } = configItem;
+    const { loader_options } = this.config;
+    const userOptions = loader_options?.[configKey];
+    if (userOptions === false) return;
+    return new loader(this, { ...options, ...userOptions });
   }
 
   /**
-   * 创建一组 Loader 实例
+   * 创建所有 Loaders 实例
    */
-  private createLoaderInstances(
-    loaderConfigs: Record<string, string | LoaderConfigItem> | undefined,
-  ): LoaderInstance[] {
-    if (!loaderConfigs) return [];
-    const loaderInstances: LoaderInstance[] = [];
-    for (const loaderKey in loaderConfigs) {
-      if (ApplicationConfigKeys.includes(loaderKey)) {
-        throw new Error(`Invalid Loader configuration name: ${loaderKey}`);
-      }
-      const loaderValue = loaderConfigs[loaderKey];
-      if (!loaderValue) continue;
-      const loadConfigInfo = (
-        isString(loaderValue)
-          ? { loader: this.importLoader(loaderValue) }
-          : loaderValue
-      ) as LoaderConfigItem;
-      const instance = this.createLoaderInstance(loadConfigInfo, loaderKey);
-      if (instance) loaderInstances.push(instance);
-    }
-    return loaderInstances;
+  private createAllLoaderInstances() {
+    const userLoaders = this.importUserLoaders();
+    const composedLoaders = merge(BuiltInLoaders, userLoaders);
+    this.loaderInstances = Object.entries(composedLoaders)
+      .map(([key, item]) => this.createLoaderInstance(key, item))
+      .filter((it) => !!it) as LoaderInstance[];
   }
-
-  /**
-   * 所有加载的 loaders
-   */
-  private loaders: LoaderInstance[] = [];
 
   /**
    * 加载所有 loaders
    */
-  private async loadAllLoaders() {
-    const buildInLoaders = this.createLoaderInstances(BuiltInLoaders);
-    const configLoaders = this.createLoaderInstances(this.config.loaders);
-    this.loaders = [...buildInLoaders, ...configLoaders];
-    for (const loader of this.loaders) await loader.load();
+  private async loadAllLoaderInstances() {
+    for (const loader of this.loaderInstances) await loader.load();
   }
 
   /**
    * 卸载所有 loaders
    */
-  private async launchAllLoaders() {
-    for (const loader of this.loaders) await loader.launch?.();
+  private async launchAllLoaderInstances() {
+    for (const loader of this.loaderInstances) await loader.launch?.();
   }
 
   /**
    * 卸载所有 loaders
    */
-  private async unloadAllLoaders() {
-    for (const loader of this.loaders) await loader.unload?.();
+  private async unloadAllLoaderInstances() {
+    for (const loader of this.loaderInstances) await loader.unload?.();
   }
 
   /**
@@ -282,12 +280,21 @@ export class Application implements ApplicationLike {
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationLike> {
-    await this.loadAllLoaders();
+    await this.createAllLoaderInstances();
+    await this.loadAllLoaderInstances();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
     await this.resolvePort();
     this.listener.listen(this.port, this.hostname);
-    await this.launchAllLoaders();
+    await this.launchAllLoaderInstances();
     return this;
+  }
+
+  /**
+   * 停止当前应用实例
+   */
+  async stop() {
+    this.unloadAllLoaderInstances();
+    this.listener.close();
   }
 }
