@@ -21,7 +21,7 @@ import {
 } from "./ApplicationConfig";
 import { readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
-import { DevTool } from "../DevTool/index";
+import { DevTool } from "../DevTool";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -315,7 +315,10 @@ export class Application implements ApplicationLike {
   /** 开发时工具 */
   readonly devTool = new DevTool({
     enabled: this.isSourceMode,
+    binDir: this.binDir,
+    entry: this.entry,
+    watchDir: [this.binDir],
     resolvePath: (path: string) => this.resolvePath(path),
-    watchDir: () => [this.binDir],
+    stop: () => this.stop(),
   });
 }

@@ -4,7 +4,7 @@ import http2 from "http2";
 import Koa from "koa";
 import Router from "koa-router";
 import { Container } from "../Container";
-import { LoggerLike } from "src/loaders/LoggerLoader/LoggerLike";
+import { LoggerLike } from "../loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
 import { DevToolLike } from "../DevTool/DevToolLike";
 
