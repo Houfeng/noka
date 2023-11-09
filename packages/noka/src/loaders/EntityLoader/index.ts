@@ -24,13 +24,12 @@ const defaultOptions = {
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     await super.load();
-    const { targetDir: path = "bin:/entities/**/*:bin", ...others } =
-      this.options;
+    const { targetDir = "bin:/entities", ...others } = this.options;
     defaultOptions.location = this.app.resolvePath(defaultOptions.location);
     const dataSource = new DataSource({
       ...defaultOptions,
       ...others,
-      entities: [this.app.resolvePath(path)],
+      entities: [this.app.resolvePath(`${targetDir}/**/*:bin`)],
     } as DataSourceOptions);
     this.app.container.register(entityBeanKey, {
       type: "value",

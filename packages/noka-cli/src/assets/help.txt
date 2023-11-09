@@ -17,22 +17,6 @@ Commands:
   test                Unit test
   build               Build the application
   release             Generate release version
-  start               Start the application
-    -e, --env         Application environment
-    -n, --name        Application name
-    -c, --cluster     Cluster numbers
-  stop                Stop application(s)
-    -n, --name        Application name
-    -a, --all         All applications
-  restart             Restart application(s)
-    -n, --name        Application name
-    -a, --all         All applications
-  list                Show all applications
-  remove              Remove application(s)
-    -n, --name        Application name
-    -a, --all         All applications
-  startup             Remove application(s)
-    -p, --platform    Automatically start when turned on
 
 Options:
   -v, --version       Command line interface version

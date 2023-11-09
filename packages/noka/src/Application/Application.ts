@@ -19,7 +19,7 @@ import {
   ApplicationConfigRegisterKey,
   ApplicationLoggerRegisterKey,
 } from "./ApplicationConfig";
-import { existsSync, readFileSync } from "fs";
+import { readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
 import { DevTool } from "../DevTool/index";
 
@@ -75,9 +75,9 @@ export class Application implements ApplicationLike {
   readonly binExtensions = extname(this.entry);
 
   /**
-   * 是否是开发模式
+   * 是否是源码模式
    */
-  readonly isLaunchSourceCode = this.binExtensions === ".ts";
+  readonly isSourceMode = this.binExtensions === ".ts";
 
   /**
    * 应用根目录
@@ -90,7 +90,7 @@ export class Application implements ApplicationLike {
    * bin 目录在应用根目录下，从源码启动时为 src/，非源码启动为 bin/
    */
   get binDir() {
-    return this.isLaunchSourceCode
+    return this.isSourceMode
       ? this.resolvePath(`./${SRC_DIR_NAME}/`, true)
       : this.resolvePath(`./${BIN_DIR_NAME}/`, true);
   }
@@ -99,7 +99,6 @@ export class Application implements ApplicationLike {
    * 当前应用名称
    */
   get name(): string {
-    if (this.options.name) return this.options.name;
     const pkgFile = resolve(this.rootDir, "./package.json");
     return require(pkgFile).name;
   }
@@ -116,7 +115,7 @@ export class Application implements ApplicationLike {
    * @param path 路径
    * @returns
    */
-  private parsePathVariables(path: string) {
+  parsePath(path: string) {
     return normalize(
       path
         .replace("app:", this.rootDir)
@@ -132,8 +131,8 @@ export class Application implements ApplicationLike {
    * @returns
    */
   resolvePath(path: string, disableVariables = false) {
-    if (!disableVariables) path = this.parsePathVariables(path);
-    return resolve(this.rootDir, path);
+    if (!disableVariables) path = this.parsePath(path);
+    return resolve(this.rootDir, normalize(path));
   }
 
   /**
@@ -215,21 +214,33 @@ export class Application implements ApplicationLike {
    * 加载所有 loaders
    */
   private async loadAllLoaderInstances() {
-    for (const loader of this.loaderInstances) await loader.load();
+    try {
+      for (const loader of this.loaderInstances) await loader.load();
+    } catch (err) {
+      this.logger?.error(err);
+    }
   }
 
   /**
    * 卸载所有 loaders
    */
   private async launchAllLoaderInstances() {
-    for (const loader of this.loaderInstances) await loader.launch?.();
+    try {
+      for (const loader of this.loaderInstances) await loader.launch?.();
+    } catch (err) {
+      this.logger?.error(err);
+    }
   }
 
   /**
    * 卸载所有 loaders
    */
   private async unloadAllLoaderInstances() {
-    for (const loader of this.loaderInstances) await loader.unload?.();
+    try {
+      for (const loader of this.loaderInstances) await loader.unload?.();
+    } catch (err) {
+      this.logger?.error(err);
+    }
   }
 
   /**
@@ -242,7 +253,7 @@ export class Application implements ApplicationLike {
    */
   private async resolvePort() {
     if (this.resolvedPort) return this.resolvedPort;
-    const { port = this.config.port || (await acquirePort()) } = this.options;
+    const port = this.config.port || (await acquirePort());
     this.resolvedPort = port;
     return this.resolvedPort;
   }
@@ -258,7 +269,7 @@ export class Application implements ApplicationLike {
    * 绑定的主机名
    */
   get hostname() {
-    return this.options?.hostname || this.config.hostname;
+    return this.config.hostname;
   }
 
   /**
@@ -302,14 +313,9 @@ export class Application implements ApplicationLike {
   }
 
   /** 开发时工具 */
-  private readonly devTool = new DevTool({
-    enabled: this.isLaunchSourceCode,
-    getWatchDir: () => {
-      if (!this.isLaunchSourceCode) return [];
-      return this.loaderInstances
-        .filter((it) => it.watchable && it.options.targetDir)
-        .map((it) => this.resolvePath(it.options.targetDir!))
-        .filter((it) => existsSync(it));
-    },
+  readonly devTool = new DevTool({
+    enabled: this.isSourceMode,
+    resolvePath: (path: string) => this.resolvePath(path),
+    watchDir: () => [this.binDir],
   });
 }

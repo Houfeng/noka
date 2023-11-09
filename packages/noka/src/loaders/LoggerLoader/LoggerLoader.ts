@@ -37,8 +37,6 @@ const defaultOptions = {
  * 日志加载器
  */
 export class LoggerLoader extends AbstractLoader {
-  watchable = false;
-
   /**
    * 是否仅打印日志到 console
    */

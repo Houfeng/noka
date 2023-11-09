@@ -29,12 +29,14 @@ export function Config(path: string) {
 export class ConfigLoader extends AbstractLoader {
   async load() {
     const { targetDir = "app:/configs" } = this.options;
-    const file = normalize(`${this.app.resolvePath(targetDir)}/config`);
+    const root = this.app.resolvePath(targetDir);
+    const file = normalize(`${root}/config`);
     const parser = new Parser({ env: this.app.env });
     const config = await parser.load(file);
     this.app.container.register(ApplicationConfigRegisterKey, {
       type: "value",
       value: config,
     });
+    this.app.devTool.watchDir(root);
   }
 }

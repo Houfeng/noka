@@ -6,6 +6,7 @@ import Router from "koa-router";
 import { Container } from "../Container";
 import { LoggerLike } from "src/loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
+import { DevToolLike } from "../DevTool/DevToolLike";
 
 /**
  * 全局应用接口定义
@@ -27,9 +28,14 @@ export interface ApplicationLike {
   readonly env: string | undefined;
 
   /**
-   * 是否是开发模式
+   * 是否是源码开发模式
    */
-  readonly isLaunchSourceCode: boolean;
+  readonly isSourceMode: boolean;
+
+  /**
+   * 面向开发时的工具
+   */
+  readonly devTool: DevToolLike;
 
   /**
    * 入口文件
@@ -45,6 +51,13 @@ export interface ApplicationLike {
    * 应用在 ~（Home） 中的目录
    */
   readonly homeDir: string;
+
+  /**
+   * 解析应用内路径
+   * @param path 路径
+   * @returns
+   */
+  readonly parsePath: (path: string) => string;
 
   /**
    * 解析应用内路径

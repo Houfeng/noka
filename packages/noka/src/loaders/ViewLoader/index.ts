@@ -1,8 +1,7 @@
-import globby from "globby";
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
-import { basename, resolve } from "path";
+import { basename } from "path";
 import { readText } from "noka-utility";
 import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
@@ -20,22 +19,23 @@ export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
    */
   public async load() {
     const { targetDir = "app:/views" } = this.options;
-    const root = this.app.resolvePath(targetDir);
-    if (!existsSync(targetDir)) return;
-    const viewFiles = await globby("./**/*.html", { cwd: root });
+    const viewDir = this.app.resolvePath(targetDir);
+    if (!existsSync(viewDir)) return;
+    const viewFiles = await this.glob("./**/*.html");
     const viewMap: Record<string, (data: any) => string> = {};
-    const env = new Environment(new FileSystemLoader(root));
+    const env = new Environment(new FileSystemLoader(viewDir));
     await Promise.all(
       viewFiles.map(async (viewFile) => {
-        const text = await readText(resolve(root, viewFile));
+        const text = await readText(viewFile);
         // @types/nunjucks 3.1.1 没有第三个 path 参数的类型定义
         const relativePath: any = viewFile;
         const template = compile(text, env, relativePath);
-        const viewName = basename(viewFile);
+        const viewName = basename(viewFile, ".html");
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
     this.app.container.register(ViewBeanKey, { type: "value", value: viewMap });
+    this.app.devTool.watchDir(viewDir);
     this.app.logger?.info("View ready");
   }
 }
@@ -51,7 +51,9 @@ function viewInjectHandler(
   originMethod: unknown,
 ) {
   const views = container.get(ViewBeanKey);
-  const render = getByPath(views, String(meta.name));
+  const name = String(meta.name);
+  const render = getByPath(views, name);
+  if (!render) throw new Error(`View not found: ${name}`);
   return !originMethod || !isFunction(originMethod)
     ? render
     : async (...args: any[]) =>

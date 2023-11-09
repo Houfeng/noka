@@ -1,9 +1,10 @@
-import globby from "globby";
+import globby, { GlobbyOptions } from "globby";
 import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
 import { isFunction } from "noka-utility";
 import { LoaderOptions } from "./LoaderOptions";
 import { setFileMeta } from "./FileMetadata";
+import { resolve } from "path";
 
 type ModuleExports = Record<string, unknown>;
 
@@ -16,19 +17,14 @@ export abstract class AbstractLoader<
 > implements LoaderInstance
 {
   /**
-   * 开启观察能力
-   */
-  readonly watchable: boolean = true;
-
-  /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
    */
   constructor(
     protected app: ApplicationLike,
-    public options: T,
+    protected options: T,
   ) {
-    this.options = { targetDir: this.app.rootDir, ...options };
+    this.options = { ...options };
   }
 
   /**
@@ -36,12 +32,13 @@ export abstract class AbstractLoader<
    * @param paths 匹配表达式
    * @param options 匹配选项
    */
-  protected glob(path: string | string[], options?: globby.GlobbyOptions) {
-    const { targetDir = "app:/" } = this.options;
+  protected async glob(pattern: string | string[], options?: GlobbyOptions) {
+    const { targetDir = this.app.rootDir } = this.options;
     const cwd = this.app.resolvePath(targetDir);
-    const paths = Array.isArray(path) ? path : [path];
-    const selector = paths.map((it) => this.app.resolvePath(it));
-    return globby(selector, { ...options, cwd });
+    const patterns = Array.isArray(pattern) ? pattern : [pattern];
+    const selector = patterns.map((it) => this.app.parsePath(it));
+    const paths = await globby(selector, { ...options, cwd });
+    return paths.map((it) => resolve(cwd, it));
   }
 
   /**
@@ -65,7 +62,7 @@ export abstract class AbstractLoader<
    * 加载通过 path 指定的内容
    */
   protected async loadModules(): Promise<C[]> {
-    const moduleFiles = await this.glob("./**/*.:bin");
+    const moduleFiles = await this.glob("./**/*:bin");
     const items: C[] = [];
     moduleFiles.forEach((moduleFile) => {
       const fileExports = this.importModule(moduleFile);

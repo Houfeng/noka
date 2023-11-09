@@ -1,12 +1,11 @@
 /** @format */
 
 import { AppInfo } from "../common/AppInfo";
-import { exec } from "../common/exec";
 import { existsSync } from "fs";
-import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
 import { Hooks } from "../common/Hooks";
+import { daemon } from "../common/daemon";
 
 /**
  * 用开发模式启动 Noka 工程
@@ -20,10 +19,8 @@ export async function dev(env: string, $1: string) {
   if (!existsSync(appInfo.srcEntry)) throw new Error("No entry file found");
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.dev();
-  const tsnd = findCommand(__dirname, "tsnd");
-  const command = `${tsnd} --debounce 3000 ${appInfo.srcEntry}`;
-  await exec(command, {
+  await daemon(appInfo.srcEntry, {
     cwd: appInfo.root,
-    env: { NOKA_ENV: env },
+    env: { ...process.env, NOKA_ENV: env },
   });
 }

@@ -6,7 +6,6 @@ export type HeaderLoaderOptions = LoaderOptions<Record<string, string>>;
  * 响应头加载器
  */
 export class HeadersLoader extends AbstractLoader<HeaderLoaderOptions> {
-  watchable: boolean = false;
   /**
    * 配置默认响应头
    */

@@ -5,14 +5,8 @@ import { cmdline } from "cmdline";
 import { dev } from "./commands/dev";
 import { init } from "./commands/init";
 import { lint } from "./commands/lint";
-import { list } from "./commands/list";
 import { logger } from "./common/logger";
 import { normalize } from "path";
-import { remove } from "./commands/remove";
-import { restart } from "./commands/restart";
-import { start } from "./commands/start";
-import { startup } from "./commands/startup";
-import { stop } from "./commands/stop";
 import { test } from "./commands/test";
 import { release } from "./commands/release";
 
@@ -61,40 +55,6 @@ cmdline
   // release
   .root.command(["release"])
   .action(release, "*")
-
-  // start
-  .root.command(["start"])
-  .option(["-e", "--env"], "string")
-  .option(["-n", "--name"], "string")
-  .option(["-c", "--cluster"], "string")
-  .action(start, "*")
-
-  // list
-  .root.command(["list", "ls"])
-  .action(list, "*")
-
-  // restart
-  .root.command(["restart", "rs"])
-  .option(["-n", "--name"], "string")
-  .option(["-a", "--all"], "switch")
-  .action(restart, "*")
-
-  // stop
-  .root.command(["stop"])
-  .option(["-n", "--name"], "string")
-  .option(["-a", "--all"], "switch")
-  .action(stop, "*")
-
-  // remove
-  .root.command(["remove", "rm"])
-  .option(["-n", "--name"], "string")
-  .option(["-a", "--all"], "switch")
-  .action(remove, "*")
-
-  // startup
-  .root.command(["startup", "su"])
-  .option(["-p", "--platform"], "string")
-  .action(startup, "*")
 
   // ready
   .ready();

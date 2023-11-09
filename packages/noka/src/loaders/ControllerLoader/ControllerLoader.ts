@@ -38,12 +38,12 @@ export class ControllerLoader extends AbstractLoader<
   }
 
   protected appendDebugRouteItems(info: DebugRouteInfo) {
-    if (!this.app.isLaunchSourceCode) return;
+    if (!this.app.isSourceMode) return;
     this.debugRouteItems.push(info);
   }
 
   protected async dumpDebugRouteItemsToFile() {
-    if (!this.app.isLaunchSourceCode || this.debugRouteItems.length < 1) return;
+    if (!this.app.isSourceMode || this.debugRouteItems.length < 1) return;
     await mkdir(this.debugDir);
     const dumpFile = resolve(this.debugDir, "./controllers.json");
     return writeText(
