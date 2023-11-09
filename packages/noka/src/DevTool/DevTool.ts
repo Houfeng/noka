@@ -18,7 +18,7 @@ export class DevTool {
     this.watchedDir = [...watchDir];
   }
 
-  private reloadProcess = () => {
+  private reloadApp = () => {
     const { enabled, binDir } = this.options;
     if (!enabled) return;
     if (typeof require === "undefined" || !require.cache) {
@@ -49,7 +49,7 @@ export class DevTool {
       ignoreInitial: true,
       depth: Number.MAX_SAFE_INTEGER,
     });
-    this.watcher?.on("all", this.reloadProcess);
+    this.watcher?.on("all", this.reloadApp);
   }
 
   /**
@@ -57,7 +57,7 @@ export class DevTool {
    */
   stopWatch() {
     if (!this.watcher) return;
-    this.watcher.off("all", this.reloadProcess);
+    this.watcher.off("all", this.reloadApp);
     this.watcher = undefined;
   }
 }
