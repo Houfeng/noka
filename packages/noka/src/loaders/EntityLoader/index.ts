@@ -24,7 +24,8 @@ const defaultOptions = {
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     await super.load();
-    const { path = "bin:/entities/**/*:bin", ...others } = this.options;
+    const { targetDir: path = "bin:/entities/**/*:bin", ...others } =
+      this.options;
     defaultOptions.location = this.app.resolvePath(defaultOptions.location);
     const dataSource = new DataSource({
       ...defaultOptions,

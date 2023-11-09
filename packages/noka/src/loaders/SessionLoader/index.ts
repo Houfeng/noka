@@ -17,6 +17,7 @@ export type SessionLoaderOptions = LoaderOptions<{
 }>;
 
 export class SessionLoader extends AbstractLoader<SessionLoaderOptions> {
+  watchable: boolean = false;
   public async load() {
     const options = {
       key: cookieName,

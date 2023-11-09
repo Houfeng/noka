@@ -37,6 +37,8 @@ const defaultOptions = {
  * 日志加载器
  */
 export class LoggerLoader extends AbstractLoader {
+  watchable = false;
+
   /**
    * 是否仅打印日志到 console
    */
@@ -52,7 +54,7 @@ export class LoggerLoader extends AbstractLoader {
    */
   protected getOptions() {
     const options = merge(defaultOptions, this.options);
-    options.path = this.app.resolvePath(options.path || "");
+    options.targetDir = this.app.resolvePath(options.targetDir || "");
     if (options.writers && this.onlyConsole) {
       Object.keys(options.writers).forEach((key) => {
         const writerConf = options.writers[key];
@@ -68,7 +70,7 @@ export class LoggerLoader extends AbstractLoader {
    */
   public async load() {
     const options = this.getOptions();
-    await Logger.init({ ...options, root: options?.path });
+    await Logger.init({ ...options, root: options?.targetDir });
     const getLogger = (category?: string) => Logger.get(category);
     this.app.container.register(this.app.loggerRegisterKey, {
       type: "value",

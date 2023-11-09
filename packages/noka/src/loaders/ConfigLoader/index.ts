@@ -2,6 +2,7 @@ import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { AbstractLoader } from "../../Loader";
 import { ApplicationConfigRegisterKey } from "../../Application/ApplicationConfig";
+import { normalize } from "path";
 
 const { Parser } = require("confman/index");
 
@@ -10,8 +11,8 @@ const { Parser } = require("confman/index");
  * @param options 注入选项
  */
 function configInjectHandler(container: ContainerLike, meta: InjectMeta) {
-  const configObject = container.get(ApplicationConfigRegisterKey);
-  return getByPath(configObject, String(meta.name));
+  const config = container.get(ApplicationConfigRegisterKey);
+  return getByPath(config, String(meta.name));
 }
 
 /**
@@ -27,17 +28,13 @@ export function Config(path: string) {
  */
 export class ConfigLoader extends AbstractLoader {
   async load() {
-    const { path = "app:/configs/config" } = this.options;
-    const configPath = this.app.resolvePath(path);
-    const configParser = new Parser({ env: this.app.env });
-    const configObject = await configParser.load(configPath);
+    const { targetDir = "app:/configs" } = this.options;
+    const file = normalize(`${this.app.resolvePath(targetDir)}/config`);
+    const parser = new Parser({ env: this.app.env });
+    const config = await parser.load(file);
     this.app.container.register(ApplicationConfigRegisterKey, {
       type: "value",
-      value: configObject,
+      value: config,
     });
-    this.watch([`${configPath}.*`, `${configPath}/**/*.*`]);
-  }
-  async unload(): Promise<void> {
-    this.unWatch();
   }
 }

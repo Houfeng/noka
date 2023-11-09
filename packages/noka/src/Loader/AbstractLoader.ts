@@ -1,10 +1,7 @@
 import globby from "globby";
-import { existsSync } from "fs";
 import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
-import { isFunction, isString } from "noka-utility";
-import { readText, writeText } from "noka-utility";
-import { FSWatcher, watch, WatchOptions } from "chokidar";
+import { isFunction } from "noka-utility";
 import { LoaderOptions } from "./LoaderOptions";
 import { setFileMeta } from "./FileMetadata";
 
@@ -19,14 +16,19 @@ export abstract class AbstractLoader<
 > implements LoaderInstance
 {
   /**
+   * 开启观察能力
+   */
+  readonly watchable: boolean = true;
+
+  /**
    * 通过 path 声明一个加载器实例
    * @param options 路径或匹配表达式
    */
   constructor(
     protected app: ApplicationLike,
-    protected options: T,
+    public options: T,
   ) {
-    this.options = { ...options };
+    this.options = { targetDir: this.app.rootDir, ...options };
   }
 
   /**
@@ -35,10 +37,11 @@ export abstract class AbstractLoader<
    * @param options 匹配选项
    */
   protected glob(path: string | string[], options?: globby.GlobbyOptions) {
+    const { targetDir = "app:/" } = this.options;
+    const cwd = this.app.resolvePath(targetDir);
     const paths = Array.isArray(path) ? path : [path];
-    const cwd = this.app.rootDir;
     const selector = paths.map((it) => this.app.resolvePath(it));
-    return globby(selector, { cwd, ...options });
+    return globby(selector, { ...options, cwd });
   }
 
   /**
@@ -53,37 +56,6 @@ export abstract class AbstractLoader<
     }
   }
 
-  private watcher?: FSWatcher;
-
-  /**
-   * 在通过 noka-cli 启动时，可通过此方法监听指定的文件，并自动重启进程
-   * 在非 noka-cli 启动时，此方法将不会起任何作用
-   * 请不用将 .js 和 .ts 文件传给此方法，因为代码文件默认就会自动重启
-   * @param paths 文件（file, dir, glob, or array）
-   */
-  protected watch(paths: string | string[], options?: WatchOptions): void {
-    if (!this.app.isLaunchSourceCode) return;
-    this.unWatch();
-    this.watcher = watch(paths, { ...options, ignoreInitial: true });
-    this.watcher.on("all", this.requestAppRestart);
-  }
-
-  protected unWatch() {
-    if (!this.watcher) return;
-    this.watcher.off("all", this.requestAppRestart);
-    this.watcher = undefined;
-  }
-
-  /**
-   * 请求 app 进行重启
-   */
-  protected requestAppRestart = async () => {
-    if (!this.app.isLaunchSourceCode) return;
-    const text = await readText(this.app.entry);
-    if (!text) return;
-    return writeText(this.app.entry, text);
-  };
-
   /**
    * 已加载的资源或类型列表
    */
@@ -93,11 +65,7 @@ export abstract class AbstractLoader<
    * 加载通过 path 指定的内容
    */
   protected async loadModules(): Promise<C[]> {
-    const { rootDir } = this.app;
-    if (!existsSync(rootDir)) return [];
-    const { path } = this.options;
-    if (!isString(path)) return [];
-    const moduleFiles = await this.glob(path);
+    const moduleFiles = await this.glob("./**/*.:bin");
     const items: C[] = [];
     moduleFiles.forEach((moduleFile) => {
       const fileExports = this.importModule(moduleFile);
@@ -105,7 +73,6 @@ export abstract class AbstractLoader<
       Object.keys(fileExports).forEach((name) => {
         const mod: any = fileExports[name];
         items.push(mod);
-        // 用于 debug
         if (isFunction(mod)) setFileMeta(mod, { path: moduleFile });
       });
     });
@@ -117,12 +84,5 @@ export abstract class AbstractLoader<
    */
   async load() {
     this.items = await this.loadModules();
-  }
-
-  /**
-   * 由应用调用的 unload 方法
-   */
-  async unload() {
-    this.unWatch();
   }
 }

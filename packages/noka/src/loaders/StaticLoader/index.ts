@@ -7,9 +7,10 @@ const conditional = require("koa-conditional-get");
 const etag = require("koa-etag");
 
 export class StaticLoader extends AbstractLoader {
+  watchable: boolean = false;
   public async load() {
-    const { path = "app:/assets" } = this.options;
-    const staticRoot = this.app.resolvePath(path);
+    const { targetDir = "app:/assets" } = this.options;
+    const staticRoot = this.app.resolvePath(targetDir);
     if (!existsSync(staticRoot)) return;
     this.app.server.use(async (ctx, next) => {
       await next();

@@ -29,54 +29,54 @@ export * from "./FilterLoader";
 export const BuiltInLoaders = {
   config: {
     loader: ConfigLoader,
-    options: { path: "app:/configs/config" },
+    options: { targetDir: "app:/configs" },
   } satisfies LoaderConfigItem<typeof ConfigLoader>,
   logger: {
     loader: LoggerLoader,
-    options: { path: "home:/logs" },
+    options: { targetDir: "home:/logs" },
   } satisfies LoaderConfigItem<typeof LoggerLoader>,
   entity: {
     loader: EntityLoader,
-    options: { path: "bin:/entities/**/*:bin" },
+    options: { targetDir: "bin:/entities" },
   } satisfies LoaderConfigItem<typeof EntityLoader>,
   service: {
     loader: ServiceLoader,
-    options: { path: "bin:/services/**/*:bin" },
+    options: { targetDir: "bin:/services" },
   } satisfies LoaderConfigItem<typeof ServiceLoader>,
   model: {
     loader: ModelLoader,
-    options: { path: "bin:/models/**/*:bin" },
+    options: { targetDir: "bin:/models" },
   } satisfies LoaderConfigItem<typeof ModelLoader>,
   headers: {
     loader: HeadersLoader,
-    options: { path: "" },
+    options: { targetDir: "" },
   } satisfies LoaderConfigItem<typeof HeadersLoader>,
   body: {
     loader: BodyLoader,
-    options: { path: "" },
+    options: { targetDir: "" },
   } satisfies LoaderConfigItem<typeof BodyLoader>,
   session: {
     loader: SessionLoader,
-    options: { path: "" },
+    options: { targetDir: "" },
   } satisfies LoaderConfigItem<typeof SessionLoader>,
   static: {
     loader: StaticLoader,
-    options: { path: "app:/assets" },
+    options: { targetDir: "app:/assets" },
   } satisfies LoaderConfigItem<typeof StaticLoader>,
   setup: {
     loader: SetupLoader,
-    options: { path: "bin:/setups/**/*:bin" },
+    options: { targetDir: "bin:/setups" },
   } satisfies LoaderConfigItem<typeof SetupLoader>,
   view: {
     loader: ViewLoader,
-    options: { path: "app:/views", extname: ".html" },
+    options: { targetDir: "app:/views" },
   } satisfies LoaderConfigItem<typeof ViewLoader>,
   filter: {
     loader: FilterLoader,
-    options: { path: "bin:/filters/**/*:bin" },
+    options: { targetDir: "bin:/filters" },
   } satisfies LoaderConfigItem<typeof FilterLoader>,
   controller: {
     loader: ControllerLoader,
-    options: { path: "bin:/controllers/**/*:bin" },
+    options: { targetDir: "bin:/controllers" },
   } satisfies LoaderConfigItem<typeof ControllerLoader>,
 };

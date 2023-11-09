@@ -19,8 +19,9 @@ import {
   ApplicationConfigRegisterKey,
   ApplicationLoggerRegisterKey,
 } from "./ApplicationConfig";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
+import { DevTool } from "../DevTool/index";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -287,6 +288,7 @@ export class Application implements ApplicationLike {
     await this.resolvePort();
     this.listener.listen(this.port, this.hostname);
     await this.launchAllLoaderInstances();
+    this.devTool.startWatch();
     return this;
   }
 
@@ -294,7 +296,20 @@ export class Application implements ApplicationLike {
    * 停止当前应用实例
    */
   async stop() {
+    this.devTool.stopWatch();
     this.unloadAllLoaderInstances();
     this.listener.close();
   }
+
+  /** 开发时工具 */
+  private readonly devTool = new DevTool({
+    enabled: this.isLaunchSourceCode,
+    getWatchDir: () => {
+      if (!this.isLaunchSourceCode) return [];
+      return this.loaderInstances
+        .filter((it) => it.watchable && it.options.targetDir)
+        .map((it) => this.resolvePath(it.options.targetDir!))
+        .filter((it) => existsSync(it));
+    },
+  });
 }

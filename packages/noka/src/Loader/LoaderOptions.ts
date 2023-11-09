@@ -1,3 +1,3 @@
 export type LoaderOptions<T = unknown> = {
-  path?: string;
+  targetDir?: string;
 } & T;
