@@ -1,5 +1,16 @@
 # noka-app
 
+## 2.1.0
+
+### Minor Changes
+
+- 改进 cli & 改进开发时进程重载
+
+### Patch Changes
+
+- Updated dependencies
+  - noka@2.1.0
+
 ## 2.0.20
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.1.0
+
+### Minor Changes
+
+- 改进 cli & 改进开发时进程重载
+
 ## 2.0.20
 
 ### Patch Changes
