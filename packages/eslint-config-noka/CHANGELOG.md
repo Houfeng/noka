@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.1.2
+
+### Patch Changes
+
+- 更新 Filter 参数
+
 ## 2.1.1
 
 ### Patch Changes

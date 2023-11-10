@@ -7,7 +7,10 @@ export type FilterMeta = {
   priority: number;
 };
 
-export function Filter(path = "/*", priority = 0) {
+export function Filter(
+  path: string | RegExp | string[] | RegExp[] = "/*",
+  priority = 0,
+) {
   return (target: BeanConstructor) => {
     Reflect.metadata(filterMetaKey, { path, priority })(target);
   };
