@@ -9,6 +9,7 @@ import { LoaderOptions } from "../../Loader/LoaderOptions";
 import { BeanConstructor } from "../../Container";
 import { getFileMeta } from "../../Loader/FileMetadata";
 import { ControllerMeta, getControllerMeta } from "./ControllerMeta";
+import { isControllerResult } from "./ControllerResult";
 
 export type DebugRouteInfo = Omit<RouteMeta, "priority"> & {
   file: string;
@@ -95,6 +96,7 @@ export class ControllerLoader extends AbstractLoader<
       );
       ctx.preventCache = true;
       if (writeHandler) return writeHandler(ctx, result);
+      if (isControllerResult(result)) return Object.assign(ctx, result);
       if (!isNull(result)) ctx.body = result;
     };
     this.app.router.register(routePath, httpMethods, routeHandler);

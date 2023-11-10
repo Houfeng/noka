@@ -3,7 +3,10 @@ import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { uuid } from "noka-utility";
 import { Ctx } from "../ControllerLoader";
 
-export { type Session as ContextSession } from "koa-session";
+export {
+  type Session as ContextSession,
+  type Session as HttpSession,
+} from "koa-session";
 
 const signKeys: string[] = [uuid()];
 const cookieName = "NOKA-SID";

@@ -1,3 +1,5 @@
+import { ControllerResult } from "./ControllerResult";
+
 const controllerMetaKey = Symbol("Controller");
 
 /**
@@ -17,6 +19,8 @@ export function Controller(path = "/", priority = 0) {
     Reflect.metadata(controllerMetaKey, { path, priority })(target);
   };
 }
+
+Controller.Result = ControllerResult;
 
 /**
  * 获取控制器信息

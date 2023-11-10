@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.1.3
+
+### Patch Changes
+
+- 增加 Controller.Result API
+- Updated dependencies
+  - noka-utility@2.1.3
+
 ## 2.1.2
 
 ### Patch Changes

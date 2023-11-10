@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.1.3
+
+### Patch Changes
+
+- 增加 Controller.Result API
+
 ## 2.1.2
 
 ### Patch Changes

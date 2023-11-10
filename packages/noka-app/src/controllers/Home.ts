@@ -20,7 +20,7 @@ export class HomeController {
   @Get("/")
   @View("index")
   async index() {
-    return { message: "Noka" };
+    return Controller.Result({ message: "Noka" }, 404);
   }
 
   @Inject()

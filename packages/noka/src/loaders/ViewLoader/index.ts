@@ -6,6 +6,7 @@ import { readText } from "noka-utility";
 import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { isFunction } from "noka-utility";
+import { isControllerResult } from "../ControllerLoader";
 
 const ViewBeanKey = Symbol("View");
 
@@ -48,16 +49,21 @@ function viewInjectHandler(
   container: ContainerLike,
   meta: InjectMeta,
   instance: unknown,
-  originMethod: unknown,
+  method: unknown,
 ) {
   const views = container.get(ViewBeanKey);
   const name = String(meta.name);
   const render = getByPath(views, name);
-  if (!render) throw new Error(`View not found: ${name}`);
-  return !originMethod || !isFunction(originMethod)
-    ? render
-    : async (...args: any[]) =>
-        render(await originMethod.call(instance, ...args));
+  if (!render || !isFunction(render)) throw new Error(`Invalid View: ${name}`);
+  if (!method || !isFunction(method)) return render(method);
+  return async (...args: any[]) => {
+    const result = await method.call(instance, ...args);
+    if (isControllerResult(result)) {
+      result.body = await render(result.body);
+      return result;
+    }
+    return render(result);
+  };
 }
 
 /**
