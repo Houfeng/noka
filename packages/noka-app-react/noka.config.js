@@ -8,7 +8,7 @@ module.exports = {
   },
   afterHooks: {
     async clean({ utils }) {
-      const target = resolve(__dirname, `./assets/app/**/*.*`);
+      const target = resolve(__dirname, `./assets/app/`);
       await utils.del(target);
     },
     async lint({ utils }) {
@@ -17,6 +17,10 @@ module.exports = {
     },
     async build({ utils }) {
       await utils.exec(`NODE_ENV=production webpack`);
+    },
+    async release({ utils }) {
+      const target = resolve(__dirname, `./release/{app,shared,types}/`);
+      await utils.del(target);
     },
   },
 };
