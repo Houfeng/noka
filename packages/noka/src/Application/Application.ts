@@ -315,7 +315,6 @@ export class Application implements ApplicationLike {
   /** 开发时工具 */
   readonly devTool = new DevTool({
     enabled: this.isSourceMode,
-    binDir: this.binDir,
     entry: this.entry,
     watchDir: [this.binDir],
     resolvePath: (path: string) => this.resolvePath(path),
