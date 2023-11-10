@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.1.1
+
+### Patch Changes
+
+- 更新示例模板的构建配置
+- Updated dependencies
+  - noka-utility@2.1.1
+
 ## 2.1.0
 
 ### Minor Changes
