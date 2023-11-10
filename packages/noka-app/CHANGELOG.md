@@ -1,5 +1,13 @@
 # noka-app
 
+## 2.1.4
+
+### Patch Changes
+
+- 修复 filter 在 return next 的错误返回
+- Updated dependencies
+  - noka@2.1.4
+
 ## 2.1.3
 
 ### Patch Changes
