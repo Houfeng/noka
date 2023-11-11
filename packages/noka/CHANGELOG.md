@@ -1,5 +1,13 @@
 # noka
 
+## 2.1.5
+
+### Patch Changes
+
+- 优化 Debug 日志输出
+- Updated dependencies
+  - noka-utility@2.1.5
+
 ## 2.1.4
 
 ### Patch Changes

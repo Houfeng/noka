@@ -30,14 +30,13 @@ const defaultOptions = {
       format: "[{time}] {method} {url} {status} {rt}ms {hostname} #{pid}",
       location: "./access-{yyyy-MM-dd}.log",
     },
-  } as Record<string, { type: string, format?: string }>,
+  } as Record<string, { type: string; format?: string }>,
 };
 
 /**
  * 日志加载器
  */
 export class LoggerLoader extends AbstractLoader {
-
   /**
    * 获取日志选项
    */
@@ -49,7 +48,7 @@ export class LoggerLoader extends AbstractLoader {
         const writerConf = options.writers[key];
         if (!writerConf) return;
         writerConf.type = "console";
-        if (key !== 'ctx') writerConf.format = "[{time}] {data}";
+        if (key !== "ctx") writerConf.format = "[{time}] {data}";
         else writerConf.format = "[{time}] {method} {url} {status}";
       });
     }
