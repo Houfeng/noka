@@ -7,7 +7,16 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Noka App",
+      "name": "Debug Noka App (cli)",
+      "args": [
+        "${workspaceFolder}/node_modules/noka-cli/dist",
+        "dev"
+      ]
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug Noka App (tsc)",
       "program": "${workspaceFolder}/src/app.ts",
       "preLaunchTask": "tsc:build",
       "outFiles": [
