@@ -1,4 +1,5 @@
 import { FSWatcher, watch } from "chokidar";
+import { LoggerLike } from "../loaders";
 
 export type DevToolOptions = {
   enabled: boolean;
@@ -6,6 +7,7 @@ export type DevToolOptions = {
   watchDir: string[];
   resolvePath: (path: string) => string;
   stop: () => void;
+  logger: () => LoggerLike | undefined;
 };
 
 export class DevTool {
@@ -27,15 +29,11 @@ export class DevTool {
     for (const path in require.cache) {
       if (this.inWatchedDir(path)) delete require.cache[path];
     }
-    /* eslint-disable-next-line */
-    console.clear();
+    this.options.logger()?.info("NokaApp reload:");
     require(this.options.entry);
   };
 
-  /**
-   * @internal
-   */
-  inWatchedDir(path: string) {
+  private inWatchedDir(path: string) {
     return this.watchedDir.some((it) => path.startsWith(it));
   }
 

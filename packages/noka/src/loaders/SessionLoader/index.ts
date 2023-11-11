@@ -1,6 +1,5 @@
 import session from "koa-session";
 import { AbstractLoader, LoaderOptions } from "../../Loader";
-import { uuid } from "noka-utility";
 import { Ctx } from "../ControllerLoader";
 
 export {
@@ -8,7 +7,7 @@ export {
   type Session as HttpSession,
 } from "koa-session";
 
-const signKeys: string[] = [uuid()];
+const signKeys: string[] = ["NOKA_SIGN_KEY"];
 const cookieName = "NOKA-SID";
 
 const second = 1000;

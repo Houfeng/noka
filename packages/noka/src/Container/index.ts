@@ -1,5 +1,3 @@
-/** @format */
-
 export * from "./ProviderMeta";
 export * from "./InjectMeta";
 export * from "./Container";

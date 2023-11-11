@@ -319,5 +319,6 @@ export class Application implements ApplicationLike {
     watchDir: [this.binDir],
     resolvePath: (path: string) => this.resolvePath(path),
     stop: () => this.stop(),
+    logger: () => this.logger,
   });
 }

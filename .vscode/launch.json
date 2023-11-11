@@ -7,7 +7,7 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug Noka App",
+      "name": "Debug Noka",
       "program": "${workspaceFolder}/packages/noka-app/src/app.ts",
       "preLaunchTask": "tsc:build",
       "outFiles": [
