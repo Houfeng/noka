@@ -5,6 +5,6 @@ const application = Application.create();
 application
   .launch()
   .then(({ port, logger }) => {
-    logger?.info("Running:", `[ http://localhost:${port} ]`);
+    logger?.info("Running:", `[http://localhost:${port}]`);
   })
   .catch((err) => application.logger?.error(err));

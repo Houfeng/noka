@@ -27,37 +27,30 @@ const defaultOptions = {
       type: "file",
       categories: ["access"],
       level: [Level.info],
-      format: "[{time}] - {method} {url} {status} {rt}ms {hostname} #{pid}",
+      format: "[{time}] {method} {url} {status} {rt}ms {hostname} #{pid}",
       location: "./access-{yyyy-MM-dd}.log",
     },
-  } as Record<string, { type: string }>,
+  } as Record<string, { type: string, format?: string }>,
 };
 
 /**
  * 日志加载器
  */
 export class LoggerLoader extends AbstractLoader {
-  /**
-   * 是否仅打印日志到 console
-   */
-  protected get onlyConsole() {
-    return (
-      !this.app.env ||
-      ["dev", "development", "test", "local"].includes(this.app.env)
-    );
-  }
 
   /**
    * 获取日志选项
    */
-  protected getOptions() {
+  protected makeOptions() {
     const options = merge(defaultOptions, this.options);
     options.targetDir = this.app.resolvePath(options.targetDir || "");
-    if (options.writers && this.onlyConsole) {
+    if (options.writers && this.app.isSourceMode) {
       Object.keys(options.writers).forEach((key) => {
         const writerConf = options.writers[key];
         if (!writerConf) return;
         writerConf.type = "console";
+        if (key !== 'ctx') writerConf.format = "[{time}] {data}";
+        else writerConf.format = "[{time}] {method} {url} {status}";
       });
     }
     return options;
@@ -67,7 +60,7 @@ export class LoggerLoader extends AbstractLoader {
    * 初始化日志模块
    */
   public async load() {
-    const options = this.getOptions();
+    const options = this.makeOptions();
     await Logger.init({ ...options, root: options?.targetDir });
     const getLogger = (category?: string) => Logger.get(category);
     this.app.container.register(this.app.loggerRegisterKey, {

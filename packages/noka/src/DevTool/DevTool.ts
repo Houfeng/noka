@@ -6,7 +6,7 @@ export type DevToolOptions = {
   entry: string;
   watchDir: string[];
   resolvePath: (path: string) => string;
-  stop: () => void;
+  stopApp: () => void;
   logger: () => LoggerLike | undefined;
 };
 
@@ -20,17 +20,19 @@ export class DevTool {
   }
 
   private reloadApp = () => {
-    const { enabled } = this.options;
+    const { enabled, entry, stopApp, logger } = this.options;
     if (!enabled) return;
     if (typeof require === "undefined" || !require.cache) {
       return process.exit(0);
     }
-    this.options.stop();
+    stopApp();
     for (const path in require.cache) {
       if (this.inWatchedDir(path)) delete require.cache[path];
     }
-    this.options.logger()?.info("NokaApp reload:");
-    require(this.options.entry);
+    logger()?.info("╔═══════════════════╗");
+    logger()?.info("║  NOKA APP RELOAD  ║");
+    logger()?.info("╚═══════════════════╝");
+    require(entry);
   };
 
   private inWatchedDir(path: string) {
