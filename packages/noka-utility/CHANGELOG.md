@@ -1,5 +1,11 @@
 # noka
 
+## 2.1.6
+
+### Patch Changes
+
+- 改进调试日志输入
+
 ## 2.1.5
 
 ### Patch Changes

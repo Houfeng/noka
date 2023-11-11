@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.1.6
+
+### Patch Changes
+
+- 改进调试日志输入
+- Updated dependencies
+  - noka-utility@2.1.6
+
 ## 2.1.5
 
 ### Patch Changes

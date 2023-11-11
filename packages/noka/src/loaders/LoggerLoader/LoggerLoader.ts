@@ -48,8 +48,8 @@ export class LoggerLoader extends AbstractLoader {
         const writerConf = options.writers[key];
         if (!writerConf) return;
         writerConf.type = "console";
-        if (key !== "ctx") writerConf.format = "[{time}] {data}";
-        else writerConf.format = "[{time}] {method} {url} {status}";
+        if (key !== "access") writerConf.format = "[{time}] {data}";
+        else writerConf.format = "[{time}] {method} {url} {status} {rt}ms";
       });
     }
     return options;
