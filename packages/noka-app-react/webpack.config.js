@@ -54,7 +54,7 @@ module.exports = {
     new WebpackManifestPlugin({
       publicPath: NODE_ENV === 'development'
         ? 'http://{host}:8081/' : '/app/',
-      fileName: 'pi-manifest.json',
+      fileName: 'in-manifest.json',
       filter: (it) => it.isInitial || it.path.endsWith('.css'),
       serialize: (manifest) => {
         const items = Object.values(manifest);

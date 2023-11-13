@@ -7,8 +7,8 @@ type Assets = { styles: string[]; scripts: string[] };
 const { NOKA_ENV } = process.env;
 let cachedAssets: Assets;
 
-export async function getClientAssets(host: string): Promise<Assets> {
-  const manifestFile = "pi-manifest.json";
+export async function getClientInitialAssets(host: string): Promise<Assets> {
+  const manifestFile = "in-manifest.json";
   if (NOKA_ENV === "development") {
     const res = await fetch(`http://127.0.0.1:8081/${manifestFile}`);
     const assets = (await res.json()) as Assets;
