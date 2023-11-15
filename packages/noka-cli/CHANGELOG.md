@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.1.7
+
+### Patch Changes
+
+- Setup 进行自动注入 & 其他一些优化
+- Updated dependencies
+  - noka-utility@2.1.7
+
 ## 2.1.6
 
 ### Patch Changes
