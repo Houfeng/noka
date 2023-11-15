@@ -24,8 +24,9 @@ export class SetupLoader extends AbstractLoader<
       .sort((a, b) => b.meta.priority - a.meta.priority)
       .forEach(async ({ Setup, meta }) => {
         // 应用启动时将自动执行
-        const setup = new Setup();
-        const value = await setup.handle(this.app);
+        const setupInstance = new Setup();
+        this.app.container.inject(setupInstance);
+        const value = await setupInstance.handle(this.app);
         // 执行结果,可被 controller/service 等模块注入
         this.app.container.register(meta.name, { type: "value", value });
         this.app.container.register(Setup, { type: "value", value });

@@ -26,10 +26,10 @@ export class FilterLoader extends AbstractLoader<
       .sort((a, b) => b.meta.priority - a.meta.priority)
       .forEach(async ({ Filter, meta }) => {
         const handler = async (ctx: HttpContext, next: () => Promise<void>) => {
-          const filter = new Filter();
-          container.inject(filter);
+          const filterInstance = new Filter();
+          container.inject(filterInstance);
           ctx.preventCache = true;
-          await filter.handle(ctx, next);
+          await filterInstance.handle(ctx, next);
         };
         const paths = Array.isArray(meta.path) ? meta.path : [meta.path];
         paths.forEach((path) => router.register(path, allMethods, handler));
