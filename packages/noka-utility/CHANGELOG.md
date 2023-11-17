@@ -1,5 +1,11 @@
 # noka
 
+## 2.1.8
+
+### Patch Changes
+
+- 增加 File 参数注入装饰器
+
 ## 2.1.7
 
 ### Patch Changes

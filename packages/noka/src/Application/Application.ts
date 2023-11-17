@@ -118,6 +118,7 @@ export class Application implements ApplicationLike {
   parsePath(path: string) {
     return normalize(
       path
+        .replace("~/", normalize(`${homedir()}/`))
         .replace("app:", this.rootDir)
         .replace("home:", this.homeDir)
         .replace("bin:", this.binDir)

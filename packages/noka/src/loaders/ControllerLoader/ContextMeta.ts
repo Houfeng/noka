@@ -45,13 +45,6 @@ export const Param = (name?: string) =>
   name ? Ctx(`params.${name}`) : Ctx("params");
 
 /**
- * 获取请求主体
- * @param name 请求主体参数
- */
-export const Body = (name?: string) =>
-  name ? Ctx(`request.body.${name}`) : Ctx("request.body");
-
-/**
  * 获取查询参数
  * @param name 查询参数名
  */

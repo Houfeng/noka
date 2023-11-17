@@ -12,8 +12,10 @@ import { BodyLoader } from "./BodyLoader";
 import { FilterLoader } from "./FilterLoader";
 import { ModelLoader } from "./ModelLoader";
 import { LoaderConfigItem } from "../Loader/LoaderConfigTypes";
+
 export * from "./ProviderLoader";
 export * from "./ControllerLoader";
+export * from "./BodyLoader";
 export * from "./ServiceLoader";
 export * from "./ModelLoader";
 export * from "./ConfigLoader";
