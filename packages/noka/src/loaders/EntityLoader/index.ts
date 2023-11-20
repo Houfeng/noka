@@ -12,7 +12,7 @@ export type EntityLoaderOptions = LoaderOptions<Partial<DataSourceOptions>>;
 
 const defaultOptions = {
   type: "sqljs",
-  location: "./data/store.db",
+  location: "home:/data.db",
   autoSave: true,
   synchronize: true,
   logging: false,
@@ -24,11 +24,11 @@ const defaultOptions = {
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     await super.load();
-    const { targetDir = "bin:/entities", ...others } = this.options;
-    defaultOptions.location = this.app.resolvePath(defaultOptions.location);
+    const options = { ...defaultOptions, ...this.options };
+    const { targetDir = "bin:/entities", location, ...others } = options;
     const dataSource = new DataSource({
-      ...defaultOptions,
       ...others,
+      location: this.app.resolvePath(location),
       entities: [this.app.resolvePath(`${targetDir}/**/*:bin`)],
     } as DataSourceOptions);
     this.app.container.register(entityBeanKey, {

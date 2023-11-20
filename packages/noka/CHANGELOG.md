@@ -1,5 +1,13 @@
 # noka
 
+## 2.1.9
+
+### Patch Changes
+
+- 优化内建数据本地数据库配置
+- Updated dependencies
+  - noka-utility@2.1.9
+
 ## 2.1.8
 
 ### Patch Changes
