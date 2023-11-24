@@ -10,6 +10,7 @@ import {
   Sse,
   Session,
   EventSourceManager,
+  HttpSession,
 } from "noka";
 import { UserService } from "../services/UserService";
 
@@ -49,7 +50,7 @@ export class HomeController {
   demoMessage?: string;
 
   @Get("/demo")
-  async demo(@Session() session: Record<string, any>) {
+  async demo(@Session() session: HttpSession) {
     session["test"] = "test";
     return this.demoMessage;
   }

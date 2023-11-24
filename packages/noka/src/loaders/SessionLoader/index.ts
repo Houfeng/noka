@@ -2,11 +2,6 @@ import session from "koa-session";
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { Ctx } from "../ControllerLoader";
 
-export {
-  type Session as ContextSession,
-  type Session as HttpSession,
-} from "koa-session";
-
 const signKeys: string[] = ["NOKA_SIGN_KEY"];
 const cookieName = "NOKA-SID";
 
@@ -28,6 +23,7 @@ export class SessionLoader extends AbstractLoader<SessionLoaderOptions> {
       ...this.options,
     };
     this.app.server.keys = options.signKeys;
+    //@ts-ignore
     this.app.server.use(session(options, this.app.server));
     this.app.logger?.info("Session ready");
   }

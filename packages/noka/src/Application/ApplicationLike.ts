@@ -1,12 +1,11 @@
 import http from "http";
 import https from "https";
 import http2 from "http2";
-import Koa from "koa";
-import Router from "koa-router";
 import { Container } from "../Container";
 import { LoggerLike } from "../loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
 import { DevToolLike } from "../DevTool/DevToolLike";
+import { HttpRouter, HttpServer } from "./ApplicationTypes";
 
 /**
  * 全局应用接口定义
@@ -77,9 +76,9 @@ export interface ApplicationLike {
   readonly config: ApplicationConfig;
 
   /**
-   * 应用内部 server 实例（Koa）
+   * 应用内部 server 实例（ HttpServer ）
    */
-  readonly server: Koa;
+  readonly server: HttpServer;
 
   /**
    * 负责实际监听客户端请求的 http(s) server 实例
@@ -99,7 +98,7 @@ export interface ApplicationLike {
   /**
    * 应用的根路由实例
    */
-  readonly router: Router;
+  readonly router: HttpRouter;
 
   /**
    * 日志对象

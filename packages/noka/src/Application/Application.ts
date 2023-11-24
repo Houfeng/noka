@@ -1,5 +1,3 @@
-import Koa from "koa";
-import Router from "koa-router";
 import http from "http";
 import https from "https";
 import { BIN_DIR_NAME, SRC_DIR_NAME, iife, merge } from "noka-utility";
@@ -22,6 +20,7 @@ import {
 import { readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
 import { DevTool } from "../DevTool";
+import { HttpRouter, HttpServer } from "./ApplicationTypes";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -50,17 +49,17 @@ export class Application implements ApplicationLike {
   /**
    * 对应的 koa 实例
    */
-  readonly server = new Koa();
+  readonly server = new HttpServer();
+
+  /**
+   * 应用路由
+   */
+  readonly router = new HttpRouter();
 
   /**
    * IoC 容器实例
    */
   readonly container = new Container();
-
-  /**
-   * 应用路由
-   */
-  readonly router = new Router();
 
   /**
    * 入口文件
