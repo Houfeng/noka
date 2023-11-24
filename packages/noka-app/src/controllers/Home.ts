@@ -16,8 +16,8 @@ import { UserService } from "../services/UserService";
 const eventSourceManager = new EventSourceManager();
 
 setInterval(() => {
-  eventSourceManager.send("u3", "test", "u3:" + String(Date.now()));
-}, 2000);
+  eventSourceManager.send("u1", "test", "u1:" + String(Date.now()));
+}, 5000);
 
 @Controller("/")
 export class HomeController {
