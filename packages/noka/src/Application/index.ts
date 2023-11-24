@@ -4,3 +4,4 @@ export * from "./ApplicationOptions";
 export * from "./ApplicationConfig";
 export * from "./ApplicationTypes";
 export * from "./ApplicationSymbol";
+export * from "./ApplicationLogger";

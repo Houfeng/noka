@@ -20,7 +20,7 @@ hostname: 0.0.0.0
 
 loader_imports:
   # loader_conf_name: loader_package
-
+  entity: noka-orm
 
 # =============================================================================
 # 配置 Loader 第二步：
@@ -33,7 +33,6 @@ loader_options:
   #   option_a: ...
   #   option_b: ...
   # loader_config_name: false
-
 
 # =============================================================================
 # 自定义配置
