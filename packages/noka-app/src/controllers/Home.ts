@@ -8,10 +8,16 @@ import {
   Post,
   View,
   Sse,
-  EventSource,
   Session,
+  EventSourceManager,
 } from "noka";
 import { UserService } from "../services/UserService";
+
+const eventSourceManager = new EventSourceManager();
+
+setInterval(() => {
+  eventSourceManager.send("u3", "test", "u3:" + String(Date.now()));
+}, 2000);
 
 @Controller("/")
 export class HomeController {
@@ -48,12 +54,14 @@ export class HomeController {
     return this.demoMessage;
   }
 
+  @Get("/sse")
+  @View("sse")
+  async sse() {
+    return {};
+  }
+
   @Sse("/sub")
   async sub() {
-    const source = new EventSource();
-    setInterval(() => {
-      source.send("test", String(Date.now()));
-    }, 2000);
-    return source;
+    return eventSourceManager.accept("u1");
   }
 }

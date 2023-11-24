@@ -65,9 +65,7 @@ module.exports = {
         "ignoreTemplateLiterals": true
       }
     ],
-    "no-console": [
-      "error"
-    ],
+    "no-console": 1,
     "quotes": [
       2,
       "double"

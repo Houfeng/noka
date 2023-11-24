@@ -1,5 +1,31 @@
 import { FSWatcher, watch } from "chokidar";
 import { LoggerLike } from "../loaders";
+import { iife } from "noka-utility";
+
+type Timer = NodeJS.Timeout;
+type TimerHandler = (...args: any) => void;
+
+function createTimerHooks() {
+  const { setInterval: _setInterval, setTimeout: _setTimeout } = global;
+  const timers = new Set<Timer>();
+  const clearAllTimers = () =>
+    timers.forEach((timer) => [
+      clearInterval(timer),
+      clearTimeout(timer),
+      timers.delete(timer),
+    ]);
+  const setTimeout = (fn: TimerHandler, ms?: number) => {
+    const timer: Timer = _setTimeout(() => [fn?.(), timers.delete(timer)], ms);
+    timers.add(timer);
+    return timer;
+  };
+  const setInterval = (fn: TimerHandler, ms?: number) => {
+    const timer: Timer = _setInterval(() => fn?.(), ms);
+    timers.add(timer);
+    return timer;
+  };
+  return { setTimeout, setInterval, clearAllTimers };
+}
 
 export type DevToolOptions = {
   enabled: boolean;
@@ -19,12 +45,20 @@ export class DevTool {
     this.watchedDir = [...watchDir];
   }
 
+  private timerHooks = iife(() => {
+    if (!this.options.enabled) return;
+    const hooks = createTimerHooks();
+    Object.assign(global, hooks);
+    return hooks;
+  });
+
   private reloadApp = () => {
     const { enabled, entry, stopApp, logger } = this.options;
     if (!enabled) return;
     if (typeof require === "undefined" || !require.cache) {
       return process.exit(0);
     }
+    this.timerHooks?.clearAllTimers();
     stopApp();
     for (const path in require.cache) {
       if (this.inWatchedDir(path)) delete require.cache[path];
