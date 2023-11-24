@@ -20,10 +20,10 @@
   },
   "keywords": [
     "noka",
-    "noka",
-    "nsp",
     "mvc",
     "rest",
+    "nodejs",
+    "web framework",
     "webapi",
     "web"
   ],
@@ -45,6 +45,7 @@
   "dependencies": {
     "chokidar": "3.0.1",
     "confman": "0.2.10",
+    "fastbus": "0.2.0",
     "globby": "9.2.0",
     "hilog": "1.0.7",
     "koa": "2.7.0",

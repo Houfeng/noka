@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const { WebpackManifestPlugin } = require('webpack-manifest-plugin');
+const CompressionPlugin = require("compression-webpack-plugin");
 const { resolve } = require('path');
 
 const { NODE_ENV } = process.env;
@@ -26,6 +27,7 @@ module.exports = {
   target: 'web',
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
+    mainFields: ['browser', 'module', 'main'],
   },
   externals: {
     'react': 'React',
@@ -35,12 +37,17 @@ module.exports = {
     rules: [
       {
         test: /\.tsx?$/,
-        use: 'ts-loader',
+        use: {
+          loader: 'ts-loader',
+          options: {
+            configFile: require.resolve('./app/tsconfig.json'),
+          },
+        },
         exclude: /node_modules/,
       },
     ]
   },
-  devtool: 'inline-source-map',
+  devtool: NODE_ENV === 'development' ? 'inline-source-map' : false,
   devServer: {
     port: 8081,
     liveReload: true,
@@ -64,5 +71,6 @@ module.exports = {
       },
       writeToFileEmit: true,
     }),
+    new CompressionPlugin()
   ],
 };
