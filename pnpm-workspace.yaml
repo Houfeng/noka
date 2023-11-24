@@ -4,5 +4,6 @@ packages:
   - "./packages/noka-utility/"
   - "./packages/noka/"
   - "./packages/noka-cli/"
+  - "./packages/noka-orm/"
   - "./packages/noka-app/"
   - "./packages/noka-app-react/"

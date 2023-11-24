@@ -484,6 +484,37 @@ importers:
         specifier: 8.10.0
         version: 8.10.0
 
+  packages/noka-orm:
+    dependencies:
+      reflect-metadata:
+        specifier: 0.1.13
+        version: 0.1.13
+      sql.js:
+        specifier: 1.8.0
+        version: 1.8.0
+      tslib:
+        specifier: 2.6.2
+        version: 2.6.2
+      typeorm:
+        specifier: 0.3.17
+        version: 0.3.17(sql.js@1.8.0)
+    devDependencies:
+      '@types/node':
+        specifier: 20.8.9
+        version: 20.8.9
+      eslint-config-noka:
+        specifier: workspace:*
+        version: link:../eslint-config-noka
+      noka-tsconfig:
+        specifier: workspace:*
+        version: link:../noka-tsconfig
+      pnpm:
+        specifier: 8.10.0
+        version: 8.10.0
+      typescript:
+        specifier: 5.2.2
+        version: 5.2.2
+
   packages/noka-tsconfig: {}
 
   packages/noka-utility:

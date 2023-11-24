@@ -9,6 +9,7 @@ echo ------------------------------------------------------
 echo PROJECT: $CORE
 echo ------------------------------------------------------
 rm -rf $CORE/dist/
+rm -rf $CORE/types/
 tsc -p $CORE/tsconfig.json
 
 
@@ -32,6 +33,16 @@ echo ------------------------------------------------------
 rm -rf $CLI/dist/
 tsc -p $CLI/tsconfig.json
 copyfiles --up 3 $CLI/src/**/*.txt $CLI/dist/
+
+# orm
+cd $CWD
+CORE=./packages/noka-orm
+echo ------------------------------------------------------
+echo PROJECT: $CORE
+echo ------------------------------------------------------
+rm -rf $CORE/dist/
+rm -rf $CORE/types/
+tsc -p $CORE/tsconfig.json
 
 
 # app
