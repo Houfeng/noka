@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.2.1
+
+### Patch Changes
+
+- 改进配置加载 & 改进自定义 loader 加载与处理
+
 ## 2.2.0
 
 ### Minor Changes

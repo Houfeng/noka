@@ -1,6 +1,6 @@
 {
   "name": "noka-app",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Noka default app template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",

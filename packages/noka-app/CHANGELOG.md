@@ -1,5 +1,14 @@
 # noka-app
 
+## 2.2.1
+
+### Patch Changes
+
+- 改进配置加载 & 改进自定义 loader 加载与处理
+- Updated dependencies
+  - noka@2.2.1
+  - noka-orm@2.2.1
+
 ## 2.2.0
 
 ### Minor Changes
