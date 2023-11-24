@@ -1,6 +1,6 @@
 import { FSWatcher, watch } from "chokidar";
-import { LoggerLike } from "../loaders";
 import { iife } from "noka-utility";
+import { ApplicationLogger } from "../Application/ApplicationLogger";
 
 type Timer = NodeJS.Timeout;
 type TimerHandler = (...args: any) => void;
@@ -33,7 +33,7 @@ export type DevToolOptions = {
   watchDir: string[];
   resolvePath: (path: string) => string;
   stopApp: () => void;
-  logger: () => LoggerLike | undefined;
+  logger: () => ApplicationLogger | undefined;
 };
 
 export class DevTool {

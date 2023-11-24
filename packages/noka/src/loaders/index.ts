@@ -1,4 +1,3 @@
-import { ConfigLoader } from "./ConfigLoader";
 import { ControllerLoader } from "./ControllerLoader";
 import { HeadersLoader } from "./HeadersLoader";
 import { LoggerLoader } from "./LoggerLoader";
@@ -17,7 +16,6 @@ export * from "./ControllerLoader";
 export * from "./BodyLoader";
 export * from "./ServiceLoader";
 export * from "./ModelLoader";
-export * from "./ConfigLoader";
 export * from "./ViewLoader";
 export * from "./SessionLoader";
 export * from "./LoggerLoader";
@@ -27,10 +25,6 @@ export * from "./SetupLoader";
 export * from "./FilterLoader";
 
 export const BuiltInLoaders = {
-  config: {
-    loader: ConfigLoader,
-    options: { targetDir: "app:/configs" },
-  } satisfies LoaderConfigItem<typeof ConfigLoader>,
   logger: {
     loader: LoggerLoader,
     options: { targetDir: "home:/logs" },

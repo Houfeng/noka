@@ -1,4 +1,7 @@
-import { JSONObject, JSONValue } from "noka-utility";
+import { type JSONObject, type JSONValue } from "noka-utility";
+import { getByPath } from "noka-utility";
+import { type ContainerLike, Inject, InjectMeta } from "../Container";
+import { ApplicationSymbol } from "./ApplicationSymbol";
 
 /**
  * 面向 config.yml 的类型声明
@@ -17,3 +20,20 @@ export type ApplicationConfig = {
   loader_options?: Record<string, false | JSONObject>;
   [key: string]: JSONValue;
 };
+
+/**
+ * 配置注入处理函数
+ * @param options 注入选项
+ */
+function configInjectHandler(container: ContainerLike, meta: InjectMeta) {
+  const config = container.get(ApplicationSymbol.Config);
+  return getByPath(config, String(meta.name));
+}
+
+/**
+ * 向 service 或 controller 注入配置
+ * @param path 配置项的 JSON Path
+ */
+export function Config(path: string) {
+  return Inject(path, { handle: configInjectHandler });
+}

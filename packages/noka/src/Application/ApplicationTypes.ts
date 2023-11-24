@@ -1,8 +1,8 @@
 import Koa from "koa";
 import Router from "koa-router";
 import { type Request, type Response, type ParameterizedContext } from "koa";
-import { type LoggerLike } from "../loaders/LoggerLoader";
 import { type Session } from "koa-session";
+import { type ApplicationLogger } from "./ApplicationLogger";
 
 export type HttpSession = Session;
 export type NokaSession = HttpSession;
@@ -11,7 +11,7 @@ export type HttpContextState = {};
 export type NokaContextState = HttpContextState;
 
 export type HttpContextExtends = {
-  logger: LoggerLike;
+  logger: ApplicationLogger;
   session: HttpSession;
   preventCache: boolean;
 };

@@ -1,4 +1,4 @@
-export interface LoggerLike {
+export type ApplicationLogger = {
   /**
    * 输出 debug 日志
    * @param dataOrFormatter 输出内容或格式化字符串
@@ -26,4 +26,4 @@ export interface LoggerLike {
    * @param args 插入参数
    */
   error(dataOrFormatter: any, ...args: any[]): any;
-}
+};

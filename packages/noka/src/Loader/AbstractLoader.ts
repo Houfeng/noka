@@ -47,7 +47,7 @@ export abstract class AbstractLoader<
    */
   protected importModule<M = ModuleExports>(moduleFile: string): M | undefined {
     try {
-      return require(this.app.resolvePath(moduleFile));
+      return this.app.require(this.app.resolvePath(moduleFile));
     } catch {
       return;
     }
@@ -82,4 +82,14 @@ export abstract class AbstractLoader<
   async load() {
     this.items = await this.loadModules();
   }
+
+  /**
+   * 由应用调用的 load 方法
+   */
+  async launch() {}
+
+  /**
+   * 由应用调用的 unload 方法
+   */
+  async unload() {}
 }

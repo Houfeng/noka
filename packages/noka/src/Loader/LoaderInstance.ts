@@ -6,6 +6,6 @@
 
 export interface LoaderInstance {
   load: () => Promise<void>;
-  launch?: () => Promise<void>;
-  unload?: () => Promise<void>;
+  launch: () => Promise<void>;
+  unload: () => Promise<void>;
 }

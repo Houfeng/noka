@@ -15,8 +15,7 @@ export class SetupLoader extends AbstractLoader<
   SetupOptions,
   SetupConstructor
 > {
-  async load() {
-    await super.load();
+  async launch() {
     const { logger } = this.app;
     this.items
       .map((Setup) => ({ Setup, meta: getSetupMeta(Setup) }))

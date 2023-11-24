@@ -69,3 +69,5 @@ export function InjectEntityManager() {
     },
   });
 }
+
+export default EntityLoader;

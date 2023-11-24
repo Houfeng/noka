@@ -11,13 +11,14 @@ import { ApplicationOptions } from "./ApplicationOptions";
 import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigItem, LoaderConfigMap } from "../Loader/LoaderConfigTypes";
-import { LoggerLike } from "../loaders";
 import { ApplicationConfig } from "./ApplicationConfig";
 import { readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
 import { DevTool } from "../DevTool";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
 import { ApplicationSymbol } from "./ApplicationSymbol";
+import { ApplicationLogger } from "./ApplicationLogger";
+import { Module } from "module";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -91,11 +92,15 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 应用的 package.json 文件路径
+   */
+  private appPkgFile = resolve(this.rootDir, "./package.json");
+
+  /**
    * 当前应用名称
    */
   get name(): string {
-    const pkgFile = resolve(this.rootDir, "./package.json");
-    return require(pkgFile).name;
+    return require(this.appPkgFile).name;
   }
 
   /**
@@ -132,6 +137,12 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 通过应用 entry 创建的应用内 require 方法
+   * NodeRequire
+   */
+  readonly require = Module.createRequire(this.appPkgFile);
+
+  /**
    * 应用配置对象
    */
   get config(): ApplicationConfig {
@@ -139,10 +150,26 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 加载应用程序配置
+   */
+  private async loadConfig() {
+    const { Parser } = require("confman/index");
+    const root = this.resolvePath("app:/configs");
+    const file = normalize(`${root}/config`);
+    const parser = new Parser({ env: this.env });
+    const config = await parser.load(file);
+    this.container.register(ApplicationSymbol.Config, {
+      type: "value",
+      value: config,
+    });
+    this.devTool.watchDir(root);
+  }
+
+  /**
    * 应用日志对象
    */
   get logger() {
-    const getLogger = this.container.get<(key: string) => LoggerLike>(
+    const getLogger = this.container.get<(key: string) => ApplicationLogger>(
       this.symbols.Logger,
     );
     return getLogger && getLogger("app");
@@ -160,7 +187,7 @@ export class Application implements ApplicationLike {
   private importLoader(name: string): LoaderConstructor {
     name = String(name);
     const loaderPath = isPath(name) ? resolve(this.rootDir, name) : name;
-    const loader = require(loaderPath);
+    const loader = this.require(loaderPath);
     return loader.default || loader;
   }
 
@@ -222,7 +249,7 @@ export class Application implements ApplicationLike {
    */
   private async launchAllLoaderInstances() {
     try {
-      for (const loader of this.loaderInstances) await loader.launch?.();
+      for (const loader of this.loaderInstances) await loader.launch();
     } catch (err) {
       this.logger?.error(err);
     }
@@ -233,7 +260,7 @@ export class Application implements ApplicationLike {
    */
   private async unloadAllLoaderInstances() {
     try {
-      for (const loader of this.loaderInstances) await loader.unload?.();
+      for (const loader of this.loaderInstances) await loader.unload();
     } catch (err) {
       this.logger?.error(err);
     }
@@ -288,13 +315,14 @@ export class Application implements ApplicationLike {
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationLike> {
+    await this.loadConfig();
     await this.createAllLoaderInstances();
     await this.loadAllLoaderInstances();
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
+    await this.launchAllLoaderInstances();
     await this.resolvePort();
     this.listener.listen(this.port, this.hostname);
-    await this.launchAllLoaderInstances();
     this.devTool.startWatch();
     return this;
   }

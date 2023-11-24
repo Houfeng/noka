@@ -2,11 +2,11 @@ import http from "http";
 import https from "https";
 import http2 from "http2";
 import { Container } from "../Container";
-import { LoggerLike } from "../loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
 import { DevToolLike } from "../DevTool/DevToolLike";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
 import { ApplicationSymbol } from "./ApplicationSymbol";
+import { ApplicationLogger } from "./ApplicationLogger";
 
 /**
  * 全局应用接口定义
@@ -63,6 +63,12 @@ export interface ApplicationLike {
   readonly resolvePath: (path: string) => string;
 
   /**
+   * 通过应用 entry 创建的应用内 require 方法
+   * NodeRequire
+   */
+  readonly require: NodeRequire;
+
+  /**
    * 应用端口
    */
   readonly port: number | undefined;
@@ -100,5 +106,5 @@ export interface ApplicationLike {
   /**
    * 日志对象
    */
-  readonly logger: LoggerLike | undefined;
+  readonly logger: ApplicationLogger | undefined;
 }
