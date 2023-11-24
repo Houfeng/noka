@@ -1,5 +1,16 @@
 # noka
 
+## 2.2.0
+
+### Minor Changes
+
+- Add EventSourceManger
+
+### Patch Changes
+
+- Updated dependencies
+  - noka-utility@2.2.0
+
 ## 2.1.9
 
 ### Patch Changes

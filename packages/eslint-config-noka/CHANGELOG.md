@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.2.0
+
+### Minor Changes
+
+- Add EventSourceManger
+
 ## 2.1.9
 
 ### Patch Changes
