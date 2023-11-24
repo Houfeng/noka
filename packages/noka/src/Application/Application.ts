@@ -12,15 +12,12 @@ import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigItem, LoaderConfigMap } from "../Loader/LoaderConfigTypes";
 import { LoggerLike } from "../loaders";
-import {
-  ApplicationConfig,
-  ApplicationConfigRegisterKey,
-  ApplicationLoggerRegisterKey,
-} from "./ApplicationConfig";
+import { ApplicationConfig } from "./ApplicationConfig";
 import { readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
 import { DevTool } from "../DevTool";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
+import { ApplicationSymbol } from "./ApplicationSymbol";
 
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
@@ -30,8 +27,7 @@ export class Application implements ApplicationLike {
     return new Application(options);
   }
 
-  readonly configRegisterKey = ApplicationConfigRegisterKey;
-  readonly loggerRegisterKey = ApplicationLoggerRegisterKey;
+  readonly symbols = ApplicationSymbol;
 
   /**
    * 全局应用构造函数
@@ -139,7 +135,7 @@ export class Application implements ApplicationLike {
    * 应用配置对象
    */
   get config(): ApplicationConfig {
-    return this.container.get(this.configRegisterKey, true) || {};
+    return this.container.get(this.symbols.Config, true) || {};
   }
 
   /**
@@ -147,7 +143,7 @@ export class Application implements ApplicationLike {
    */
   get logger() {
     const getLogger = this.container.get<(key: string) => LoggerLike>(
-      this.loggerRegisterKey,
+      this.symbols.Logger,
     );
     return getLogger && getLogger("app");
   }

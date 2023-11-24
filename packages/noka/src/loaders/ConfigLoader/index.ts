@@ -1,7 +1,7 @@
 import { getByPath } from "noka-utility";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { AbstractLoader } from "../../Loader";
-import { ApplicationConfigRegisterKey } from "../../Application/ApplicationConfig";
+import { ApplicationSymbol } from "../../Application";
 import { normalize } from "path";
 
 const { Parser } = require("confman/index");
@@ -11,7 +11,7 @@ const { Parser } = require("confman/index");
  * @param options 注入选项
  */
 function configInjectHandler(container: ContainerLike, meta: InjectMeta) {
-  const config = container.get(ApplicationConfigRegisterKey);
+  const config = container.get(ApplicationSymbol.Config);
   return getByPath(config, String(meta.name));
 }
 
@@ -33,7 +33,7 @@ export class ConfigLoader extends AbstractLoader {
     const file = normalize(`${root}/config`);
     const parser = new Parser({ env: this.app.env });
     const config = await parser.load(file);
-    this.app.container.register(ApplicationConfigRegisterKey, {
+    this.app.container.register(ApplicationSymbol.Config, {
       type: "value",
       value: config,
     });

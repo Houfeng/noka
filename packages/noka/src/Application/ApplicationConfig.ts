@@ -17,6 +17,3 @@ export type ApplicationConfig = {
   loader_options?: Record<string, false | JSONObject>;
   [key: string]: JSONValue;
 };
-
-export const ApplicationConfigRegisterKey = Symbol("Config");
-export const ApplicationLoggerRegisterKey = Symbol("Logger");

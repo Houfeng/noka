@@ -6,6 +6,7 @@ import { LoggerLike } from "../loaders/LoggerLoader/LoggerLike";
 import { ApplicationConfig } from "./ApplicationConfig";
 import { DevToolLike } from "../DevTool/DevToolLike";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
+import { ApplicationSymbol } from "./ApplicationSymbol";
 
 /**
  * 全局应用接口定义
@@ -13,13 +14,9 @@ import { HttpRouter, HttpServer } from "./ApplicationTypes";
 export interface ApplicationLike {
   /**
    * 应用配置模块向应用容器注册所用的 KEY
-   */
-  readonly configRegisterKey: symbol;
-
-  /**
    * 应用日志模块向应用容器注册所用的 KEY
    */
-  readonly loggerRegisterKey: symbol;
+  readonly symbols: typeof ApplicationSymbol;
 
   /**
    * 当前环境标识（取值 NOKA_ENV || NODE_ENV）

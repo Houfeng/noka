@@ -21,7 +21,7 @@ export type NokaContextExtends = HttpContextExtends;
 export class HttpServer<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Koa<S, C> { }
+> extends Koa<S, C> {}
 
 export const NokaServer = HttpServer;
 
@@ -44,6 +44,6 @@ export type NokaContext<
 export class HttpRouter<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Router<S, C> { }
+> extends Router<S, C> {}
 
 export const NokaRouter = HttpRouter;

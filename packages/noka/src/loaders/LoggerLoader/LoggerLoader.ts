@@ -62,7 +62,7 @@ export class LoggerLoader extends AbstractLoader {
     const options = this.makeOptions();
     await Logger.init({ ...options, root: options?.targetDir });
     const getLogger = (category?: string) => Logger.get(category);
-    this.app.container.register(this.app.loggerRegisterKey, {
+    this.app.container.register(this.app.symbols.Logger, {
       type: "value",
       value: getLogger,
     });
