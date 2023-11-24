@@ -87,8 +87,8 @@ importers:
         specifier: 0.2.10
         version: 0.2.10
       fastbus:
-        specifier: 0.2.0
-        version: 0.2.0
+        specifier: 0.2.1
+        version: 0.2.1
       globby:
         specifier: 9.2.0
         version: 9.2.0
@@ -4264,8 +4264,8 @@ packages:
   /fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
 
-  /fastbus@0.2.0:
-    resolution: {integrity: sha512-EycDiT78OSW7K2LTztcWkF5eMVZSoZSASCoXbEI3mgGbxAgPgfiG7iAujZJhUMNgIPas1Lf2uaTZuJW6d911Kw==}
+  /fastbus@0.2.1:
+    resolution: {integrity: sha512-h/DdzwDv1XvIKPEp9GcWEIpjg7bZVyZfpMlo884X5NzOy6+tDNqTvm6CKTI/bisuW402WYakAVtlek9rZxrRXQ==}
     dependencies:
       eify: 4.0.4
       split2: 4.2.0

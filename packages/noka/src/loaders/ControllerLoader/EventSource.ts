@@ -8,7 +8,7 @@ export type EventSourceOptions = {
   onClose?: () => void;
 };
 
-export type EventSourceSendOptions = Partial<
+export type EventSourceEmitOptions = Partial<
   Omit<EventSourceOptions, "onClose">
 > & { id?: string };
 
@@ -75,7 +75,7 @@ export class EventSource<
   send<E extends keyof T>(
     event: E,
     data: T[E],
-    options?: EventSourceSendOptions,
+    options?: EventSourceEmitOptions,
   ) {
     if (!this.response) return;
     const composedOptions = { ...this.options, ...options };

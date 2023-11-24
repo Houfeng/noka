@@ -7,6 +7,7 @@
     "compat",
     "confman",
     "copyfiles",
+    "fastbus",
     "hilog",
     "noka",
     "shify",
