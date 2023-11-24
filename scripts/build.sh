@@ -57,11 +57,11 @@ nk build
 
 
 # app-spa
-# cd $CWD
-# APP=./packages/noka-app-spa
-# echo ------------------------------------------------------
-# echo PROJECT: $APP
-# echo ------------------------------------------------------
-# rm -rf $APP/dist/
-# cd $APP
-# nk build
+cd $CWD
+APP=./packages/noka-app-spa
+echo ------------------------------------------------------
+echo PROJECT: $APP
+echo ------------------------------------------------------
+rm -rf $APP/dist/
+cd $APP
+nk build

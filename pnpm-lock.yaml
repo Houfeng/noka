@@ -492,6 +492,9 @@ importers:
 
   packages/noka-orm:
     dependencies:
+      noka:
+        specifier: workspace:*
+        version: link:../noka
       reflect-metadata:
         specifier: 0.1.13
         version: 0.1.13

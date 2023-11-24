@@ -1,12 +1,13 @@
 /** @format */
 
-import { Provider, ORM, InjectEntityRepository } from "noka";
+import { Provider } from "noka";
 import { User } from "../entities/User";
+import { InjectEntityRepository, Repository } from "noka-orm";
 
 @Provider()
 export class UserService {
   @InjectEntityRepository(User)
-  repo?: ORM.Repository<User>;
+  repo?: Repository<User>;
 
   async create() {
     const demo = new User();

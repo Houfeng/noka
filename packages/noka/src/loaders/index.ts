@@ -2,7 +2,6 @@ import { ConfigLoader } from "./ConfigLoader";
 import { ControllerLoader } from "./ControllerLoader";
 import { HeadersLoader } from "./HeadersLoader";
 import { LoggerLoader } from "./LoggerLoader";
-import { EntityLoader } from "./EntityLoader";
 import { ServiceLoader } from "./ServiceLoader";
 import { SessionLoader } from "./SessionLoader";
 import { SetupLoader } from "./SetupLoader";
@@ -21,7 +20,6 @@ export * from "./ModelLoader";
 export * from "./ConfigLoader";
 export * from "./ViewLoader";
 export * from "./SessionLoader";
-export * from "./EntityLoader";
 export * from "./LoggerLoader";
 export * from "./HeadersLoader";
 export * from "./StaticLoader";
@@ -37,10 +35,6 @@ export const BuiltInLoaders = {
     loader: LoggerLoader,
     options: { targetDir: "home:/logs" },
   } satisfies LoaderConfigItem<typeof LoggerLoader>,
-  entity: {
-    loader: EntityLoader,
-    options: { targetDir: "bin:/entities" },
-  } satisfies LoaderConfigItem<typeof EntityLoader>,
   service: {
     loader: ServiceLoader,
     options: { targetDir: "bin:/services" },
