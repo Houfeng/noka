@@ -195,6 +195,9 @@ importers:
       noka:
         specifier: workspace:*
         version: link:../noka
+      noka-orm:
+        specifier: workspace:*
+        version: link:../noka-orm
       tslib:
         specifier: 2.6.2
         version: 2.6.2
@@ -221,7 +224,7 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
-  packages/noka-app-react:
+  packages/noka-app-spa:
     dependencies:
       '@emotion/react':
         specifier: 11.11.1
@@ -247,6 +250,9 @@ importers:
       noka:
         specifier: workspace:*
         version: link:../noka
+      noka-orm:
+        specifier: workspace:*
+        version: link:../noka-orm
       query-string:
         specifier: 7.1.1
         version: 7.1.1
@@ -7454,7 +7460,7 @@ packages:
       '@babel/runtime': 7.23.2
       dom-helpers: 5.2.1
       loose-envify: 1.4.0
-      prop-types: 15.8.1
+      prop-types: 15.7.2
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false

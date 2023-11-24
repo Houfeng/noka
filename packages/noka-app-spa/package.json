@@ -1,7 +1,7 @@
 {
-  "name": "noka-app-react",
+  "name": "noka-app-spa",
   "version": "2.2.0",
-  "description": "Noka default app react template",
+  "description": "Noka single page app template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
   "publishConfig": {
@@ -49,6 +49,7 @@
     "lodash-es": "4.17.21",
     "mota": "8.2.6",
     "noka": "workspace:*",
+    "noka-orm": "workspace:*",
     "query-string": "7.1.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",

@@ -11,9 +11,9 @@ echo ------------------------------------------------------
 cd $APP
 nk dev
 
-# app-react
+# app-spa
 # cd $CWD
-# APP=./packages/noka-app-react
+# APP=./packages/noka-app-spa
 # echo ------------------------------------------------------
 # echo PROJECT: $APP
 # echo ------------------------------------------------------
