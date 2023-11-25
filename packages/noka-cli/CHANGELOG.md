@@ -1,5 +1,13 @@
 # noka-cli
 
+## 2.2.2
+
+### Patch Changes
+
+- 路由参数 & 查询参数支持自动转换类型
+- Updated dependencies
+  - noka-utility@2.2.2
+
 ## 2.2.1
 
 ### Patch Changes
