@@ -56,18 +56,21 @@ export class ControllerLoader extends AbstractLoader<
   /**
    * 执行控制器方法
    * @param context 请求上下文
-   * @param controllerInstance 控制器实例
+   * @param instance 控制器实例
    * @param method 控制器方法
    */
   protected async invokeControllerMethod(
     context: HttpContext,
-    controllerInstance: any,
+    instance: any,
     method: string,
   ) {
-    const parameters = getContextMeta(controllerInstance, method)
+    const parameters = getContextMeta(instance, method)
       .sort((a, b) => (a.index || 0) - (b.index || 0))
-      .map((info) => getByPath(context, info.name));
-    return controllerInstance[method](...parameters);
+      .map((meta) => {
+        const value = getByPath(context, meta.name);
+        return meta.parse ? meta.parse(value, instance, method, meta) : value;
+      });
+    return instance[method](...parameters);
   }
 
   /**

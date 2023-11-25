@@ -11,8 +11,10 @@ import {
   Session,
   EventSourceManager,
   HttpSession,
+  Param,
 } from "noka";
 import { UserService } from "../services/UserService";
+import { Demo } from "../setups/DemoSetup";
 
 const eventSourceManager = new EventSourceManager();
 
@@ -46,13 +48,18 @@ export class HomeController {
     return { items };
   }
 
-  @Inject("demo")
+  @Inject(Demo)
   demoMessage?: string;
 
   @Get("/demo")
   async demo(@Session() session: HttpSession) {
     session["test"] = "test";
     return this.demoMessage;
+  }
+
+  @Get("/demo2/:id")
+  async demo2(@Param("id") id1: string, @Param("id") id2: number) {
+    return { id1, id2 };
   }
 
   @Get("/sse")
