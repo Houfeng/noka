@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.2.5
+
+### Patch Changes
+
+- 修化路由路径处理
+
 ## 2.2.4
 
 ### Patch Changes

@@ -74,6 +74,16 @@ export class ControllerLoader extends AbstractLoader<
   }
 
   /**
+   * 合并路由路径
+   */
+  protected mergeRoutePath(prefix: string, path: string) {
+    const mergedPath = normalize(`/${prefix}/${path}`);
+    return mergedPath.length > 1 && mergedPath.at(-1) === "/"
+      ? mergedPath.slice(0, -1)
+      : mergedPath;
+  }
+
+  /**
    * 注册一个常规路由映射
    * @param app 应用实例
    * @param Controller 控制器类
@@ -88,7 +98,7 @@ export class ControllerLoader extends AbstractLoader<
   ) {
     const { verb, path, priority, method } = routeMeta;
     const httpMethods = this.normalizeHTTPMethods(verb);
-    const routePath = normalize(`/${controllerMeta.path}/${path}`);
+    const routePath = this.mergeRoutePath(controllerMeta.path, path);
     const routeHandler = async (ctx: HttpContext) => {
       const controllerInstance = new Controller();
       this.app.container.inject(controllerInstance);

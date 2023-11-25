@@ -1,5 +1,14 @@
 # noka-app-react
 
+## 2.2.5
+
+### Patch Changes
+
+- 修化路由路径处理
+- Updated dependencies
+  - noka@2.2.5
+  - noka-orm@2.2.5
+
 ## 2.2.4
 
 ### Patch Changes
