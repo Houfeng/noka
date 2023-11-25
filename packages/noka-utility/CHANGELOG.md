@@ -1,5 +1,11 @@
 # noka
 
+## 2.2.3
+
+### Patch Changes
+
+- 更新部分依赖到最新 & 优化 loader 加逻辑
+
 ## 2.2.2
 
 ### Patch Changes

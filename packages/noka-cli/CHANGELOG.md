@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.2.3
+
+### Patch Changes
+
+- 更新部分依赖到最新 & 优化 loader 加逻辑
+- Updated dependencies
+  - eslint-config-noka@2.2.3
+  - noka-tsconfig@2.2.3
+  - noka-utility@2.2.3
+
 ## 2.2.2
 
 ### Patch Changes
