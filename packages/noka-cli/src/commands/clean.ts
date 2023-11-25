@@ -12,8 +12,8 @@ export async function clean($1: string) {
   await hooks.beforeHooks.clean();
   await del([
     appInfo.binDir,
-    `${appInfo.root}/types/`,
-    `${appInfo.root}/release/`,
+    `${appInfo.rootDir}/types/`,
+    `${appInfo.rootDir}/release/`,
   ]);
   await hooks.afterHooks.clean();
   logger.info("finished");

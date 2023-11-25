@@ -21,24 +21,24 @@ export type AppInfoOptions = {
 export class AppInfo {
   constructor(private options: AppInfoOptions) {}
 
-  readonly root = iife(() => {
+  readonly rootDir = iife(() => {
     const cwd = process.cwd();
     const { $1 } = this.options;
     const startPath = $1 ? resolve(cwd, $1) : cwd;
     return resolvePackageRoot(startPath);
   });
 
-  readonly binDir = resolve(this.root, `./${BIN_DIR_NAME}`);
-  readonly srcDir = resolve(this.root, `./${SRC_DIR_NAME}`);
+  readonly binDir = resolve(this.rootDir, `./${BIN_DIR_NAME}`);
+  readonly srcDir = resolve(this.rootDir, `./${SRC_DIR_NAME}`);
   readonly binEntry = resolve(this.binDir, `./${ENTRY_FILE_NAME}.js`);
   readonly srcEntry = resolve(this.srcDir, `./${ENTRY_FILE_NAME}.ts`);
 
   readonly existCompileConf = iife(() => {
-    return existsSync(resolve(this.root, "./tsconfig.json"));
+    return existsSync(resolve(this.rootDir, "./tsconfig.json"));
   });
 
   readonly packageConf = iife(() => {
-    const file = resolve(this.root, "./package.json");
+    const file = resolve(this.rootDir, "./package.json");
     if (existsSync(file)) return require(file);
   });
 

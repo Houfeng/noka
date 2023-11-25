@@ -1,7 +1,5 @@
-/** @format */
-
-import mkdirp from "mkdirp";
 import fetch from "node-fetch";
+import { mkdirp } from "mkdirp";
 import { createWriteStream, existsSync, renameSync, unlinkSync } from "fs";
 import { homedir } from "os";
 import { resolve } from "path";
@@ -47,16 +45,10 @@ export function createStream(url: string) {
   });
 }
 
-export function mkdir(dir: string) {
-  return new Promise((resolve, reject) => {
-    mkdirp(dir, (err) => (err ? reject(err) : resolve(dir)));
-  });
-}
-
 export async function download(name: string, version?: string) {
   const info = await getVersionInfo(name, version || "");
   const pkgDir = resolve(homedir(), "./.noka-cli/modules");
-  await mkdir(pkgDir);
+  await mkdirp(pkgDir);
   const pkgFile = resolve(pkgDir, `${name}@${info.version}.tgz`);
   if (existsSync(pkgFile)) return pkgFile;
   const tmpFile = pkgFile + ".tmp";

@@ -30,7 +30,7 @@ export async function build(env: string, $1: string) {
     `${tsc} --pretty`,
   ];
   await exec(command, {
-    cwd: appInfo.root,
+    cwd: appInfo.rootDir,
     env: { NOKA_ENV: env },
   });
   await del([`${appInfo.binDir}/**/*.ts`, `${appInfo.binDir}/**/*.map`]);

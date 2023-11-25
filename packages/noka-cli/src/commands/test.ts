@@ -23,7 +23,7 @@ export async function test(env: string, $1: string) {
   const testFiles = resolve(appInfo.srcDir, "./**/*.spec.ts");
   const command = `${mocha} -r ${tsRegister} ${testFiles}`;
   await exec(command, {
-    cwd: appInfo.root,
+    cwd: appInfo.rootDir,
     env: { NOKA_ENV: env },
   });
   await hooks.afterHooks.test();

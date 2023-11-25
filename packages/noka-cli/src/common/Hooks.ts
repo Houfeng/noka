@@ -7,7 +7,7 @@ import mkdirp from "mkdirp";
 import del from "del";
 
 export function Hooks(info: AppInfo) {
-  const file = resolve(info.root, "./noka.config.js");
+  const file = resolve(info.rootDir, "./noka.config.js");
   const config = existsSync(file) ? require(file) : {};
   const utils = { exec, copy, mkdirp, del };
   const context = { info, utils };

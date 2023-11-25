@@ -20,7 +20,7 @@ export async function dev(env: string, $1: string) {
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.dev();
   await daemon(appInfo.srcEntry, {
-    cwd: appInfo.root,
+    cwd: appInfo.rootDir,
     env: { ...process.env, NOKA_ENV: env },
   });
 }

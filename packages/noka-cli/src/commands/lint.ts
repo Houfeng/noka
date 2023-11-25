@@ -15,7 +15,7 @@ export async function lint($1: string) {
   const hooks = Hooks(appInfo);
   await hooks.beforeHooks.lint();
   const eslint = findCommand(__dirname, "eslint");
-  const cwd = appInfo.root;
+  const cwd = appInfo.rootDir;
   const options = "--fix --no-error-on-unmatched-pattern";
   const command = `${eslint} --ext .ts,.tsx ${appInfo.srcDir}/* ${options}`;
   await exec(command, { cwd });
