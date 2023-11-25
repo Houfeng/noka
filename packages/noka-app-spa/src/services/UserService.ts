@@ -1,5 +1,3 @@
-/** @format */
-
 import { Provider } from "noka";
 import { User } from "../entities/User";
 import { PagingOptions, PagingResult } from "./Paging";

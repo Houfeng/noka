@@ -1,5 +1,3 @@
-/** @format */
-
 import { strictEqual } from "assert";
 
 describe("Array", () => {

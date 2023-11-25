@@ -1,5 +1,3 @@
-/** @format */
-
 import { BeanInfo } from "./BeanInfo";
 
 export interface ContainerLike {

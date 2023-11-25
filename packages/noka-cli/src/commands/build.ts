@@ -1,5 +1,3 @@
-/** @format */
-
 import del from "del";
 import { AppInfo } from "../common/AppInfo";
 import { clean } from "./clean";

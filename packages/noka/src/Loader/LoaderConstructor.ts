@@ -1,5 +1,3 @@
-/** @format */
-
 import { ApplicationLike } from "../Application";
 import { LoaderInstance } from "./LoaderInstance";
 import { LoaderOptions } from "./LoaderOptions";

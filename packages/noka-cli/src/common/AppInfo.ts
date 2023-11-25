@@ -1,5 +1,3 @@
-/** @format */
-
 import { resolve } from "path";
 import { BIN_DIR_NAME, SRC_DIR_NAME, ENTRY_FILE_NAME } from "noka-utility";
 import { iife, resolvePackageRoot } from "noka-utility";

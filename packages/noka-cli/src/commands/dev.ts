@@ -1,5 +1,3 @@
-/** @format */
-
 import { AppInfo } from "../common/AppInfo";
 import { existsSync } from "fs";
 import { logger } from "../common/logger";

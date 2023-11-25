@@ -1,5 +1,3 @@
-/** @format */
-
 import { dirname, normalize } from "path";
 import { existsSync } from "fs";
 

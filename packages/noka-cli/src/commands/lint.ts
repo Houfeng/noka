@@ -1,5 +1,3 @@
-/** @format */
-
 import { AppInfo } from "../common/AppInfo";
 import { exec } from "../common/exec";
 import { findCommand } from "../common/findCommand";

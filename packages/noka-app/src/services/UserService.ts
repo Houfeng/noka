@@ -1,5 +1,3 @@
-/** @format */
-
 import { Provider } from "noka";
 import { User } from "../entities/User";
 import { InjectEntityRepository, Repository } from "noka-orm";

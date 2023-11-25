@@ -1,5 +1,3 @@
-/** @format */
-
 import { ChildProcess } from "child_process";
 import { normalize } from "path";
 import { platform } from "os";

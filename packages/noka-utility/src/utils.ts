@@ -1,5 +1,3 @@
-/** @format */
-
 import mkdirp from "mkdirp";
 import { existsSync, readFile, writeFile } from "fs";
 import { dirname, normalize } from "path";
