@@ -1,7 +1,6 @@
 import { AbstractLoader } from "../../Loader";
 import { Ctx } from "../ControllerLoader";
-
-const koaBody = require("koa-body");
+import koaBody from "koa-body";
 
 export class BodyLoader extends AbstractLoader {
   public async load() {

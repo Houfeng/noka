@@ -147,6 +147,12 @@ importers:
       '@types/koa-compose':
         specifier: 3.2.8
         version: 3.2.8
+      '@types/koa-conditional-get':
+        specifier: 2.0.3
+        version: 2.0.3
+      '@types/koa-etag':
+        specifier: 3.0.3
+        version: 3.0.3
       '@types/koa-router':
         specifier: 7.4.8
         version: 7.4.8
@@ -194,8 +200,8 @@ importers:
         version: 2.6.2
     devDependencies:
       '@types/mocha':
-        specifier: 5.2.7
-        version: 5.2.7
+        specifier: 10.0.6
+        version: 10.0.6
       '@types/node':
         specifier: 20.10.0
         version: 20.10.0
@@ -270,8 +276,8 @@ importers:
         specifier: 4.17.10
         version: 4.17.10
       '@types/mocha':
-        specifier: 5.2.7
-        version: 5.2.7
+        specifier: 10.0.6
+        version: 10.0.6
       '@types/node':
         specifier: 20.10.0
         version: 20.10.0
@@ -347,9 +353,6 @@ importers:
       copyfiles:
         specifier: 2.1.0
         version: 2.1.0
-      debug:
-        specifier: 4.3.4
-        version: 4.3.4
       decompress:
         specifier: 4.2.0
         version: 4.2.0
@@ -362,6 +365,9 @@ importers:
       eslint:
         specifier: 8.52.0
         version: 8.52.0
+      eslint-config-noka:
+        specifier: workspace:*
+        version: link:../eslint-config-noka
       eslint-config-prettier:
         specifier: 9.0.0
         version: 9.0.0(eslint@8.52.0)
@@ -392,9 +398,6 @@ importers:
       ink-big-text:
         specifier: 1.0.1
         version: 1.0.1(ink@3.2.0)(react@18.2.0)
-      ink-gradient:
-        specifier: 1.0.0
-        version: 1.0.0(ink@3.2.0)(react@18.2.0)
       inquirer:
         specifier: 6.3.1
         version: 6.3.1
@@ -407,6 +410,9 @@ importers:
       node-fetch:
         specifier: 2.6.0
         version: 2.6.0
+      noka-tsconfig:
+        specifier: workspace:*
+        version: link:../noka-tsconfig
       noka-utility:
         specifier: workspace:*
         version: link:../noka-utility
@@ -454,8 +460,8 @@ importers:
         specifier: 2.0.0
         version: 2.0.0
       '@types/mocha':
-        specifier: 5.2.7
-        version: 5.2.7
+        specifier: 10.0.6
+        version: 10.0.6
       '@types/node':
         specifier: 20.10.0
         version: 20.10.0
@@ -471,12 +477,6 @@ importers:
       '@types/update-notifier':
         specifier: 2.5.0
         version: 2.5.0
-      eslint-config-noka:
-        specifier: workspace:*
-        version: link:../eslint-config-noka
-      noka-tsconfig:
-        specifier: workspace:*
-        version: link:../noka-tsconfig
       pnpm:
         specifier: 8.11.0
         version: 8.11.0
@@ -1416,6 +1416,12 @@ packages:
     resolution: {integrity: sha512-CS2rOaoQ/eAgAfcTfq6amKG7bsN+EMcgGY4FAFQdvSj2y1ixvOZTUA9mOtCai7E1SYu283XNw7urKK30nP3wkQ==}
     dev: true
 
+  /@types/etag@1.8.3:
+    resolution: {integrity: sha512-QYHv9Yeh1ZYSMPQOoxY4XC4F1r+xRUiAriB303F4G6uBsT3KKX60DjiogvVv+2VISVDuJhcIzMdbjT+Bm938QQ==}
+    dependencies:
+      '@types/node': 20.10.0
+    dev: true
+
   /@types/express-serve-static-core@4.17.39:
     resolution: {integrity: sha512-BiEUfAiGCOllomsRAZOiMFP7LAnrifHpt56pc4Z7l9K6ACyN06Ns1JLMBxwkfLOjJRlSf06NwWsT7yzfpaVpyQ==}
     dependencies:
@@ -1502,6 +1508,19 @@ packages:
     dependencies:
       '@types/koa': 2.13.12
 
+  /@types/koa-conditional-get@2.0.3:
+    resolution: {integrity: sha512-JhUuS9Qj5uyU7HHAmUC1L+Erft73m7AQD3jjIyB2audnTsQObp3w0aY4yO8mZ3W7RBpyrhY2TPH10mBdQYRFrQ==}
+    dependencies:
+      '@types/koa': 2.13.12
+    dev: true
+
+  /@types/koa-etag@3.0.3:
+    resolution: {integrity: sha512-pOtRwgJOyP5XWoKUQpvvGbihep7ZoCQwJiFhZ2PdAjmXhgDFm5bbX9vYbXCwLIWG+WUb8CsOCf+78uae0Ho5sg==}
+    dependencies:
+      '@types/etag': 1.8.3
+      '@types/koa': 2.13.12
+    dev: true
+
   /@types/koa-router@7.4.8:
     resolution: {integrity: sha512-SkWlv4F9f+l3WqYNQHnWjYnyTxYthqt8W9az2RTdQW7Ay8bc00iRZcrb8MC75iEfPqnGcg2csEl8tTG1NQPD4A==}
     dependencies:
@@ -1575,8 +1594,8 @@ packages:
       mkdirp: 3.0.1
     dev: true
 
-  /@types/mocha@5.2.7:
-    resolution: {integrity: sha512-NYrtPht0wGzhwe9+/idPaBB+TqkY9AhTvOLMkThm0IoEfLaiVQZwBwyJ5puCkO3AUCWrmcoePjp2mbFocKy4SQ==}
+  /@types/mocha@10.0.6:
+    resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
     dev: true
 
   /@types/node-fetch@2.3.7:
@@ -1706,10 +1725,6 @@ packages:
     dependencies:
       '@types/node': 20.8.9
     dev: true
-
-  /@types/tinycolor2@1.4.5:
-    resolution: {integrity: sha512-uLJijDHN5E6j5n1qefF9oaeplgszXglWXWTviMoFr/YxgvbyrkFil20yDT7ljhCiTQ/BfCYtxfJS81LdTro5DQ==}
-    dev: false
 
   /@types/update-notifier@2.5.0:
     resolution: {integrity: sha512-YV+ZcSIiv30GhLM7WwxI+bsbcW34d3Yhl2JSFBNFL6qtfsoI9++hogxz+jTqeS86ynKcMUE0AsnLWQynfJnsfA==}
@@ -4878,14 +4893,6 @@ packages:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
     requiresBuild: true
 
-  /gradient-string@1.2.0:
-    resolution: {integrity: sha512-Lxog7IDMMWNjwo4O0KbdBvSewk4vW6kQe5XaLuuPCyCE65AGQ1P8YqKJa5dq8TYf/Ge31F+KjWzPR5mAJvjlAg==}
-    engines: {node: '>=4'}
-    dependencies:
-      chalk: 2.4.2
-      tinygradient: 0.4.3
-    dev: false
-
   /grapheme-splitter@1.0.4:
     resolution: {integrity: sha512-bzh50DW9kTPM00T8y4o8vQg89Di9oLJVLW/KaOGIXJWP/iqCN6WKYkbNOF04vFLJhwcpYUh9ydh/+5vpOqV4YQ==}
     dev: true
@@ -5211,19 +5218,6 @@ packages:
       react: '>=16.8.0'
     dependencies:
       cfonts: 2.10.1
-      ink: 3.2.0(@types/react@18.2.33)(react@18.2.0)
-      prop-types: 15.7.2
-      react: 18.2.0
-    dev: false
-
-  /ink-gradient@1.0.0(ink@3.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-lK7LsvRwFv9MuWyOT9zOiaJdVtZXyMjt3UoZDUxIVTHamrPE3e8HGfnV2P3h8as7AfsGnzIeWWonhLLlrtu3ew==}
-    engines: {node: '>=8'}
-    peerDependencies:
-      ink: '>=2.0.0'
-      react: '>=16.8.0'
-    dependencies:
-      gradient-string: 1.2.0
       ink: 3.2.0(@types/react@18.2.33)(react@18.2.0)
       prop-types: 15.7.2
       react: 18.2.0
@@ -8579,17 +8573,6 @@ packages:
   /thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
     dev: true
-
-  /tinycolor2@1.6.0:
-    resolution: {integrity: sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==}
-    dev: false
-
-  /tinygradient@0.4.3:
-    resolution: {integrity: sha512-tBPYQSs6eWukzzAITBSmqcOwZCKACvRa/XjPPh1mj4mnx4G3Drm51HxyCTU/TKnY8kG4hmTe5QlOh9O82aNtJQ==}
-    dependencies:
-      '@types/tinycolor2': 1.4.5
-      tinycolor2: 1.6.0
-    dev: false
 
   /titleize@3.0.0:
     resolution: {integrity: sha512-KxVu8EYHDPBdUYdKZdKtU2aj2XfEx9AfjXxE/Aj0vT06w2icA09Vus1rh6eSu1y01akYg6BjIK/hxyLJINoMLQ==}

@@ -2,9 +2,8 @@ import compose from "koa-compose";
 import serve from "koa-static";
 import { AbstractLoader } from "../../Loader";
 import { existsSync } from "fs";
-
-const conditional = require("koa-conditional-get");
-const etag = require("koa-etag");
+import etag from "koa-etag";
+import conditional from "koa-conditional-get";
 
 export class StaticLoader extends AbstractLoader {
   public async load() {
@@ -14,7 +13,7 @@ export class StaticLoader extends AbstractLoader {
     this.app.server.use(async (ctx, next) => {
       await next();
       if (ctx.preventCache) return;
-      const noop: any = () => {};
+      const noop: any = () => { };
       await compose([conditional(), etag()])(ctx, noop);
     });
     this.app.server.use(serve(staticRoot));
