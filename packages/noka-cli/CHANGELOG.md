@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.2.4
+
+### Patch Changes
+
+- 更新 SPA 构建配置
+- Updated dependencies
+  - eslint-config-noka@2.2.4
+  - noka-tsconfig@2.2.4
+  - noka-utility@2.2.4
+
 ## 2.2.3
 
 ### Patch Changes

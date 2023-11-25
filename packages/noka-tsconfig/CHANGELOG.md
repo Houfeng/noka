@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.2.4
+
+### Patch Changes
+
+- 更新 SPA 构建配置
+
 ## 2.2.3
 
 ### Patch Changes

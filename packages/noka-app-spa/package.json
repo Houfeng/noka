@@ -1,6 +1,6 @@
 {
   "name": "noka-app-spa",
-  "version": "2.2.3",
+  "version": "2.2.4",
   "description": "Noka single page app template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",
