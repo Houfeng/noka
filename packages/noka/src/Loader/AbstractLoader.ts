@@ -33,8 +33,9 @@ export abstract class AbstractLoader<
    * @param options 匹配选项
    */
   protected async glob(pattern: string | string[], options?: GlobbyOptions) {
-    const { targetDir = this.app.rootDir } = this.options;
-    const cwd = this.app.resolvePath(targetDir);
+    const { targetDir } = this.options;
+    const cwd = targetDir ? this.app.resolvePath(targetDir) : this.app.rootDir;
+    if (!cwd.startsWith(this.app.rootDir)) return [];
     const patterns = Array.isArray(pattern) ? pattern : [pattern];
     const selector = patterns.map((it) => this.app.parsePath(it));
     const paths = await globby(selector, { ...options, cwd });
@@ -45,7 +46,7 @@ export abstract class AbstractLoader<
    * 导入一个模块
    * @param moduleFile 模块路径
    */
-  protected importModule<M = ModuleExports>(moduleFile: string): M | undefined {
+  protected loadModule<M = ModuleExports>(moduleFile: string): M | undefined {
     try {
       return this.app.require(this.app.resolvePath(moduleFile));
     } catch {
@@ -54,18 +55,16 @@ export abstract class AbstractLoader<
   }
 
   /**
-   * 已加载的资源或类型列表
-   */
-  protected items: C[] = [];
-
-  /**
    * 加载通过 path 指定的内容
    */
-  protected async loadModules(): Promise<C[]> {
-    const moduleFiles = await this.glob("./**/*:bin");
+  protected async loadModules(
+    pattern: string | string[] = "./**/*:bin",
+    options?: GlobbyOptions,
+  ): Promise<C[]> {
+    const moduleFiles = await this.glob(pattern, options);
     const items: C[] = [];
     moduleFiles.forEach((moduleFile) => {
-      const fileExports = this.importModule(moduleFile);
+      const fileExports = this.loadModule(moduleFile);
       if (!fileExports) return;
       Object.keys(fileExports).forEach((name) => {
         const mod: any = fileExports[name];
@@ -79,9 +78,7 @@ export abstract class AbstractLoader<
   /**
    * 由应用调用的 load 方法
    */
-  async load() {
-    this.items = await this.loadModules();
-  }
+  async load() {}
 
   /**
    * 由应用调用的 load 方法

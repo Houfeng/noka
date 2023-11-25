@@ -162,8 +162,7 @@ export class ControllerLoader extends AbstractLoader<
    * 加载所有 Controller
    */
   public async load() {
-    await super.load();
-    this.items
+    (await this.loadModules())
       .map((Controller) => ({
         Controller,
         meta: getControllerMeta(Controller),

@@ -17,7 +17,7 @@ export class SetupLoader extends AbstractLoader<
 > {
   async launch() {
     const { logger } = this.app;
-    this.items
+    (await this.loadModules())
       .map((Setup) => ({ Setup, meta: getSetupMeta(Setup) }))
       .filter((it) => !!it.Setup && !!it.meta)
       .sort((a, b) => b.meta.priority - a.meta.priority)

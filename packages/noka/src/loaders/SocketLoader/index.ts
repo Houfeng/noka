@@ -12,7 +12,5 @@ export class SocketLoader extends AbstractLoader<
   //ws = new WebSocketServer({ noServer: true });
   async load() {
     // TODO:// 待实现
-    // await super.load();
-    // if (this.items.length < 1) return;
   }
 }

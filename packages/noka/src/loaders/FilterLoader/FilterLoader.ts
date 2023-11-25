@@ -18,9 +18,8 @@ export class FilterLoader extends AbstractLoader<
   FilterConstructor
 > {
   async load() {
-    await super.load();
     const { router, container, logger } = this.app;
-    this.items
+    (await this.loadModules())
       .map((Filter) => ({ Filter, meta: getFilterMeta(Filter) }))
       .filter((it) => !!it.Filter && !!it.meta)
       .sort((a, b) => b.meta.priority - a.meta.priority)
