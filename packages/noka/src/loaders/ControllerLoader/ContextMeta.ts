@@ -2,7 +2,7 @@ import { isFunction } from "noka-utility";
 
 export const contextMetaKey = Symbol("Context");
 
-type ContextValueParser = (
+export type ContextValueParser = (
   value: unknown,
   target: object,
   member: string,
@@ -19,6 +19,16 @@ export type ContextMeta = {
   index: number;
   parse?: ContextValueParser;
 };
+
+/**
+ * 获取控制器方法的参数注入信息
+ * @param target 控制器
+ * @param member 控制器方法名
+ */
+export function getContextMeta(target: object, member: string) {
+  const list = Reflect.getMetadata(contextMetaKey, target, member) || [];
+  return list as ContextMeta[];
+}
 
 /**
  * 从 ctx 上获取内容
@@ -38,6 +48,22 @@ export function Ctx(name = ".", parse?: ContextValueParser) {
  * @alias Ctx
  */
 export const Context = Ctx;
+
+/**
+ * 针对 URL 中的「路由参数」和「查询字符串」，自动做类型转换
+ */
+export const typedContextValue: ContextValueParser = (
+  value,
+  target,
+  member,
+  meta,
+) => {
+  const types = Reflect.getMetadata("design:paramtypes", target, member);
+  const Parser = types[meta.index];
+  if ([String, Number, Boolean].some((it) => it === Parser))
+    return Parser(value);
+  return isFunction(Parser) ? new Parser(value) : value;
+};
 
 /**
  * 请求对象
@@ -67,33 +93,18 @@ export const Response = Res;
 export const Cookie = () => Ctx("cookies");
 
 /**
- * 针对 URL 中的「路由参数」和「查询字符串」，自动做类型转换
- */
-const parseValue: ContextValueParser = (value, target, member, meta) => {
-  const types = Reflect.getMetadata("design:paramtypes", target, member);
-  const Parser = types[meta.index];
-  if ([String, Number, Boolean].some((it) => it === Parser))
-    return Parser(value);
-  return isFunction(Parser) ? new Parser(value) : value;
-};
-
-/**
  * 路由参数
  * @param name 路由参数名
  */
-export const Param = (name?: string, parse?: ContextValueParser) => {
-  parse = parse || parseValue;
-  return name ? Ctx(`params.${name}`, parse) : Ctx("params");
-};
+export const Param = (name?: string, parse?: ContextValueParser) =>
+  name ? Ctx(`params.${name}`, parse || typedContextValue) : Ctx("params");
 
 /**
  * 获取查询参数
  * @param name 查询参数名
  */
-export const Query = (name?: string, parse?: ContextValueParser) => {
-  parse = parse || parseValue;
-  return name ? Ctx(`query.${name}`, parse) : Ctx("query");
-};
+export const Query = (name?: string, parse?: ContextValueParser) =>
+  name ? Ctx(`query.${name}`, parse || typedContextValue) : Ctx("query");
 
 /**
  * 获取请求头参数
@@ -101,13 +112,3 @@ export const Query = (name?: string, parse?: ContextValueParser) => {
  */
 export const Header = (name?: string) =>
   name ? Ctx(`headers.${name}`) : Ctx("headers");
-
-/**
- * 获取控制器方法的参数注入信息
- * @param target 控制器
- * @param member 控制器方法名
- */
-export function getContextMeta(target: object, member: string) {
-  const list = Reflect.getMetadata(contextMetaKey, target, member) || [];
-  return list as ContextMeta[];
-}
