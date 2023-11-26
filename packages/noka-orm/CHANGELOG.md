@@ -1,5 +1,13 @@
 # noka
 
+## 2.2.6
+
+### Patch Changes
+
+- 增加上传文件类型定义 & 检查并自动创建应用家目录 &
+- Updated dependencies
+  - noka@2.2.6
+
 ## 2.2.5
 
 ### Patch Changes

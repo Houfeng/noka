@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.2.6
+
+### Patch Changes
+
+- 增加上传文件类型定义 & 检查并自动创建应用家目录 &
+- Updated dependencies
+  - eslint-config-noka@2.2.6
+  - noka-tsconfig@2.2.6
+  - noka-utility@2.2.6
+
 ## 2.2.5
 
 ### Patch Changes
