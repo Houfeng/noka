@@ -58,6 +58,7 @@ export const typedContextValue: ContextValueParser = (
   member,
   meta,
 ) => {
+  if (value === null || value === undefined) return value;
   const types = Reflect.getMetadata("design:paramtypes", target, member);
   const Parser = types[meta.index];
   if ([String, Number, Boolean].some((it) => it === Parser))
