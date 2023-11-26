@@ -48,7 +48,7 @@
     "ink-big-text": "1.0.1",
     "inquirer": "6.3.1",
     "mocha": "10.2.0",
-    "node-fetch": "2.6.0",
+    "node-fetch": "2.6.7",
     "noka-tsconfig": "workspace:*",
     "noka-utility": "workspace:*",
     "ntils": "5.2.4",
