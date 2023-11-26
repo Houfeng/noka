@@ -1,14 +1,12 @@
-import del from "del";
 import { AppInfo } from "../common/AppInfo";
 import { findCommand } from "../common/findCommand";
 import { logger } from "../common/logger";
 import { showBrand } from "../common/brand";
 import { build } from "./build";
-import { mkdirp } from "mkdirp";
 import { resolve } from "path";
 import { exec } from "../common/exec";
 import { Hooks } from "../common/Hooks";
-import { SRC_DIR_NAME } from "noka-utility";
+import { SRC_DIR_NAME, mkdirp, del } from "noka-utility";
 
 export async function release(env: string, $1: string) {
   showBrand();

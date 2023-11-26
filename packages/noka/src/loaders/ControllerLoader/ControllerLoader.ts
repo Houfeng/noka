@@ -1,5 +1,5 @@
 import { HttpContext } from "../../Application/ApplicationTypes";
-import { getByPath, writeText, mkdir, isNull } from "noka-utility";
+import { getByPath, writeText, mkdirp, isNull } from "noka-utility";
 import { getContextMeta } from "./ContextMeta";
 import { getRouteMetaItems, RouteMeta } from "./RouteMeta";
 import { normalize, resolve } from "path";
@@ -45,7 +45,7 @@ export class ControllerLoader extends AbstractLoader<
 
   protected async dumpDebugRouteItemsToFile() {
     if (!this.app.isSourceMode || this.debugRouteItems.length < 1) return;
-    await mkdir(this.debugDir);
+    await mkdirp(this.debugDir);
     const dumpFile = resolve(this.debugDir, "./controllers.json");
     return writeText(
       dumpFile,

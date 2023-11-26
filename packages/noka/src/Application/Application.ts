@@ -1,6 +1,6 @@
 import http from "http";
 import https from "https";
-import { BIN_DIR_NAME, SRC_DIR_NAME, iife, merge } from "noka-utility";
+import { BIN_DIR_NAME, SRC_DIR_NAME, iife, merge, mkdirp } from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
 import { Container } from "../Container";
@@ -12,7 +12,7 @@ import { LoaderInstance } from "../Loader/LoaderInstance";
 import { LoaderConstructor } from "../Loader/LoaderConstructor";
 import { LoaderConfigItem, LoaderConfigMap } from "../Loader/LoaderConfigTypes";
 import { ApplicationConfig } from "./ApplicationConfig";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { LoaderOptions } from "../Loader/LoaderOptions";
 import { DevTool } from "../DevTool";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
@@ -108,6 +108,14 @@ export class Application implements ApplicationLike {
    */
   get homeDir() {
     return normalize(`${homedir()}/${this.name}`);
+  }
+
+  /**
+   * 检查应用 homeDir 是否存在，如果不存在自动创建
+   */
+  private async ensureHomeDir() {
+    if (existsSync(this.homeDir)) return;
+    await mkdirp(this.homeDir);
   }
 
   /**
@@ -315,6 +323,7 @@ export class Application implements ApplicationLike {
    * 启动当前应用实例
    */
   async launch(): Promise<ApplicationLike> {
+    await this.ensureHomeDir();
     await this.loadConfig();
     await this.createAllLoaderInstances();
     await this.loadAllLoaderInstances();

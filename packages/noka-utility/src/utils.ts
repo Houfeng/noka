@@ -1,7 +1,8 @@
-import mkdirp from "mkdirp";
 import { existsSync, readFile, writeFile } from "fs";
 import { dirname, normalize } from "path";
 import { isArray, isFunction, isObject, newGuid } from "ntils";
+import { mkdirp as _mkdirp } from "mkdirp";
+import _del from "del";
 
 export * from "ntils";
 
@@ -37,16 +38,6 @@ export function writeText(filename: string, text: string) {
 }
 
 /**
- * 创建目录
- * @param dir 目录路径
- */
-export function mkdir(dir: string) {
-  return new Promise<string>((resolve, reject) => {
-    mkdirp(dir, (err) => (err ? reject(err) : resolve(dir)));
-  });
-}
-
-/**
  * 获取一个可用端口
  */
 export function acquirePort() {
@@ -56,6 +47,28 @@ export function acquirePort() {
       err ? reject(err) : resolve(port),
     ),
   );
+}
+
+/**
+ * 创建一个目录
+ * @param path  路径
+ * @returns
+ */
+export function mkdirp(path: string) {
+  return _mkdirp(path);
+}
+
+/**
+ * 删除匹配的文件或目录
+ * @param patterns 路径匹配模式
+ * @param options 选项
+ * @returns
+ */
+export function del(
+  patterns: string | readonly string[],
+  options?: _del.Options | undefined,
+) {
+  return _del(patterns, options);
 }
 
 /**

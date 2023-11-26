@@ -3,8 +3,7 @@ import { AppInfo } from "./AppInfo";
 import { existsSync } from "fs";
 import { exec } from "./exec";
 import { copy } from "./copy";
-import mkdirp from "mkdirp";
-import del from "del";
+import { mkdirp, del } from "noka-utility";
 
 export function Hooks(info: AppInfo) {
   const file = resolve(info.rootDir, "./noka.config.js");

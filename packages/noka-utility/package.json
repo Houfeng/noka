@@ -20,7 +20,6 @@
   },
   "keywords": [
     "noka",
-    "noka",
     "nsp",
     "mvc",
     "rest",
@@ -43,12 +42,14 @@
     "url": "https://github.com/houfeng/noka.git"
   },
   "dependencies": {
-    "mkdirp": "0.5.1",
+    "del": "4.1.1",
+    "mkdirp": "3.0.1",
     "ntils": "5.2.4",
     "oneport": "1.0.3",
     "tslib": "2.6.2"
   },
   "devDependencies": {
+    "@types/del": "4.0.0",
     "@types/mkdirp": "0.5.2",
     "@types/node": "20.10.0",
     "eslint-config-noka": "workspace:*",
