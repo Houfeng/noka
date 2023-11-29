@@ -7,6 +7,7 @@ import {
   LoaderOptions,
 } from "noka";
 import { DataSource, DataSourceOptions } from "typeorm";
+import { isString } from "noka-utility";
 
 export * from "typeorm";
 
@@ -15,12 +16,10 @@ const entityBeanKey = Symbol("Entity");
 export type EntityLoaderOptions = LoaderOptions<Partial<DataSourceOptions>>;
 
 const defaultOptions = {
-  type: "sqljs",
-  location: "home:/data.db",
-  autoSave: true,
-  synchronize: true,
+  type: "sqlite",
+  database: "home:/data.db",
   logging: false,
-};
+} satisfies EntityLoaderOptions;
 
 /**
  * 模型加载器
@@ -28,11 +27,19 @@ const defaultOptions = {
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
     const options = { ...defaultOptions, ...this.options };
-    const { targetDir = "bin:/entities", location, ...others } = options;
+    const { targetDir: root = "bin:/entities", type, database: db } = options;
+    const { synchronize, dropSchema } = options;
+    const resolve = this.app.resolvePath.bind(this.app);
     const dataSource = new DataSource({
-      ...others,
-      location: this.app.resolvePath(location),
-      entities: [this.app.resolvePath(`${targetDir}/**/*:bin`)],
+      ...options,
+      database: type === "sqlite" && isString(db) ? resolve(db) : db,
+      entities: [resolve(`${root}/**/!(*.{subscriber,migration}):bin`)],
+      subscribers: [resolve(`${root}/**/*.subscriber:bin`)],
+      migrations: [resolve(`${root}/**/*.migration:bin`)],
+      synchronize: this.app.isSourceMode ? synchronize : false,
+      dropSchema: this.app.isSourceMode ? dropSchema : false,
+      // only for sql.js
+      location: type === "sqljs" && options.location,
     } as DataSourceOptions);
     this.app.container.register(entityBeanKey, {
       type: "value",
