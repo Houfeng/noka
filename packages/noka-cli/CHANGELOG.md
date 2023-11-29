@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.2.7
+
+### Patch Changes
+
+- 改进 noka-orm
+- Updated dependencies
+  - eslint-config-noka@2.2.7
+  - noka-tsconfig@2.2.7
+  - noka-utility@2.2.7
+
 ## 2.2.6
 
 ### Patch Changes

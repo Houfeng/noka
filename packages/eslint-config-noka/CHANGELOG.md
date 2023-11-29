@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.2.7
+
+### Patch Changes
+
+- 改进 noka-orm
+
 ## 2.2.6
 
 ### Patch Changes
