@@ -26,12 +26,12 @@ const defaultOptions = {
  */
 export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
   async load() {
-    const options = { ...defaultOptions, ...this.options };
-    const { targetDir: root = "bin:/entities", type, database: db } = options;
-    const { synchronize, dropSchema } = options;
+    const opts = { ...defaultOptions, ...this.options };
+    const { targetDir: root = "bin:/entities", type, database: db } = opts;
+    const { synchronize, dropSchema } = opts;
     const resolve = this.app.resolvePath.bind(this.app);
     const dataSource = new DataSource({
-      ...options,
+      ...opts,
       database: type === "sqlite" && isString(db) ? resolve(db) : db,
       entities: [resolve(`${root}/**/!(*.{subscriber,migration}):bin`)],
       subscribers: [resolve(`${root}/**/*.subscriber:bin`)],
@@ -39,7 +39,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
       synchronize: this.app.isSourceMode ? synchronize : false,
       dropSchema: this.app.isSourceMode ? dropSchema : false,
       // only for sql.js
-      location: type === "sqljs" && options.location,
+      location: type === "sqljs" && opts.location && resolve(opts.location),
     } as DataSourceOptions);
     this.app.container.register(entityBeanKey, {
       type: "value",
@@ -51,7 +51,7 @@ export class EntityLoader extends AbstractLoader<EntityLoaderOptions> {
 }
 
 /**
- * 向目标注入数据实体仓库
+ * 注入数据实体仓库
  * @param entity 实体类型
  */
 export function InjectEntityRepository(entity: { new: () => any } | Function) {
@@ -65,13 +65,23 @@ export function InjectEntityRepository(entity: { new: () => any } | Function) {
 }
 
 /**
- * 向目标注入实体管理器
- * @param entity 实体类型
+ * 注入实体管理器
  */
 export function InjectEntityManager() {
   return Inject(undefined, {
     handle: (container: ContainerLike) => {
       return container.get<DataSource>(entityBeanKey)?.manager;
+    },
+  });
+}
+
+/**
+ * 注入数据源对象
+ */
+export function InjectDataSource() {
+  return Inject(undefined, {
+    handle: (container: ContainerLike) => {
+      return container.get<DataSource>(entityBeanKey);
     },
   });
 }
