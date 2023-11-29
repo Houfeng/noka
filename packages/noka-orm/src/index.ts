@@ -18,6 +18,8 @@ export type EntityLoaderOptions = LoaderOptions<Partial<DataSourceOptions>>;
 const defaultOptions = {
   type: "sqlite",
   database: "home:/data.db",
+  synchronize: true,
+  dropSchema: false,
   logging: false,
 } satisfies EntityLoaderOptions;
 

@@ -1,5 +1,13 @@
 # noka
 
+## 2.2.8
+
+### Patch Changes
+
+- 更新 noka-orm 的默认配置
+- Updated dependencies
+  - noka-utility@2.2.8
+
 ## 2.2.7
 
 ### Patch Changes
