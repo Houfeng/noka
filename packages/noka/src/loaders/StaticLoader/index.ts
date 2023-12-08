@@ -7,13 +7,13 @@ import conditional from "koa-conditional-get";
 
 export class StaticLoader extends AbstractLoader {
   public async load() {
-    const { targetDir = "app:/assets" } = this.options;
+    const { targetDir = "app:/public" } = this.options;
     const staticRoot = this.app.resolvePath(targetDir);
     if (!existsSync(staticRoot)) return;
     this.app.server.use(async (ctx, next) => {
       await next();
       if (ctx.preventCache) return;
-      const noop: any = () => {};
+      const noop: any = () => { };
       await compose([conditional(), etag()])(ctx, noop);
     });
     this.app.server.use(serve(staticRoot));

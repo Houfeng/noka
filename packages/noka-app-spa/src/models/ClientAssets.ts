@@ -15,7 +15,7 @@ export async function getClientInitialAssets(host: string): Promise<Assets> {
     return assets;
   } else {
     if (cachedAssets) return cachedAssets;
-    const file = resolve(__dirname, `../../assets/app/${manifestFile}`);
+    const file = resolve(__dirname, `../../public/app/${manifestFile}`);
     const buffer = await readFile(file);
     cachedAssets = JSON.parse(buffer.toString("utf-8"));
     return cachedAssets;
