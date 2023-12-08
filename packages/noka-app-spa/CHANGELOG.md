@@ -1,5 +1,14 @@
 # noka-app-react
 
+## 2.2.9
+
+### Patch Changes
+
+- static loader: assets -> public
+- Updated dependencies
+  - noka@2.2.9
+  - noka-orm@2.2.9
+
 ## 2.2.8
 
 ### Patch Changes

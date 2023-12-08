@@ -1,5 +1,13 @@
 # noka
 
+## 2.2.9
+
+### Patch Changes
+
+- static loader: assets -> public
+- Updated dependencies
+  - noka-utility@2.2.9
+
 ## 2.2.8
 
 ### Patch Changes

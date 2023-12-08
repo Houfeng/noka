@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-noka",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "",
   "main": "./eslintrc.js",
   "publishConfig": {

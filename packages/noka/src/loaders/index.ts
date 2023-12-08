@@ -51,7 +51,7 @@ export const BuiltInLoaders = {
   } satisfies LoaderConfigItem<typeof SessionLoader>,
   static: {
     loader: StaticLoader,
-    options: { targetDir: "app:/assets" },
+    options: { targetDir: "app:/public" },
   } satisfies LoaderConfigItem<typeof StaticLoader>,
   setup: {
     loader: SetupLoader,

@@ -1,5 +1,11 @@
 # noka
 
+## 2.2.9
+
+### Patch Changes
+
+- static loader: assets -> public
+
 ## 2.2.8
 
 ### Patch Changes

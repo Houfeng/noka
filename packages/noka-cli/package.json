@@ -1,7 +1,7 @@
 {
   "name": "noka-cli",
   "displayName": "Noka",
-  "version": "2.2.8",
+  "version": "2.2.9",
   "description": "",
   "main": "./dist/index.js",
   "types": "./types/index.d.ts",
