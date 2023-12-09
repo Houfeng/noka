@@ -15,7 +15,7 @@ import { ApplicationSymbol } from "./ApplicationSymbol";
 export type ApplicationConfig = {
   port?: number;
   hostname?: string;
-  secure?: { key: string; cert: string };
+  secure?: { key: string; cert: string; watch?: boolean };
   loader_imports?: Record<string, string>;
   loader_options?: Record<string, false | JSONObject>;
   [key: string]: JSONValue;

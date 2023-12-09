@@ -20,6 +20,11 @@ import { ApplicationSymbol } from "./ApplicationSymbol";
 import { ApplicationLogger } from "./ApplicationLogger";
 import { Module } from "module";
 
+const ENVMapping: Record<string, string> = {
+  development: "dev",
+  production: "prod",
+};
+
 /**
  * 全局应用程序类，每一个应用都会由一个 Application 实例开始
  */
@@ -164,10 +169,7 @@ export class Application implements ApplicationLike {
     const { Parser } = require("confman/index");
     const root = this.resolvePath("app:/configs");
     const file = normalize(`${root}/config`);
-    const env = ({
-      development: 'dev',
-      production: 'prod',
-    })[this.env || ''] || this.env;
+    const env = ENVMapping[this.env || ""] || this.env;
     const parser = new Parser({ env });
     const config = await parser.load(file);
     this.container.register(ApplicationSymbol.Config, {
@@ -308,19 +310,39 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * 读取 SSL 证书及相关配置信息
+   */
+  private readSecureContext() {
+    const { secure } = this.config;
+    if (!secure) return;
+    const { key, cert, ...others } = secure;
+    return {
+      key: key && readFileSync(this.resolvePath(key)),
+      cert: cert && readFileSync(this.resolvePath(cert)),
+      ...others,
+    };
+  }
+
+  /**
+   * 重新载入并更新 SSL 证书及相关配置信息
+   */
+  reloadSecureContext() {
+    const { secure } = this.config;
+    if (!secure) return;
+    const server = this.listener as https.Server;
+    const secureOptions = this.readSecureContext();
+    server.setSecureContext({ ...secureOptions });
+  }
+
+  /**
    * 负责实际监听客户端请求的 http(s) server 实例
    */
   readonly listener = iife(() => {
     const { secure } = this.config;
     const handler = this.server.callback();
     if (!secure) return http.createServer(handler);
-    const { key, cert, ...others } = secure;
-    const options = {
-      key: readFileSync(this.resolvePath(key)),
-      cert: readFileSync(this.resolvePath(cert)),
-      ...others,
-    };
-    return https.createServer(options, handler);
+    const secureOptions = this.readSecureContext();
+    return https.createServer({ ...secureOptions }, handler);
   });
 
   /**
