@@ -1,5 +1,11 @@
 # noka
 
+## 2.3.0
+
+### Minor Changes
+
+- v2.3.0
+
 ## 2.2.10
 
 ### Patch Changes
