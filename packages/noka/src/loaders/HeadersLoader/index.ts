@@ -1,7 +1,7 @@
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 
 export type HeaderLoaderOptions = LoaderOptions<{
-  headers?: Record<string, string>
+  headers?: Record<string, string>;
 }>;
 
 /**

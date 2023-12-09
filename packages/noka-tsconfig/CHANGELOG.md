@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.3.3
+
+### Patch Changes
+
+- 改进开发时热重启
+
 ## 2.3.2
 
 ### Patch Changes
