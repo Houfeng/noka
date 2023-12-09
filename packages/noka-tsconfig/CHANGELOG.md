@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.3.4
+
+### Patch Changes
+
+- 改进配置加载
+
 ## 2.3.3
 
 ### Patch Changes

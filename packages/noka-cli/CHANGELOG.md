@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.3.4
+
+### Patch Changes
+
+- 改进配置加载
+- Updated dependencies
+  - eslint-config-noka@2.3.4
+  - noka-tsconfig@2.3.4
+  - noka-utility@2.3.4
+
 ## 2.3.3
 
 ### Patch Changes
