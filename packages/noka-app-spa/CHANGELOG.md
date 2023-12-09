@@ -1,5 +1,14 @@
 # noka-app-react
 
+## 2.3.1
+
+### Patch Changes
+
+- v2.3.1
+- Updated dependencies
+  - noka@2.3.1
+  - noka-orm@2.3.1
+
 ## 2.3.0
 
 ### Minor Changes

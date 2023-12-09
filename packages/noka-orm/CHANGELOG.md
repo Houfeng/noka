@@ -1,5 +1,14 @@
 # noka
 
+## 2.3.1
+
+### Patch Changes
+
+- v2.3.1
+- Updated dependencies
+  - noka@2.3.1
+  - noka-utility@2.3.1
+
 ## 2.3.0
 
 ### Minor Changes
