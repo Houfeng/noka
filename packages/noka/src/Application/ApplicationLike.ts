@@ -88,10 +88,10 @@ export interface ApplicationLike {
    * @returns
    */
   readonly listener:
-  | ReturnType<typeof http.createServer>
-  | ReturnType<typeof https.createServer>
-  | ReturnType<typeof http2.createServer>
-  | ReturnType<typeof http2.createSecureServer>;
+    | ReturnType<typeof http.createServer>
+    | ReturnType<typeof https.createServer>
+    | ReturnType<typeof http2.createServer>
+    | ReturnType<typeof http2.createSecureServer>;
 
   /**
    * 重新载入并更新 SSL 证书及相关配置信息

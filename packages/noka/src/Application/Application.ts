@@ -1,6 +1,14 @@
 import http from "http";
 import https from "https";
-import { BIN_DIR_NAME, SRC_DIR_NAME, iife, merge, mkdirp } from "noka-utility";
+import { Module } from "module";
+import {
+  BIN_DIR_NAME,
+  SRC_DIR_NAME,
+  iife,
+  isString,
+  merge,
+  mkdirp,
+} from "noka-utility";
 import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
 import { Container } from "../Container";
@@ -18,7 +26,7 @@ import { DevTool } from "../DevTool";
 import { HttpRouter, HttpServer } from "./ApplicationTypes";
 import { ApplicationSymbol } from "./ApplicationSymbol";
 import { ApplicationLogger } from "./ApplicationLogger";
-import { Module } from "module";
+import { watch as fsWatch } from "chokidar";
 
 const ENVMapping: Record<string, string> = {
   development: "dev",
@@ -313,12 +321,14 @@ export class Application implements ApplicationLike {
    * 读取 SSL 证书及相关配置信息
    */
   private readSecureContext() {
-    const { secure } = this.config;
-    if (!secure) return;
-    const { key, cert, ...others } = secure;
+    const { key, cert, ...others } = { ...this.config.secure };
+    if (!key || !cert) return;
+    const keyFile = this.resolvePath(key);
+    const certFile = this.resolvePath(cert);
+    const none = void 0;
     return {
-      key: key && readFileSync(this.resolvePath(key)),
-      cert: cert && readFileSync(this.resolvePath(cert)),
+      key: existsSync(keyFile) ? readFileSync(keyFile) : none,
+      cert: existsSync(keyFile) ? readFileSync(certFile) : none,
       ...others,
     };
   }
@@ -327,11 +337,29 @@ export class Application implements ApplicationLike {
    * 重新载入并更新 SSL 证书及相关配置信息
    */
   reloadSecureContext() {
-    const { secure } = this.config;
-    if (!secure) return;
+    const { key, cert } = { ...this.config.secure };
+    if (!key || !cert) return;
     const server = this.listener as https.Server;
     const secureOptions = this.readSecureContext();
     server.setSecureContext({ ...secureOptions });
+    this.logger?.info("Secure context reloaded");
+  }
+
+  /**
+   * 观察证书变更，并自动重新载入
+   */
+  private watchSecureContext() {
+    const { key, cert, watch } = { ...this.config.secure };
+    if (!key || !cert || !watch) return;
+    const options = { ignoreInitial: true };
+    const files = isString(watch)
+      ? this.resolvePath(watch)
+      : [this.resolvePath(key), this.resolvePath(cert)];
+    const watcher = fsWatch(files, options);
+    watcher.once("all", () => {
+      this.readSecureContext();
+      this.watchSecureContext();
+    });
   }
 
   /**
@@ -342,6 +370,7 @@ export class Application implements ApplicationLike {
     const handler = this.server.callback();
     if (!secure) return http.createServer(handler);
     const secureOptions = this.readSecureContext();
+    if (secure.watch) this.watchSecureContext();
     return https.createServer({ ...secureOptions }, handler);
   });
 
@@ -359,6 +388,7 @@ export class Application implements ApplicationLike {
     await this.resolvePort();
     this.listener.listen(this.port, this.hostname);
     this.devTool.startWatch();
+    this.logger?.info("Ready");
     return this;
   }
 
@@ -369,6 +399,7 @@ export class Application implements ApplicationLike {
     this.devTool.stopWatch();
     this.unloadAllLoaderInstances();
     this.listener.close();
+    this.logger?.info("Stopped");
   }
 
   /** 开发时工具 */
