@@ -41,20 +41,29 @@ export class Application implements ApplicationLike {
     return new Application(options);
   }
 
-  readonly symbols = ApplicationSymbol;
-
   /**
    * 全局应用构造函数
    * @param options 应用程序类构建选项
    */
   constructor(protected options: ApplicationOptions = {}) {
     process.once("beforeExit", () => this.stop());
+    this.container.register(Application, { type: "value", value: this });
   }
+
+  /**
+   * 应用程序内部 Symbols
+   */
+  readonly symbols = ApplicationSymbol;
 
   /**
    * 当前环境标识
    */
   readonly env = process.env.NOKA_ENV || process.env.NODE_ENV;
+
+  /**
+   * IoC 容器实例
+   */
+  readonly container = new Container();
 
   /**
    * 对应的 koa 实例
@@ -65,11 +74,6 @@ export class Application implements ApplicationLike {
    * 应用路由
    */
   readonly router = new HttpRouter();
-
-  /**
-   * IoC 容器实例
-   */
-  readonly container = new Container();
 
   /**
    * 入口文件
@@ -163,28 +167,34 @@ export class Application implements ApplicationLike {
    */
   readonly require = Module.createRequire(this.appPkgFile);
 
+  /** 开发时工具 */
+  readonly devTool = new DevTool({
+    enabled: this.isSourceMode,
+    entry: this.entry,
+    watchDir: [this.binDir],
+    resolvePath: (path: string) => this.resolvePath(path),
+    stopApp: () => this.stop(),
+    logger: () => this.logger,
+  });
+
   /**
    * 应用配置对象
    */
   get config(): ApplicationConfig {
-    return this.container.get(this.symbols.Config, true) || {};
-  }
-
-  /**
-   * 加载应用程序配置
-   */
-  private async loadConfig() {
+    const registeredConfig = this.container.get(this.symbols.Config, true);
+    if (registeredConfig) return registeredConfig as ApplicationConfig;
     const { Parser } = require("confman/index");
     const root = this.resolvePath("app:/configs");
     const file = normalize(`${root}/config`);
     const env = ENVMapping[this.env || ""] || this.env;
     const parser = new Parser({ env });
-    const config = await parser.load(file);
+    const config = parser.load(file);
     this.container.register(ApplicationSymbol.Config, {
       type: "value",
       value: config,
     });
     this.devTool.watchDir(root);
+    return config;
   }
 
   /**
@@ -379,7 +389,6 @@ export class Application implements ApplicationLike {
    */
   async launch(): Promise<ApplicationLike> {
     await this.ensureHomeDir();
-    await this.loadConfig();
     await this.createAllLoaderInstances();
     await this.loadAllLoaderInstances();
     this.server.use(this.router.routes());
@@ -406,13 +415,4 @@ export class Application implements ApplicationLike {
     this.logger?.info("Stopped");
   }
 
-  /** 开发时工具 */
-  readonly devTool = new DevTool({
-    enabled: this.isSourceMode,
-    entry: this.entry,
-    watchDir: [this.binDir],
-    resolvePath: (path: string) => this.resolvePath(path),
-    stopApp: () => this.stop(),
-    logger: () => this.logger,
-  });
 }
