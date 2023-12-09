@@ -32,7 +32,7 @@ export type DevToolOptions = {
   entry: string;
   watchDir: string[];
   resolvePath: (path: string) => string;
-  stopApp: () => void;
+  stopApp: () => Promise<void>;
   logger: () => ApplicationLogger | undefined;
 };
 
@@ -52,14 +52,14 @@ export class DevTool {
     return hooks;
   });
 
-  private reloadApp = () => {
+  private reloadApp = async () => {
     const { enabled, entry, stopApp, logger } = this.options;
     if (!enabled) return;
     if (typeof require === "undefined" || !require.cache) {
       return process.exit(0);
     }
     this.timerHooks?.clearAllTimers();
-    stopApp();
+    await stopApp();
     for (const path in require.cache) {
       if (this.inWatchedDir(path)) delete require.cache[path];
     }

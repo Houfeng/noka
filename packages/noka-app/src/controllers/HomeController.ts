@@ -27,7 +27,7 @@ export class HomeController {
   @Get("/")
   @View("index")
   async index() {
-    return Controller.Result({ message: "Noka" }, 404);
+    return Controller.Result({ message: "Noka" });
   }
 
   @Inject()

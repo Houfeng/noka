@@ -1,5 +1,5 @@
 import { ControllerLoader } from "./ControllerLoader";
-import { HeadersLoader } from "./HeadersLoader";
+import { HeaderLoader } from "./HeadersLoader";
 import { LoggerLoader } from "./LoggerLoader";
 import { ServiceLoader } from "./ServiceLoader";
 import { SessionLoader } from "./SessionLoader";
@@ -37,10 +37,10 @@ export const BuiltInLoaders = {
     loader: ModelLoader,
     options: { targetDir: "bin:/models" },
   } satisfies LoaderConfigItem<typeof ModelLoader>,
-  headers: {
-    loader: HeadersLoader,
+  header: {
+    loader: HeaderLoader,
     options: { targetDir: "" },
-  } satisfies LoaderConfigItem<typeof HeadersLoader>,
+  } satisfies LoaderConfigItem<typeof HeaderLoader>,
   body: {
     loader: BodyLoader,
     options: { targetDir: "" },
@@ -49,18 +49,14 @@ export const BuiltInLoaders = {
     loader: SessionLoader,
     options: { targetDir: "" },
   } satisfies LoaderConfigItem<typeof SessionLoader>,
-  static: {
-    loader: StaticLoader,
-    options: { targetDir: "app:/public" },
-  } satisfies LoaderConfigItem<typeof StaticLoader>,
-  setup: {
-    loader: SetupLoader,
-    options: { targetDir: "bin:/setups" },
-  } satisfies LoaderConfigItem<typeof SetupLoader>,
   view: {
     loader: ViewLoader,
     options: { targetDir: "app:/views" },
   } satisfies LoaderConfigItem<typeof ViewLoader>,
+  setup: {
+    loader: SetupLoader,
+    options: { targetDir: "bin:/setups" },
+  } satisfies LoaderConfigItem<typeof SetupLoader>,
   filter: {
     loader: FilterLoader,
     options: { targetDir: "bin:/filters" },
@@ -69,4 +65,8 @@ export const BuiltInLoaders = {
     loader: ControllerLoader,
     options: { targetDir: "bin:/controllers" },
   } satisfies LoaderConfigItem<typeof ControllerLoader>,
+  static: {
+    loader: StaticLoader,
+    options: { targetDir: "app:/public" },
+  } satisfies LoaderConfigItem<typeof StaticLoader>,
 };

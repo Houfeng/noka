@@ -397,8 +397,12 @@ export class Application implements ApplicationLike {
    */
   async stop() {
     this.devTool.stopWatch();
-    this.unloadAllLoaderInstances();
-    this.listener.close();
+    await this.unloadAllLoaderInstances();
+    this.server.removeAllListeners();
+    this.listener.closeAllConnections();
+    this.listener.removeAllListeners();
+    await new Promise((resolve) => this.listener.close(resolve));
+    process.removeAllListeners();
     this.logger?.info("Stopped");
   }
 
