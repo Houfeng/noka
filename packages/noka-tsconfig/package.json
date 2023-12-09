@@ -1,6 +1,6 @@
 {
   "name": "noka-tsconfig",
-  "version": "2.2.9",
+  "version": "2.2.10",
   "main": "./tsconfig.json",
   "description": "Noka tsconfig",
   "publishConfig": {

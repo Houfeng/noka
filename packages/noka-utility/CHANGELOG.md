@@ -1,5 +1,11 @@
 # noka
 
+## 2.2.10
+
+### Patch Changes
+
+- 优化环境配置加载 & 优化开发态禁用静态资源缓存
+
 ## 2.2.9
 
 ### Patch Changes

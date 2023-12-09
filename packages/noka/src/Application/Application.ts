@@ -164,7 +164,11 @@ export class Application implements ApplicationLike {
     const { Parser } = require("confman/index");
     const root = this.resolvePath("app:/configs");
     const file = normalize(`${root}/config`);
-    const parser = new Parser({ env: this.env });
+    const env = ({
+      development: 'dev',
+      production: 'prod',
+    })[this.env || ''] || this.env;
+    const parser = new Parser({ env });
     const config = await parser.load(file);
     this.container.register(ApplicationSymbol.Config, {
       type: "value",

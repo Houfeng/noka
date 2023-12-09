@@ -10,12 +10,14 @@ export class StaticLoader extends AbstractLoader {
     const { targetDir = "app:/public" } = this.options;
     const staticRoot = this.app.resolvePath(targetDir);
     if (!existsSync(staticRoot)) return;
-    this.app.server.use(async (ctx, next) => {
-      await next();
-      if (ctx.preventCache) return;
-      const noop: any = () => { };
-      await compose([conditional(), etag()])(ctx, noop);
-    });
+    if (!this.app.isSourceMode) {
+      this.app.server.use(async (ctx, next) => {
+        await next();
+        if (ctx.preventCache) return;
+        const noop: any = () => { };
+        await compose([conditional(), etag()])(ctx, noop);
+      });
+    }
     this.app.server.use(serve(staticRoot));
     this.app.logger?.info("Static ready");
   }

@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.2.10
+
+### Patch Changes
+
+- 优化环境配置加载 & 优化开发态禁用静态资源缓存
+- Updated dependencies
+  - eslint-config-noka@2.2.10
+  - noka-tsconfig@2.2.10
+  - noka-utility@2.2.10
+
 ## 2.2.9
 
 ### Patch Changes
