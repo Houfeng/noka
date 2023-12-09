@@ -1,5 +1,14 @@
 # noka-app-react
 
+## 2.3.2
+
+### Patch Changes
+
+- 改进缓存处理 & 开发时热重载
+- Updated dependencies
+  - noka@2.3.2
+  - noka-orm@2.3.2
+
 ## 2.3.1
 
 ### Patch Changes

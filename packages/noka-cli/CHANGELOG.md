@@ -1,5 +1,15 @@
 # noka-cli
 
+## 2.3.2
+
+### Patch Changes
+
+- 改进缓存处理 & 开发时热重载
+- Updated dependencies
+  - eslint-config-noka@2.3.2
+  - noka-tsconfig@2.3.2
+  - noka-utility@2.3.2
+
 ## 2.3.1
 
 ### Patch Changes
