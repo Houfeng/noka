@@ -1,5 +1,13 @@
 # noka
 
+## 2.3.5
+
+### Patch Changes
+
+- HTTP -> HTTPS
+- Updated dependencies
+  - noka-utility@2.3.5
+
 ## 2.3.4
 
 ### Patch Changes
