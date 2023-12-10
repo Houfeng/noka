@@ -45,7 +45,6 @@
     "del": "4.1.1",
     "mkdirp": "3.0.1",
     "ntils": "5.2.4",
-    "oneport": "1.0.3",
     "tslib": "2.6.2"
   },
   "devDependencies": {

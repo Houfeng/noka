@@ -38,18 +38,6 @@ export function writeText(filename: string, text: string) {
 }
 
 /**
- * 获取一个可用端口
- */
-export function acquirePort() {
-  const oneport = require("oneport");
-  return new Promise<number>((resolve, reject) =>
-    oneport.acquire((err: Error, port: number) =>
-      err ? reject(err) : resolve(port),
-    ),
-  );
-}
-
-/**
  * 创建一个目录
  * @param path  路径
  * @returns

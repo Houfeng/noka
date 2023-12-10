@@ -13,11 +13,48 @@ import { ApplicationSymbol } from "./ApplicationSymbol";
  * 因为 yaml 并没有类型检查，为避免不小心的大小写错误，配置 key 采用全小写下划线分隔
  */
 export type ApplicationConfig = {
-  port?: number;
+  /** 监听端口 */
+  port: number;
+
+  /** 绑定的 hostname */
   hostname?: string;
-  secure?: { key: string; cert: string; watch?: boolean | string };
+
+  /** HTTPS 配置 */
+  secure?: {
+    /** 私钥文件路径 */
+    key: string;
+
+    /** 证书文件路径 */
+    cert: string;
+
+    /**
+     * 是否开始 HTTP->HTTPS 重定向
+     * true: 重定向来自 80 端口的 HTTP 请求
+     * number: 重定向来自动指定端口的 HTTP 请求
+     * false/undefined: 不启用
+     */
+    redirect?: boolean | number;
+
+    /**
+     * 是否观察证书及私钥文件的变更
+     * true: 启用观察，在证书文件变更时，自动重新加载证书
+     * string: 指定的文件或目录路径发生变更时，自动重新加载证书
+     * false/undefined: 不启用
+     */
+    watch?: boolean | string;
+  };
+
+  /**
+   * 配置导入的自定议 loaders
+   */
   loader_imports?: Record<string, string>;
+
+  /**
+   * 指定 loader 的选项配置
+   */
   loader_options?: Record<string, false | JSONObject>;
+
+  /** 其他配置 */
   [key: string]: JSONValue;
 };
 

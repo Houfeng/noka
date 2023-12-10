@@ -541,9 +541,6 @@ importers:
       ntils:
         specifier: 5.2.4
         version: 5.2.4
-      oneport:
-        specifier: 1.0.3
-        version: 1.0.3
       tslib:
         specifier: 2.6.2
         version: 2.6.2

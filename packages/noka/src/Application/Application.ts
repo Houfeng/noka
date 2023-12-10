@@ -9,7 +9,7 @@ import {
   merge,
   mkdirp,
 } from "noka-utility";
-import { acquirePort, isPath, resolvePackageRoot } from "noka-utility";
+import { isPath, resolvePackageRoot } from "noka-utility";
 import { BuiltInLoaders } from "../loaders";
 import { Container } from "../Container";
 import { extname, resolve, normalize } from "path";
@@ -299,25 +299,10 @@ export class Application implements ApplicationLike {
   }
 
   /**
-   * 当前应用端口私有变量
-   */
-  private resolvedPort?: number;
-
-  /**
-   * 获取应用端口
-   */
-  private async resolvePort() {
-    if (this.resolvedPort) return this.resolvedPort;
-    const port = this.config.port || (await acquirePort());
-    this.resolvedPort = port;
-    return this.resolvedPort;
-  }
-
-  /**
    * 当前应用使用的端口
    */
-  get port(): number | undefined {
-    return this.resolvedPort;
+  get port() {
+    return this.config.port;
   }
 
   /**
@@ -325,6 +310,14 @@ export class Application implements ApplicationLike {
    */
   get hostname() {
     return this.config.hostname;
+  }
+
+  /**
+   * HTTP->HTTPS 安全重定向端口
+   */
+  private get secureRedirectPort() {
+    const { redirect } = { ...this.config.secure };
+    return redirect === true ? 80 : redirect || void 0;
   }
 
   /**
@@ -373,6 +366,20 @@ export class Application implements ApplicationLike {
   }
 
   /**
+   * HTTPS 强调重定向 listener
+   */
+  private secureRedirectListener = iife(() => {
+    const redirectPort = this.secureRedirectPort;
+    if (!redirectPort || redirectPort === this.port) return;
+    return http.createServer((req, res) => {
+      const hostname = (req.headers.host || "")?.split(":")[0];
+      const location = `https://${hostname}:${this.port}${req.url}`;
+      res.writeHead(301, { location });
+      res.end();
+    });
+  });
+
+  /**
    * 负责实际监听客户端请求的 http(s) server 实例
    */
   readonly listener = iife(() => {
@@ -389,13 +396,19 @@ export class Application implements ApplicationLike {
    */
   async launch(): Promise<ApplicationLike> {
     await this.ensureHomeDir();
+    // 创建 & 加载所有 loader
     await this.createAllLoaderInstances();
     await this.loadAllLoaderInstances();
+    // 绑定 router
     this.server.use(this.router.routes());
     this.server.use(this.router.allowedMethods());
+    // 触发所有 loader 的 launch 生命周期 hook
     await this.launchAllLoaderInstances();
-    await this.resolvePort();
+    // 开始 listen
     this.listener.listen(this.port, this.hostname);
+    // 如果启用安全重定向，则启动监听
+    this.secureRedirectListener?.listen(this.secureRedirectPort);
+    // 开始调试工具 watch
     this.devTool.startWatch();
     this.logger?.info("Ready");
     return this;
@@ -406,13 +419,20 @@ export class Application implements ApplicationLike {
    */
   async stop() {
     this.devTool.stopWatch();
+    // 触发所有 loaders 的 unload 生命周期 hook
     await this.unloadAllLoaderInstances();
+    // 清理 HTTPS 重定向 listener
+    this.secureRedirectListener?.removeAllListeners();
+    this.secureRedirectListener?.closeAllConnections();
+    (await this.secureRedirectListener) &&
+      new Promise((resolve) => this.secureRedirectListener?.close(resolve));
+    // 清理 server & listener
     this.server.removeAllListeners();
     this.listener.closeAllConnections();
     this.listener.removeAllListeners();
     await new Promise((resolve) => this.listener.close(resolve));
+    // 清理 process
     process.removeAllListeners();
     this.logger?.info("Stopped");
   }
-
 }
