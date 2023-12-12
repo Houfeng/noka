@@ -4,9 +4,9 @@ CWD=$PWD;
 
 # app
 cd $CWD
-APP=./packages/noka-app
+P=./packages/noka-tpl-site
 echo ------------------------------------------------------
-echo PROJECT: $APP
+echo PROJECT: $P
 echo ------------------------------------------------------
-cd $APP
+cd $P
 nk test

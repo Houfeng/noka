@@ -2,14 +2,15 @@ set -e
 
 CWD=$PWD;
 
+
 # cli
 cd $CWD
-CLI=./packages/noka-cli
+P=./packages/noka-cli
 echo ------------------------------------------------------
-echo PROJECT: $CLI
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $CLI/dist/
-tsc -p $CLI/tsconfig.json
-copyfiles --up 3 $CLI/src/**/*.txt $CLI/dist/
-cd $CLI
+rm -rf $P/dist/
+tsc -p $P/tsconfig.json
+copyfiles --up 3 $P/src/**/*.txt $P/dist/
+cd $P
 pnpm link --global

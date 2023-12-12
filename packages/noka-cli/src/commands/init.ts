@@ -46,7 +46,7 @@ export async function init(template: string) {
   // 下载模板
   logger.info("Initializing app ...");
   template = template || "";
-  const pkgName = `noka-app${template ? "-" : ""}${template}`;
+  const pkgName = `noka-tpl-${template || "site"}`;
   await initTemplate(pkgName, process.cwd());
   // 更新信息
   const pkgFile = resolve(process.cwd(), "./package.json");

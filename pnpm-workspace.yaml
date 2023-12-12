@@ -5,5 +5,5 @@ packages:
   - "./packages/noka/"
   - "./packages/noka-cli/"
   - "./packages/noka-orm/"
-  - "./packages/noka-app/"
-  - "./packages/noka-app-spa/"
+  - "./packages/noka-tpl-site/"
+  - "./packages/noka-tpl-app/"

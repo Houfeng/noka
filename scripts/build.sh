@@ -2,66 +2,68 @@ set -e
 
 CWD=$PWD;
 
+
 # utility
 cd $CWD
-CORE=./packages/noka-utility
+P=./packages/noka-utility
 echo ------------------------------------------------------
-echo PROJECT: $CORE
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $CORE/dist/
-rm -rf $CORE/types/
-tsc -p $CORE/tsconfig.json
+rm -rf $P/dist/
+rm -rf $P/types/
+tsc -p $P/tsconfig.json
 
 
 # core
 cd $CWD
-CORE=./packages/noka
+P=./packages/noka
 echo ------------------------------------------------------
-echo PROJECT: $CORE
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $CORE/dist/
-tsc -p $CORE/tsconfig.json
-copyfiles --up 3 $CORE/src/**/*.{json,yml,html,css,md} $CORE/dist/
+rm -rf $P/dist/
+tsc -p $P/tsconfig.json
+copyfiles --up 3 $P/src/**/*.{json,yml,html,css,md} $P/dist/
 
 
 # cli
 cd $CWD
-CLI=./packages/noka-cli
+P=./packages/noka-cli
 echo ------------------------------------------------------
-echo PROJECT: $CLI
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $CLI/dist/
-tsc -p $CLI/tsconfig.json
-copyfiles --up 3 $CLI/src/**/*.txt $CLI/dist/
+rm -rf $P/dist/
+tsc -p $P/tsconfig.json
+copyfiles --up 3 $P/src/**/*.txt $P/dist/
+
 
 # orm
 cd $CWD
-CORE=./packages/noka-orm
+P=./packages/noka-orm
 echo ------------------------------------------------------
-echo PROJECT: $CORE
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $CORE/dist/
-rm -rf $CORE/types/
-tsc -p $CORE/tsconfig.json
+rm -rf $P/dist/
+rm -rf $P/types/
+tsc -p $P/tsconfig.json
+
+
+# site
+cd $CWD
+P=./packages/noka-tpl-site
+echo ------------------------------------------------------
+echo PROJECT: $P
+echo ------------------------------------------------------
+rm -rf $P/dist/
+cd $P
+nk build
 
 
 # app
 cd $CWD
-APP=./packages/noka-app
+P=./packages/noka-tpl-app
 echo ------------------------------------------------------
-echo PROJECT: $APP
+echo PROJECT: $P
 echo ------------------------------------------------------
-rm -rf $APP/dist/
-cd $APP
-nk build
-
-
-# app-spa
-cd $CWD
-APP=./packages/noka-app-spa
-echo ------------------------------------------------------
-echo PROJECT: $APP
-echo ------------------------------------------------------
-rm -rf $APP/dist/
-cd $APP
+rm -rf $P/dist/
+cd $P
 nk build

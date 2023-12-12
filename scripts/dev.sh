@@ -2,20 +2,22 @@ set -e
 
 CWD=$PWD;
 
-# app
+
+# site
 cd $CWD
-APP=./packages/noka-app
+P=./packages/noka-tpl-site
 echo ------------------------------------------------------
-echo PROJECT: $APP
+echo PROJECT: $P
 echo ------------------------------------------------------
-cd $APP
+cd $P
 nk dev
 
-# app-spa
+
+# app
 # cd $CWD
-# APP=./packages/noka-app-spa
+# P=./packages/noka-tpl-app
 # echo ------------------------------------------------------
-# echo PROJECT: $APP
+# echo PROJECT: $P
 # echo ------------------------------------------------------
-# cd $APP
+# cd $P
 # nk dev
