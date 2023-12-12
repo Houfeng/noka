@@ -1,5 +1,5 @@
 import { FSWatcher, watch } from "chokidar";
-import { iife } from "noka-utility";
+import { iife } from "noka-util";
 import { ApplicationLogger } from "../Application/ApplicationLogger";
 
 type Timer = NodeJS.Timeout;

@@ -8,8 +8,8 @@ import {
   isString,
   merge,
   mkdirp,
-} from "noka-utility";
-import { isPath, resolvePackageRoot } from "noka-utility";
+} from "noka-util";
+import { isPath, resolvePackageRoot } from "noka-util";
 import { BuiltInLoaders } from "../loaders";
 import { Container } from "../Container";
 import { extname, resolve, normalize } from "path";

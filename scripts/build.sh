@@ -3,9 +3,9 @@ set -e
 CWD=$PWD;
 
 
-# utility
+# util
 cd $CWD
-P=./packages/noka-utility
+P=./packages/noka-util
 echo ------------------------------------------------------
 echo PROJECT: $P
 echo ------------------------------------------------------

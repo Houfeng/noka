@@ -44,7 +44,7 @@
   },
   "dependencies": {
     "noka": "workspace:*",
-    "noka-utility": "workspace:*",
+    "noka-util": "workspace:*",
     "reflect-metadata": "0.1.13",
     "sqlite": "5.1.1",
     "sqlite3": "5.1.6",

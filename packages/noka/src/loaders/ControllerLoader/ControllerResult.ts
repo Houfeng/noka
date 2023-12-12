@@ -1,4 +1,4 @@
-import { isNumber } from "noka-utility";
+import { isNumber } from "noka-util";
 
 const mark = Symbol("ControllerResult");
 

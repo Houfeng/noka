@@ -6,7 +6,7 @@ import { build } from "./build";
 import { resolve } from "path";
 import { exec } from "../common/exec";
 import { Hooks } from "../common/Hooks";
-import { SRC_DIR_NAME, mkdirp, del } from "noka-utility";
+import { SRC_DIR_NAME, mkdirp, del } from "noka-util";
 
 export async function release(env: string, $1: string) {
   showBrand();

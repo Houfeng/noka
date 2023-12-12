@@ -122,9 +122,9 @@ importers:
       mime:
         specifier: 3.0.0
         version: 3.0.0
-      noka-utility:
+      noka-util:
         specifier: workspace:*
-        version: link:../noka-utility
+        version: link:../noka-util
       nunjucks:
         specifier: 3.2.4
         version: 3.2.4(chokidar@3.5.3)
@@ -187,50 +187,189 @@ importers:
         specifier: 5.2.2
         version: 5.2.2
 
-  packages/noka-app:
+  packages/noka-cli:
     dependencies:
-      noka:
+      '@typescript-eslint/eslint-plugin':
+        specifier: 6.9.0
+        version: 6.9.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.3.2)
+      '@typescript-eslint/parser':
+        specifier: 6.9.0
+        version: 6.9.0(eslint@8.52.0)(typescript@5.3.2)
+      bufferhelper:
+        specifier: 0.2.1
+        version: 0.2.1
+      chalk:
+        specifier: 2.4.2
+        version: 2.4.2
+      cmdline:
+        specifier: 4.0.1
+        version: 4.0.1
+      confman:
+        specifier: 0.2.10
+        version: 0.2.10
+      copy:
+        specifier: 0.3.2
+        version: 0.3.2
+      copyfiles:
+        specifier: 2.1.0
+        version: 2.1.0
+      decompress:
+        specifier: 4.2.0
+        version: 4.2.0
+      decompress-targz:
+        specifier: 4.1.1
+        version: 4.1.1
+      eslint:
+        specifier: 8.52.0
+        version: 8.52.0
+      eslint-config-noka:
         specifier: workspace:*
-        version: link:../noka
-      noka-orm:
+        version: link:../eslint-config-noka
+      eslint-config-prettier:
+        specifier: 9.0.0
+        version: 9.0.0(eslint@8.52.0)
+      eslint-config-typescript:
+        specifier: 3.0.0
+        version: 3.0.0(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.3.2)
+      eslint-plugin-compat:
+        specifier: 4.2.0
+        version: 4.2.0(eslint@8.52.0)
+      eslint-plugin-import:
+        specifier: 2.29.0
+        version: 2.29.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)
+      eslint-plugin-prettier:
+        specifier: 5.0.1
+        version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.52.0)(prettier@3.0.3)
+      eslint-plugin-react:
+        specifier: 7.33.2
+        version: 7.33.2(eslint@8.52.0)
+      eslint-plugin-react-hooks:
+        specifier: 4.6.0
+        version: 4.6.0(eslint@8.52.0)
+      globby:
+        specifier: 11.1.0
+        version: 11.1.0
+      ink:
+        specifier: 3.2.0
+        version: 3.2.0(@types/react@18.2.33)(react@18.2.0)
+      ink-big-text:
+        specifier: 1.0.1
+        version: 1.0.1(ink@3.2.0)(react@18.2.0)
+      inquirer:
+        specifier: 6.3.1
+        version: 6.3.1
+      mocha:
+        specifier: 10.2.0
+        version: 10.2.0
+      node-fetch:
+        specifier: 2.6.0
+        version: 2.6.0
+      noka-tsconfig:
         specifier: workspace:*
-        version: link:../noka-orm
+        version: link:../noka-tsconfig
+      noka-util:
+        specifier: workspace:*
+        version: link:../noka-util
+      ntils:
+        specifier: 5.2.4
+        version: 5.2.4
+      prettier:
+        specifier: 3.0.3
+        version: 3.0.3
+      prop-types:
+        specifier: 15.7.2
+        version: 15.7.2
+      react:
+        specifier: 18.2.0
+        version: 18.2.0
+      shify:
+        specifier: 3.0.6
+        version: 3.0.6
+      ts-node:
+        specifier: 10.9.1
+        version: 10.9.1(@types/node@20.10.0)(typescript@5.3.2)
       tslib:
         specifier: 2.6.2
         version: 2.6.2
+      typescript:
+        specifier: 5.3.2
+        version: 5.3.2
+      update-notifier:
+        specifier: 3.0.0
+        version: 3.0.0
     devDependencies:
-      '@tailwindcss/typography':
-        specifier: ^0.5.10
-        version: 0.5.10(tailwindcss@3.3.6)
+      '@types/chalk':
+        specifier: 2.2.0
+        version: 2.2.0
+      '@types/copyfiles':
+        specifier: 2.1.1
+        version: 2.1.1
+      '@types/inquirer':
+        specifier: 6.0.3
+        version: 6.0.3
       '@types/mocha':
         specifier: 10.0.6
         version: 10.0.6
       '@types/node':
         specifier: 20.10.0
         version: 20.10.0
-      daisyui:
-        specifier: ^4.4.17
-        version: 4.4.19
+      '@types/node-fetch':
+        specifier: 2.3.7
+        version: 2.3.7
+      '@types/prop-types':
+        specifier: 15.7.9
+        version: 15.7.9
+      '@types/react':
+        specifier: 18.2.33
+        version: 18.2.33
+      '@types/update-notifier':
+        specifier: 2.5.0
+        version: 2.5.0
+      pnpm:
+        specifier: 8.11.0
+        version: 8.11.0
+
+  packages/noka-orm:
+    dependencies:
+      noka:
+        specifier: workspace:*
+        version: link:../noka
+      noka-util:
+        specifier: workspace:*
+        version: link:../noka-util
+      reflect-metadata:
+        specifier: 0.1.13
+        version: 0.1.13
+      sqlite:
+        specifier: 5.1.1
+        version: 5.1.1
+      sqlite3:
+        specifier: 5.1.6
+        version: 5.1.6
+      tslib:
+        specifier: 2.6.2
+        version: 2.6.2
+      typeorm:
+        specifier: 0.3.17
+        version: 0.3.17(sqlite3@5.1.6)
+    devDependencies:
+      '@types/node':
+        specifier: 20.10.0
+        version: 20.10.0
       eslint-config-noka:
         specifier: workspace:*
         version: link:../eslint-config-noka
-      noka-cli:
-        specifier: workspace:*
-        version: link:../noka-cli
       noka-tsconfig:
         specifier: workspace:*
         version: link:../noka-tsconfig
       pnpm:
         specifier: 8.11.0
         version: 8.11.0
-      tailwindcss:
-        specifier: ^3.3.5
-        version: 3.3.6
       typescript:
         specifier: 5.3.2
         version: 5.3.2
 
-  packages/noka-app-spa:
+  packages/noka-tpl-app:
     dependencies:
       '@emotion/react':
         specifier: 11.11.1
@@ -336,184 +475,45 @@ importers:
         specifier: 5.0.0
         version: 5.0.0(webpack@5.89.0)
 
-  packages/noka-cli:
+  packages/noka-tpl-site:
     dependencies:
-      '@typescript-eslint/eslint-plugin':
-        specifier: 6.9.0
-        version: 6.9.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.3.2)
-      '@typescript-eslint/parser':
-        specifier: 6.9.0
-        version: 6.9.0(eslint@8.52.0)(typescript@5.3.2)
-      bufferhelper:
-        specifier: 0.2.1
-        version: 0.2.1
-      chalk:
-        specifier: 2.4.2
-        version: 2.4.2
-      cmdline:
-        specifier: 4.0.1
-        version: 4.0.1
-      confman:
-        specifier: 0.2.10
-        version: 0.2.10
-      copy:
-        specifier: 0.3.2
-        version: 0.3.2
-      copyfiles:
-        specifier: 2.1.0
-        version: 2.1.0
-      decompress:
-        specifier: 4.2.0
-        version: 4.2.0
-      decompress-targz:
-        specifier: 4.1.1
-        version: 4.1.1
-      eslint:
-        specifier: 8.52.0
-        version: 8.52.0
-      eslint-config-noka:
+      noka:
         specifier: workspace:*
-        version: link:../eslint-config-noka
-      eslint-config-prettier:
-        specifier: 9.0.0
-        version: 9.0.0(eslint@8.52.0)
-      eslint-config-typescript:
-        specifier: 3.0.0
-        version: 3.0.0(@typescript-eslint/eslint-plugin@6.9.0)(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)(typescript@5.3.2)
-      eslint-plugin-compat:
-        specifier: 4.2.0
-        version: 4.2.0(eslint@8.52.0)
-      eslint-plugin-import:
-        specifier: 2.29.0
-        version: 2.29.0(@typescript-eslint/parser@6.9.0)(eslint@8.52.0)
-      eslint-plugin-prettier:
-        specifier: 5.0.1
-        version: 5.0.1(eslint-config-prettier@9.0.0)(eslint@8.52.0)(prettier@3.0.3)
-      eslint-plugin-react:
-        specifier: 7.33.2
-        version: 7.33.2(eslint@8.52.0)
-      eslint-plugin-react-hooks:
-        specifier: 4.6.0
-        version: 4.6.0(eslint@8.52.0)
-      globby:
-        specifier: 11.1.0
-        version: 11.1.0
-      ink:
-        specifier: 3.2.0
-        version: 3.2.0(@types/react@18.2.33)(react@18.2.0)
-      ink-big-text:
-        specifier: 1.0.1
-        version: 1.0.1(ink@3.2.0)(react@18.2.0)
-      inquirer:
-        specifier: 6.3.1
-        version: 6.3.1
-      mocha:
-        specifier: 10.2.0
-        version: 10.2.0
-      node-fetch:
-        specifier: 2.6.0
-        version: 2.6.0
-      noka-tsconfig:
+        version: link:../noka
+      noka-orm:
         specifier: workspace:*
-        version: link:../noka-tsconfig
-      noka-utility:
-        specifier: workspace:*
-        version: link:../noka-utility
-      ntils:
-        specifier: 5.2.4
-        version: 5.2.4
-      prettier:
-        specifier: 3.0.3
-        version: 3.0.3
-      prop-types:
-        specifier: 15.7.2
-        version: 15.7.2
-      react:
-        specifier: 18.2.0
-        version: 18.2.0
-      shify:
-        specifier: 3.0.6
-        version: 3.0.6
-      ts-node:
-        specifier: 10.9.1
-        version: 10.9.1(@types/node@20.10.0)(typescript@5.3.2)
+        version: link:../noka-orm
       tslib:
         specifier: 2.6.2
         version: 2.6.2
-      typescript:
-        specifier: 5.3.2
-        version: 5.3.2
-      update-notifier:
-        specifier: 3.0.0
-        version: 3.0.0
     devDependencies:
-      '@types/chalk':
-        specifier: 2.2.0
-        version: 2.2.0
-      '@types/copyfiles':
-        specifier: 2.1.1
-        version: 2.1.1
-      '@types/inquirer':
-        specifier: 6.0.3
-        version: 6.0.3
+      '@tailwindcss/typography':
+        specifier: ^0.5.10
+        version: 0.5.10(tailwindcss@3.3.6)
       '@types/mocha':
         specifier: 10.0.6
         version: 10.0.6
       '@types/node':
         specifier: 20.10.0
         version: 20.10.0
-      '@types/node-fetch':
-        specifier: 2.3.7
-        version: 2.3.7
-      '@types/prop-types':
-        specifier: 15.7.9
-        version: 15.7.9
-      '@types/react':
-        specifier: 18.2.33
-        version: 18.2.33
-      '@types/update-notifier':
-        specifier: 2.5.0
-        version: 2.5.0
-      pnpm:
-        specifier: 8.11.0
-        version: 8.11.0
-
-  packages/noka-orm:
-    dependencies:
-      noka:
-        specifier: workspace:*
-        version: link:../noka
-      noka-utility:
-        specifier: workspace:*
-        version: link:../noka-utility
-      reflect-metadata:
-        specifier: 0.1.13
-        version: 0.1.13
-      sqlite:
-        specifier: 5.1.1
-        version: 5.1.1
-      sqlite3:
-        specifier: 5.1.6
-        version: 5.1.6
-      tslib:
-        specifier: 2.6.2
-        version: 2.6.2
-      typeorm:
-        specifier: 0.3.17
-        version: 0.3.17(sqlite3@5.1.6)
-    devDependencies:
-      '@types/node':
-        specifier: 20.10.0
-        version: 20.10.0
+      daisyui:
+        specifier: ^4.4.17
+        version: 4.4.19
       eslint-config-noka:
         specifier: workspace:*
         version: link:../eslint-config-noka
+      noka-cli:
+        specifier: workspace:*
+        version: link:../noka-cli
       noka-tsconfig:
         specifier: workspace:*
         version: link:../noka-tsconfig
       pnpm:
         specifier: 8.11.0
         version: 8.11.0
+      tailwindcss:
+        specifier: ^3.3.5
+        version: 3.3.6
       typescript:
         specifier: 5.3.2
         version: 5.3.2
@@ -530,7 +530,7 @@ importers:
         specifier: 5.3.2
         version: 5.3.2
 
-  packages/noka-utility:
+  packages/noka-util:
     dependencies:
       del:
         specifier: 4.1.1
@@ -1409,12 +1409,12 @@ packages:
     resolution: {integrity: sha512-N7UDG0/xiPQa2D/XrVJXjkWbpqHCd2sBaB32ggRF2l83RhPfamgKGF8gwwqyksS95qUS5ZYF9aF+lLPRlwI2UA==}
     dependencies:
       '@types/connect': 3.4.37
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
 
   /@types/bonjour@3.5.12:
     resolution: {integrity: sha512-ky0kWSqXVxSqgqJvPIkgFkcn4C8MnRog308Ou8xBBIVo39OmUFy+jqNe0nPwLCDFxUpmT9EvT91YzOJgkDRcFg==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/chalk@2.2.0:
@@ -1442,13 +1442,13 @@ packages:
     resolution: {integrity: sha512-gX2j9x+NzSh4zOhnRPSdPPmTepS4DfxES0AvIFv3jGv5QyeAJf6u6dY5/BAoAJU9Qq1uTvwOku8SSC2GnCRl6Q==}
     dependencies:
       '@types/express-serve-static-core': 4.17.39
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/connect@3.4.37:
     resolution: {integrity: sha512-zBUSRqkfZ59OcwXon4HVxhx5oWCJmc0OtBTK05M+p0dYjgN6iTwIL2T/WbsQZrEsdnwaF9cWQ+azOnpPvIqY3Q==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
 
   /@types/content-disposition@0.5.8:
     resolution: {integrity: sha512-QVSSvno3dE0MgO76pJhmv4Qyi/j0Yk9pBp0Y7TJ2Tlj+KCgJWY6qX7nnxCOLkZ3VYRSIk1WTxCvwUSdx6CCLdg==}
@@ -1499,7 +1499,7 @@ packages:
   /@types/express-serve-static-core@4.17.39:
     resolution: {integrity: sha512-BiEUfAiGCOllomsRAZOiMFP7LAnrifHpt56pc4Z7l9K6ACyN06Ns1JLMBxwkfLOjJRlSf06NwWsT7yzfpaVpyQ==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
       '@types/qs': 6.9.9
       '@types/range-parser': 1.2.6
       '@types/send': 0.17.3
@@ -1545,7 +1545,7 @@ packages:
   /@types/http-proxy@1.17.13:
     resolution: {integrity: sha512-GkhdWcMNiR5QSQRYnJ+/oXzu0+7JJEPC8vkWXK351BkhjraZF+1W13CUYARUvX9+NqIU2n6YHA4iwywsc/M6Sw==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/inquirer@6.0.3:
@@ -1574,7 +1574,7 @@ packages:
   /@types/keyv@3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: false
 
   /@types/koa-compose@3.2.8:
@@ -1659,7 +1659,7 @@ packages:
   /@types/mkdirp@0.5.2:
     resolution: {integrity: sha512-U5icWpv7YnZYGsN4/cmh3WD2onMY0aJIiTE6+51TwJCttdHvtCYmkBNOobHlXwrJRL0nkH9jH4kD+1FAdMN4Tg==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
 
   /@types/mocha@10.0.6:
     resolution: {integrity: sha512-dJvrYWxP/UcXm36Qn36fxhUKu8A/xMRXVT2cliFF1Z7UA9liG5Psj3ezNSZw+5puH2czDXRLcXQxf8JbJt0ejg==}
@@ -1674,7 +1674,7 @@ packages:
   /@types/node-forge@1.3.8:
     resolution: {integrity: sha512-vGXshY9vim9CJjrpcS5raqSjEfKlJcWy2HNdgUasR66fAnVEYarrf1ULV4nfvpC1nZq/moA9qyqBcu83x+Jlrg==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/node@12.20.55:
@@ -1690,6 +1690,7 @@ packages:
     resolution: {integrity: sha512-UzykFsT3FhHb1h7yD4CA4YhBHq545JC0YnEz41xkipN88eKQtL6rSgocL5tbAP6Ola9Izm/Aw4Ora8He4x0BHg==}
     dependencies:
       undici-types: 5.26.5
+    dev: true
 
   /@types/normalize-package-data@2.4.3:
     resolution: {integrity: sha512-ehPtgRgaULsFG8x0NeYJvmyH1hmlfsNLujHe9dQEia/7MAJYdzMSi19JtchUHjmBA6XC/75dK55mzZH+RyieSg==}
@@ -1749,7 +1750,7 @@ packages:
   /@types/responselike@1.0.2:
     resolution: {integrity: sha512-/4YQT5Kp6HxUDb4yhRkm0bJ7TbjvTddqX7PZ5hz6qV3pxSo72f/6YPRo+Mu2DU307tm9IioO69l7uAwn5XNcFA==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: false
 
   /@types/retry@0.12.0:
@@ -1766,7 +1767,7 @@ packages:
     resolution: {integrity: sha512-/7fKxvKUoETxjFUsuFlPB9YndePpxxRAOfGC/yJdc9kTjTeP5kRCTzfnE8kPUKCeyiyIZu0YQ76s50hCedI1ug==}
     dependencies:
       '@types/mime': 1.3.4
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
 
   /@types/serve-index@1.9.3:
     resolution: {integrity: sha512-4KG+yMEuvDPRrYq5fyVm/I2uqAJSAwZK9VSa+Zf+zUq9/oxSSvy3kkIqyL+jjStv6UCVi8/Aho0NHtB1Fwosrg==}
@@ -1779,18 +1780,18 @@ packages:
     dependencies:
       '@types/http-errors': 2.0.3
       '@types/mime': 3.0.4
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
 
   /@types/sockjs@0.3.35:
     resolution: {integrity: sha512-tIF57KB+ZvOBpAQwSaACfEu7htponHXaFzP7RfKYgsOS0NoYnn+9+jzp7bbq4fWerizI3dTB4NfAZoyeQKWJLw==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/through@0.0.32:
     resolution: {integrity: sha512-7XsfXIsjdfJM2wFDRAtEWp3zb2aVPk5QeyZxGlVK57q4u26DczMHhJmlhr0Jqv0THwxam/L8REXkj8M2I/lcvw==}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
     dev: true
 
   /@types/update-notifier@2.5.0:
@@ -6165,7 +6166,7 @@ packages:
     resolution: {integrity: sha512-7vuh85V5cdDofPyxn58nrPjBktZo0u9x1g8WtjQol+jZDaE+fhN+cIvTj11GndBnMnyfrUOG1sZQxCdjKh+DKg==}
     engines: {node: '>= 10.13.0'}
     dependencies:
-      '@types/node': 20.8.9
+      '@types/node': 20.10.0
       merge-stream: 2.0.0
       supports-color: 8.1.1
     dev: true

@@ -7,7 +7,7 @@ import {
   LoaderOptions,
 } from "noka";
 import { DataSource, DataSourceOptions } from "typeorm";
-import { isString } from "noka-utility";
+import { isString } from "noka-util";
 
 export * from "typeorm";
 

@@ -1,5 +1,5 @@
 import fetch from "node-fetch";
-import { mkdirp } from "noka-utility";
+import { mkdirp } from "noka-util";
 import { createWriteStream, existsSync, renameSync, unlinkSync } from "fs";
 import { homedir } from "os";
 import { resolve } from "path";

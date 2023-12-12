@@ -1,7 +1,7 @@
 import globby, { GlobbyOptions } from "globby";
 import { ApplicationLike } from "../Application/ApplicationLike";
 import { LoaderInstance } from "./LoaderInstance";
-import { isFunction } from "noka-utility";
+import { isFunction } from "noka-util";
 import { LoaderOptions } from "./LoaderOptions";
 import { setFileMeta } from "./FileMetadata";
 import { resolve } from "path";

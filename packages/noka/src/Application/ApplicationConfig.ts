@@ -1,5 +1,5 @@
-import { type JSONObject, type JSONValue } from "noka-utility";
-import { getByPath } from "noka-utility";
+import { type JSONObject, type JSONValue } from "noka-util";
+import { getByPath } from "noka-util";
 import { type ContainerLike, Inject, InjectMeta } from "../Container";
 import { ApplicationSymbol } from "./ApplicationSymbol";
 

@@ -1,4 +1,4 @@
-import { isFunction } from "noka-utility";
+import { isFunction } from "noka-util";
 
 export const contextMetaKey = Symbol("Context");
 

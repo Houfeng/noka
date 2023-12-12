@@ -2,10 +2,8 @@ import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
 import { basename } from "path";
-import { readText } from "noka-utility";
-import { getByPath } from "noka-utility";
+import { readText, isFunction, getByPath } from "noka-util";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
-import { isFunction } from "noka-utility";
 import { isControllerResult } from "../ControllerLoader";
 
 const ViewBeanKey = Symbol("View");

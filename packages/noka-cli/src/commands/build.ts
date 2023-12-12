@@ -1,4 +1,4 @@
-import { del } from "noka-utility";
+import { del } from "noka-util";
 import { AppInfo } from "../common/AppInfo";
 import { clean } from "./clean";
 import { exec } from "../common/exec";

@@ -50,7 +50,7 @@
     "mocha": "10.2.0",
     "node-fetch": "2.6.0",
     "noka-tsconfig": "workspace:*",
-    "noka-utility": "workspace:*",
+    "noka-util": "workspace:*",
     "ntils": "5.2.4",
     "prettier": "3.0.3",
     "prop-types": "15.7.2",

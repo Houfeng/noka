@@ -1,7 +1,7 @@
 packages:
   - "./packages/noka-tsconfig/"
   - "./packages/eslint-config-noka/"
-  - "./packages/noka-utility/"
+  - "./packages/noka-util/"
   - "./packages/noka/"
   - "./packages/noka-cli/"
   - "./packages/noka-orm/"

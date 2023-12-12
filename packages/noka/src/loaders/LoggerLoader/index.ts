@@ -1,6 +1,6 @@
 import { AbstractLoader } from "../../Loader";
 import { Logger, Level } from "hilog";
-import { merge } from "noka-utility";
+import { merge } from "noka-util";
 import { EOL } from "os";
 
 const defaultOptions = {

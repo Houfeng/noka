@@ -1,5 +1,5 @@
 import { HttpContext } from "../../Application/ApplicationTypes";
-import { getByPath, writeText, mkdirp, isNull } from "noka-utility";
+import { getByPath, writeText, mkdirp, isNull } from "noka-util";
 import { getContextMeta } from "./ContextMeta";
 import { getRouteMetaItems, RouteMeta } from "./RouteMeta";
 import { normalize, resolve } from "path";

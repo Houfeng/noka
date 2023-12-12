@@ -1,5 +1,5 @@
 import { IncomingMessage, ServerResponse } from "http";
-import { uuid } from "noka-utility";
+import { uuid } from "noka-util";
 import { EOL } from "os";
 
 export type EventSourceOptions = {
