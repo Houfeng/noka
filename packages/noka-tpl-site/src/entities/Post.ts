@@ -1,10 +1,13 @@
 import { Column, Entity, PrimaryGeneratedColumn } from "noka-orm";
 
 @Entity()
-export class User {
+export class Post {
   @PrimaryGeneratedColumn()
   id?: string;
 
   @Column()
-  name?: string;
+  title!: string;
+
+  @Column()
+  content!: string;
 }

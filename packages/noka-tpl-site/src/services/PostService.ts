@@ -1,15 +1,15 @@
 import { Provider } from "noka";
-import { User } from "../entities/User";
+import { Post } from "../entities/Post";
 import { InjectEntityRepository, Repository } from "noka-orm";
 
 @Provider()
-export class UserService {
-  @InjectEntityRepository(User)
-  repo?: Repository<User>;
+export class PostService {
+  @InjectEntityRepository(Post)
+  repo?: Repository<Post>;
 
   async create() {
-    const demo = new User();
-    demo.name = "test";
+    const demo = new Post();
+    demo.title = "test";
     return this.repo?.save(demo);
   }
 
