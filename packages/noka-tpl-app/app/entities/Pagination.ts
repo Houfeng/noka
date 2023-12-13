@@ -1,9 +1,9 @@
-export type PagingOptions = {
+export type PaginationOptions = {
   skip: number;
   limit: number;
 };
 
-export type PagingResult<T> = {
+export type PaginationResult<T> = {
   total: number;
   items: T[];
 };

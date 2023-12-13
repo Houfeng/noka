@@ -2,30 +2,39 @@ import { useQuery } from "./common/Hooks";
 import { observable, observer } from "mota";
 import React from "react";
 import { createRoot } from "react-dom/client";
+import { User } from "./entities/User";
 
-const model = observable<{ users: Array<any> }>({ users: [] });
+const model = observable<{ users: Array<User> }>({ users: [] });
 
-const load = async () => {
+const loadItems = async () => {
   const res = await fetch("/api/users/");
   model.users = (await res.json()).items;
 };
 
-const submit = async () => {
+const createItem = async () => {
   await fetch("/api/users/", { method: "post" });
-  await load();
+  await loadItems();
+};
+
+const removeItem = async (id: number) => {
+  await fetch(`/api/user/${id}`, { method: "delete" });
+  await loadItems();
 };
 
 const App = observer(function App() {
-  useQuery(load, []);
+  useQuery(loadItems, []);
   return (
-    <div style={{ color: "white" }}>
-      <table border={0}>
+    <div className="p-8 prose m-auto my-8 shadow-lg bg-gray-800 rounded-md">
+      <h2>Users</h2>
+      <table>
         <thead>
           <tr>
             <th>Id</th>
             <th>Name</th>
-            <th style={{ width: 160 }}>
-              <button onClick={submit}>Add</button>
+            <th className="text-right">
+              <button className="btn btn-sm" onClick={createItem}>
+                ADD
+              </button>
             </th>
           </tr>
         </thead>
@@ -34,6 +43,14 @@ const App = observer(function App() {
             <tr key={it.id}>
               <td>{it.id}</td>
               <td>{it.name}</td>
+              <td className="text-right">
+                <button
+                  className="btn btn-sm"
+                  onClick={() => removeItem(it.id)}
+                >
+                  DEL
+                </button>
+              </td>
             </tr>
           ))}
         </tbody>

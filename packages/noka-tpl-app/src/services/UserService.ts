@@ -1,6 +1,6 @@
 import { Provider } from "noka";
 import { User } from "../entities/User";
-import { PagingOptions, PagingResult } from "./Paging";
+import { PaginationOptions, PaginationResult } from "../entities/Pagination";
 import { InjectEntityRepository, Repository } from "noka-orm";
 
 @Provider()
@@ -19,11 +19,11 @@ export class UserService {
     return this.repo?.save(demo);
   }
 
-  async remove(id: string) {
+  async remove(id: number) {
     return this.repo?.delete(id);
   }
 
-  async list(options: PagingOptions): Promise<PagingResult<User>> {
+  async list(options: PaginationOptions): Promise<PaginationResult<User>> {
     const { skip, limit } = options;
     const items =
       (await this.repo

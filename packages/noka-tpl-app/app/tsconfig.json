@@ -2,7 +2,7 @@
   "extends": "../node_modules/noka-tsconfig/tsconfig",
   "compilerOptions": {
     "baseUrl": "./",
-    "outDir": "../assets/app/",
+    "outDir": "../public/app/",
     "declarationDir": "../types/app/",
     "module": "ESNext",
     "jsx": "react",
