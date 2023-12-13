@@ -9,7 +9,7 @@ module.exports = {
   mode: NODE_ENV || 'production',
   entry: './app/index.tsx',
   output: {
-    path: resolve(__dirname, './assets/app'),
+    path: resolve(__dirname, './public/app/'),
     filename: '[name]-[hash].bundle.js',
   },
   optimization: {
@@ -44,6 +44,22 @@ module.exports = {
           },
         },
         exclude: /node_modules/,
+      },
+      {
+        test: /\.css$/,
+        use: [
+          'style-loader',
+          { loader: 'css-loader', options: { importLoaders: 1 } },
+          'postcss-loader',
+        ],
+      },
+      {
+        resourceQuery: /raw/,
+        type: 'asset/source'
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: 'asset/resource',
       },
     ]
   },

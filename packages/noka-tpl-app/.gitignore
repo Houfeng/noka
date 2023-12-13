@@ -12,5 +12,5 @@ dist/
 temp/
 types/
 release/
-assets/app/
+public/app/
 debug/

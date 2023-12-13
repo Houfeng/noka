@@ -1,27 +1,22 @@
-<html>
+{% extends "layout.html" %}
 
-<head>
-  <title>Noka App</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/normalize.css" />
-  <link rel="stylesheet" href="/users.css" />
-  {% for file in assets.styles %}
-  <link crossorigin rel="stylesheet" href="{{ file }}">
-  {% endfor %}
-</head>
+{% block head %}
+<title>Index | Noka</title>
+{% for file in assets.styles %}
+<link crossorigin rel="stylesheet" href="{{ file }}">
+{% endfor %}
+{% endblock %}
 
-<body>
-  <div id="root"></div>
-  {% if NOKA_ENV==='development' %}
-  <script crossorigin src="/libs/react.development.js"></script>
-  <script crossorigin src="/libs/react-dom.development.js"></script>
-  {% else %}
-  <script crossorigin src="/libs/react.production.min.js"></script>
-  <script crossorigin src="/libs/react-dom.production.min.js"></script>
-  {% endif %}
-  {% for file in assets.scripts %}
-  <script crossorigin src="{{ file }}"></script>
-  {% endfor %}
-</body>
-
-</html>
+{% block body %}
+<div id="root"></div>
+{% if NOKA_ENV==='development' %}
+<script crossorigin src="/libs/react.development.js"></script>
+<script crossorigin src="/libs/react-dom.development.js"></script>
+{% else %}
+<script crossorigin src="/libs/react.production.min.js"></script>
+<script crossorigin src="/libs/react-dom.production.min.js"></script>
+{% endif %}
+{% for file in assets.scripts %}
+<script crossorigin src="{{ file }}"></script>
+{% endfor %}
+{% endblock %}
