@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.4.1
+
+### Patch Changes
+
+- 2.4.1
+
 ## 2.4.0
 
 ### Minor Changes

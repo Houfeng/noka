@@ -1,5 +1,14 @@
 # noka
 
+## 2.4.1
+
+### Patch Changes
+
+- 2.4.1
+- Updated dependencies
+  - noka@2.4.1
+  - noka-util@2.4.1
+
 ## 2.4.0
 
 ### Minor Changes
