@@ -10,11 +10,10 @@ module.exports = {
   },
   afterHooks: {
     async clean({ utils }) {
-      const target = resolve(__dirname, `./public/public/`);
-      await utils.del(target);
+      await utils.del(resolve(__dirname, `./public/site.css`));
     },
     async build({ utils }) {
-      utils.exec(
+      await utils.exec(
         `tailwindcss -i ./assets/site.css -o ./public/site.css --minify`
       );
     },
