@@ -1,5 +1,17 @@
 # noka
 
+## 2.4.0
+
+### Minor Changes
+
+- templates
+
+### Patch Changes
+
+- Updated dependencies
+  - noka@2.4.0
+  - noka-util@2.4.0
+
 ## 2.3.5
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.4.0
+
+### Minor Changes
+
+- templates
+
 ## 2.3.5
 
 ### Patch Changes
