@@ -8,7 +8,7 @@ import { Hooks } from "../common/Hooks";
 
 export async function test(env: string, $1: string) {
   await lint($1);
-  logger.info("Unit testing in progress ...");
+  logger.info("Unit testing ...");
   if (!env) env = "test";
   const appInfo = new AppInfo({ $1 });
   if (!appInfo.existCompileConf) {

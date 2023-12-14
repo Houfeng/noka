@@ -1,5 +1,17 @@
 # noka
 
+## 2.4.2
+
+### Major Changes
+
+- 修复模板 ignroe 配置问题
+
+### Patch Changes
+
+- Updated dependencies
+  - noka@2.4.2
+  - noka-util@2.4.2
+
 ## 2.4.1
 
 ### Patch Changes

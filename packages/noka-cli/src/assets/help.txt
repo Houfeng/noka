@@ -9,9 +9,9 @@
 Usage: noka [command] [options]
 
 Commands:
-  init                Initialization application
-    -t, --template    Application Template
-  dev                 Start development mode
+  init                Initialization
+    -t, --template    Application template
+  dev                 Start local development
     -e, --env         Application environment
   lint                Code check
   test                Unit test

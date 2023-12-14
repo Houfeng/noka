@@ -12,14 +12,14 @@ async function input() {
   return prompt([
     {
       type: "input",
-      message: "Enter the application name:",
+      message: "Enter the name:",
       name: "name",
       default: basename(process.cwd()),
       validate: (value) => !!value,
     },
     {
       type: "input",
-      message: "Enter the application version:",
+      message: "Enter initial version:",
       name: "version",
       default: "1.0.0",
       validate: (value) => !!value,
@@ -44,7 +44,7 @@ export async function init(template: string) {
     throw new Error("Current directory is non-empty directory");
   }
   // 下载模板
-  logger.info("Initializing app ...");
+  logger.info("Initializing ...");
   template = template || "";
   const pkgName = `noka-tpl-${template || "site"}`;
   await initTemplate(pkgName, process.cwd());

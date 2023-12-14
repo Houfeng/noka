@@ -11,7 +11,7 @@ import { daemon } from "../common/daemon";
  */
 export async function dev(env: string, $1: string) {
   showBrand();
-  logger.info("Start development mode ...");
+  logger.info("Start local development ...");
   if (!env) env = "development";
   const appInfo = new AppInfo({ env, $1 });
   if (!existsSync(appInfo.srcEntry)) throw new Error("No entry file found");
