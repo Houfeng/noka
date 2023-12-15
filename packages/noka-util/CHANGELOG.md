@@ -1,5 +1,11 @@
 # noka
 
+## 2.4.3
+
+### Patch Changes
+
+- refine: cookies
+
 ## 2.4.2
 
 ### Major Changes

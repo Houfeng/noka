@@ -36,6 +36,9 @@ export type HttpContext<
   C extends HttpContextExtends = HttpContextExtends,
 > = ParameterizedContext<S, C>;
 
+export type HttpCookies = HttpContext["cookies"];
+export type NokaCookies = HttpCookies;
+
 export type NokaContext<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,

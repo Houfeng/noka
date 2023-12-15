@@ -70,7 +70,7 @@ export class ControllerLoader extends AbstractLoader<
         const value = getByPath(context, meta.name);
         return meta.parse ? meta.parse(value, instance, method, meta) : value;
       });
-    return instance[method](...parameters);
+    return instance[method](...parameters, context);
   }
 
   /**

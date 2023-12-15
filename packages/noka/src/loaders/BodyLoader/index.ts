@@ -1,9 +1,5 @@
 import { AbstractLoader } from "../../Loader";
-import {
-  ContextValueParser,
-  Ctx,
-  typedContextValue,
-} from "../ControllerLoader";
+import { ContextValueParser, Ctx, toTypedValue } from "../ControllerLoader";
 import koaBody from "koa-body";
 
 export class BodyLoader extends AbstractLoader {
@@ -30,7 +26,7 @@ export type ReceivedTempFile = {
  */
 export const Body = (name?: string, parse?: ContextValueParser) =>
   name
-    ? Ctx(`request.body.${name}`, parse || typedContextValue)
+    ? Ctx(`request.body.${name}`, parse || toTypedValue)
     : Ctx("request.body");
 
 /**

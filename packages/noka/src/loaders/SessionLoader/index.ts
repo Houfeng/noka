@@ -28,4 +28,5 @@ export class SessionLoader extends AbstractLoader<SessionLoaderOptions> {
   }
 }
 
-export const Session = () => Ctx("session");
+export const Session = (name?: string) =>
+  name ? Ctx(`session.${name}`) : Ctx("session");

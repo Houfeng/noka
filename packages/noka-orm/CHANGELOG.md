@@ -1,5 +1,14 @@
 # noka
 
+## 2.4.3
+
+### Patch Changes
+
+- refine: cookies
+- Updated dependencies
+  - noka@2.4.3
+  - noka-util@2.4.3
+
 ## 2.4.2
 
 ### Major Changes

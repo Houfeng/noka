@@ -1,4 +1,5 @@
 import { isFunction } from "noka-util";
+import { HttpCookies } from "../../Application/ApplicationTypes";
 
 export const contextMetaKey = Symbol("Context");
 
@@ -52,7 +53,7 @@ export const Context = Ctx;
 /**
  * 针对 URL 中的「路由参数」和「查询字符串」，自动做类型转换
  */
-export const typedContextValue: ContextValueParser = (
+export const toTypedValue: ContextValueParser = (
   value,
   target,
   member,
@@ -91,21 +92,25 @@ export const Response = Res;
 /**
  * Cookie 信息
  */
-export const Cookie = () => Ctx("cookies");
+export const Cookie = (name?: string) =>
+  Ctx("cookies", (value) => {
+    const cookies = value as HttpCookies;
+    return name && cookies ? cookies.get(name) : cookies;
+  });
 
 /**
  * 路由参数
  * @param name 路由参数名
  */
 export const Param = (name?: string, parse?: ContextValueParser) =>
-  name ? Ctx(`params.${name}`, parse || typedContextValue) : Ctx("params");
+  name ? Ctx(`params.${name}`, parse || toTypedValue) : Ctx("params");
 
 /**
  * 获取查询参数
  * @param name 查询参数名
  */
 export const Query = (name?: string, parse?: ContextValueParser) =>
-  name ? Ctx(`query.${name}`, parse || typedContextValue) : Ctx("query");
+  name ? Ctx(`query.${name}`, parse || toTypedValue) : Ctx("query");
 
 /**
  * 获取请求头参数
