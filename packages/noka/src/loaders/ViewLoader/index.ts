@@ -55,12 +55,13 @@ function viewInjectHandler(
   if (!render || !isFunction(render)) throw new Error(`Invalid View: ${name}`);
   if (!method || !isFunction(method)) return render(method);
   return async (...args: any[]) => {
+    const $context = args[args.length - 1];
     const result = await method.call(instance, ...args);
-    if (isControllerResult(result)) {
-      result.body = await render(result.body);
+    if (isControllerResult<any>(result)) {
+      result.body = await render({ ...result.body, $context });
       return result;
     }
-    return render(result);
+    return render({ result, $context });
   };
 }
 
