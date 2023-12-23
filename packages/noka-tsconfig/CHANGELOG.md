@@ -1,5 +1,11 @@
 # noka-tsconfig
 
+## 2.4.4
+
+### Patch Changes
+
+- 改进视图加载处理
+
 ## 2.4.3
 
 ### Patch Changes

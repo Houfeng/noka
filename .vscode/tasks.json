@@ -12,7 +12,7 @@
 		},
 		{
 			"type": "typescript",
-			"tsconfig": "./packages/noka-app/tsconfig.json",
+			"tsconfig": "./packages/noka-tpl-site/tsconfig.json",
 			"problemMatcher": [
 				"$tsc"
 			],

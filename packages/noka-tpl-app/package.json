@@ -1,6 +1,6 @@
 {
   "name": "noka-tpl-app",
-  "version": "2.4.3",
+  "version": "2.4.4",
   "description": "Noka web application template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",

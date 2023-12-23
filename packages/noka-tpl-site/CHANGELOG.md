@@ -1,5 +1,14 @@
 # noka-app
 
+## 2.4.4
+
+### Patch Changes
+
+- 改进视图加载处理
+- Updated dependencies
+  - noka@2.4.4
+  - noka-orm@2.4.4
+
 ## 2.4.3
 
 ### Patch Changes

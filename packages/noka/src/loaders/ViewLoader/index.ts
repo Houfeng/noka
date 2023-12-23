@@ -1,8 +1,7 @@
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
-import { basename } from "path";
-import { readText, isFunction, getByPath } from "noka-util";
+import { readText, isFunction } from "noka-util";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
 import { isControllerResult } from "../ControllerLoader";
 
@@ -12,16 +11,18 @@ export type ViewLoaderOptions = LoaderOptions<{
   extname?: string;
 }>;
 
+type ViewMap = Record<string, (data: any) => string>;
+
 export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
   /**
    * 加载所有视图
    */
   public async load() {
-    const { targetDir = "app:/views" } = this.options;
+    const { targetDir = "app:/views", extname = '.html' } = this.options;
     const viewDir = this.app.resolvePath(targetDir);
     if (!existsSync(viewDir)) return;
-    const viewFiles = await this.glob("./**/*.html");
-    const viewMap: Record<string, (data: any) => string> = {};
+    const viewFiles = await this.glob(`./**/*${extname}`);
+    const viewMap: ViewMap = {};
     const env = new Environment(new FileSystemLoader(viewDir));
     await Promise.all(
       viewFiles.map(async (viewFile) => {
@@ -29,7 +30,10 @@ export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
         // @types/nunjucks 3.1.1 没有第三个 path 参数的类型定义
         const relativePath: any = viewFile;
         const template = compile(text, env, relativePath);
-        const viewName = basename(viewFile, ".html");
+        const viewName = viewFile
+          .slice(viewDir.length)
+          .slice(0, -extname.length)
+          .replace(/\\/g, '/');
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
@@ -49,9 +53,9 @@ function viewInjectHandler(
   instance: unknown,
   method: unknown,
 ) {
-  const views = container.get(ViewBeanKey);
+  const views = container.get<ViewMap>(ViewBeanKey) || {};
   const name = String(meta.name);
-  const render = getByPath(views, name);
+  const render = views[name] || views[`/${name}`];
   if (!render || !isFunction(render)) throw new Error(`Invalid View: ${name}`);
   if (!method || !isFunction(method)) return render(method);
   return async (...args: any[]) => {

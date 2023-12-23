@@ -8,11 +8,11 @@
       "type": "node",
       "request": "launch",
       "name": "Debug Noka",
-      "program": "${workspaceFolder}/packages/noka-app/src/app.ts",
+      "program": "${workspaceFolder}/packages/noka-tpl-site/src/app.ts",
       "preLaunchTask": "tsc:build",
       "outFiles": [
         "${workspaceFolder}/packages/noka/dist/**/*.js",
-        "${workspaceFolder}/packages/noka-app/dist/**/*.js"
+        "${workspaceFolder}/packages/noka-tpl-site/dist/**/*.js"
       ]
     }
   ]
