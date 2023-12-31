@@ -1,5 +1,11 @@
 # eslint-config-noka
 
+## 2.4.5
+
+### Patch Changes
+
+- HttpResult
+
 ## 2.4.4
 
 ### Patch Changes

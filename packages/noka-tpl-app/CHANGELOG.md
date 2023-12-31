@@ -1,5 +1,14 @@
 # noka-app-react
 
+## 2.4.5
+
+### Patch Changes
+
+- HttpResult
+- Updated dependencies
+  - noka@2.4.5
+  - noka-orm@2.4.5
+
 ## 2.4.4
 
 ### Patch Changes

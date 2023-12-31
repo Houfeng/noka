@@ -1,6 +1,6 @@
 {
   "name": "noka-tpl-site",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "Noka web site template",
   "main": "./dist/index.js",
   "typings": "./dist/index.d.ts",

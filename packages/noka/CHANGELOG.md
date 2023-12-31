@@ -1,5 +1,13 @@
 # noka
 
+## 2.4.5
+
+### Patch Changes
+
+- HttpResult
+- Updated dependencies
+  - noka-util@2.4.5
+
 ## 2.4.4
 
 ### Patch Changes

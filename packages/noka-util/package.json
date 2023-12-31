@@ -1,7 +1,7 @@
 {
   "name": "noka-util",
   "displayName": "Noka utility",
-  "version": "2.4.4",
+  "version": "2.4.5",
   "description": "Noka utility",
   "main": "./dist/index.js",
   "typings": "./types/index.d.ts",
