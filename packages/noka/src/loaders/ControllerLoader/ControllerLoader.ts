@@ -108,7 +108,7 @@ export class ControllerLoader extends AbstractLoader<
       );
       ctx.preventCache = true;
       if (writeHandler) return writeHandler(ctx, result);
-      if (HttpResult.is(result)) return result.writeTo(ctx);
+      if (HttpResult.is(result)) return result.writeTo(ctx.response);
       if (!isNull(result)) ctx.body = result;
     };
     this.app.router.register(routePath, httpMethods, routeHandler);

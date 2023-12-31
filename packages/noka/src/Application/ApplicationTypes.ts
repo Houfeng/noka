@@ -22,7 +22,7 @@ export type NokaContextExtends = HttpContextExtends;
 export class HttpServer<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Koa<S, C> {}
+> extends Koa<S, C> { }
 
 export const NokaServer = HttpServer;
 
@@ -48,7 +48,7 @@ export type NokaContext<
 export class HttpRouter<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Router<S, C> {}
+> extends Router<S, C> { }
 
 export const NokaRouter = HttpRouter;
 
@@ -62,15 +62,18 @@ export class HttpResult<T> {
     public status: number,
     public body: T,
     public headers?: HttpResponseHeaders,
-  ) {}
+  ) { }
 
   /**
    * @internal
    */
-  writeTo(ctx: HttpContext) {
-    ctx.status = this.status;
-    ctx.body = this.body;
-    if (this.headers) Object.assign(ctx.headers, this.headers);
+  writeTo(res: HttpResponse) {
+    res.body = this.body;
+    res.status = this.status;
+    if (this.headers) {
+      Object.entries(this.headers)
+        .forEach(([key, value]) => res.set(key, String(value || "")));
+    }
   }
 
   /**
@@ -78,6 +81,13 @@ export class HttpResult<T> {
    */
   static is(value: unknown): value is HttpResult<unknown> {
     return value instanceof HttpResult;
+  }
+
+  /**
+   * @internal
+   */
+  static isRedirect(result: HttpResult<unknown>) {
+    return result?.status >= 300 && result?.status <= 399;
   }
 
   static ok<T>(body: T, headers?: HttpResponseHeaders) {
@@ -109,7 +119,7 @@ export class HttpResult<T> {
     status: 301 | 302 | 303 | 307 | 308 = 302,
     headers?: HttpResponseHeaders,
   ) {
-    return new HttpResult<null>(status, null, { ...headers, location });
+    return new HttpResult(status, null, { ...headers, location });
   }
 
   static badRequest<T>(body?: T, headers?: HttpResponseHeaders) {

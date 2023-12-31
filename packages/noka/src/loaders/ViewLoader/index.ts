@@ -61,14 +61,12 @@ function viewInjectHandler(
   return async (...args: any[]) => {
     const $context = args[args.length - 1];
     const result = await method.call(instance, ...args);
-    if (HttpResult.is(result)) {
-      const data = isObject(result.body)
-        ? { ...result.body, $context }
-        : { $context };
-      result.body = await render(data);
-      return result;
-    }
-    return render({ result, $context });
+    if (!HttpResult.is(result)) return render({ ...result, $context });
+    if (HttpResult.isRedirect(result)) return result;
+    result.body = await render(
+      isObject(result.body) ? { ...result.body, $context } : { $context },
+    );
+    return result;
   };
 }
 
