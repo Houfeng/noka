@@ -1,9 +1,9 @@
 import { AbstractLoader, LoaderOptions } from "../../Loader";
 import { compile, Environment, FileSystemLoader } from "nunjucks";
 import { existsSync } from "fs";
-import { readText, isFunction } from "noka-util";
+import { readText, isFunction, isObject } from "noka-util";
 import { ContainerLike, Inject, InjectMeta } from "../../Container";
-import { isControllerResult } from "../ControllerLoader";
+import { HttpResult } from "../../Application";
 
 const ViewBeanKey = Symbol("View");
 
@@ -18,7 +18,7 @@ export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
    * 加载所有视图
    */
   public async load() {
-    const { targetDir = "app:/views", extname = '.html' } = this.options;
+    const { targetDir = "app:/views", extname = ".html" } = this.options;
     const viewDir = this.app.resolvePath(targetDir);
     if (!existsSync(viewDir)) return;
     const viewFiles = await this.glob(`./**/*${extname}`);
@@ -33,7 +33,7 @@ export class ViewLoader extends AbstractLoader<ViewLoaderOptions> {
         const viewName = viewFile
           .slice(viewDir.length)
           .slice(0, -extname.length)
-          .replace(/\\/g, '/');
+          .replace(/\\/g, "/");
         viewMap[viewName] = (data: any) => template.render(data);
       }),
     );
@@ -61,8 +61,11 @@ function viewInjectHandler(
   return async (...args: any[]) => {
     const $context = args[args.length - 1];
     const result = await method.call(instance, ...args);
-    if (isControllerResult<any>(result)) {
-      result.body = await render({ ...result.body, $context });
+    if (HttpResult.is(result)) {
+      const data = isObject(result.body)
+        ? { ...result.body, $context }
+        : { $context };
+      result.body = await render(data);
       return result;
     }
     return render({ result, $context });

@@ -1,4 +1,4 @@
-import { Controller, Get, View } from "noka";
+import { Controller, Get, Result, View } from "noka";
 
 @Controller("/")
 export class HomeController {
@@ -7,6 +7,6 @@ export class HomeController {
   @Get("/")
   @View("index")
   async index() {
-    return Controller.Result({ message: "Noka" });
+    return Result.ok({ message: "Noka" });
   }
 }
