@@ -22,7 +22,7 @@ export type NokaContextExtends = HttpContextExtends;
 export class HttpServer<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Koa<S, C> { }
+> extends Koa<S, C> {}
 
 export const NokaServer = HttpServer;
 
@@ -48,7 +48,7 @@ export type NokaContext<
 export class HttpRouter<
   S extends HttpContextState = HttpContextState,
   C extends HttpContextExtends = HttpContextExtends,
-> extends Router<S, C> { }
+> extends Router<S, C> {}
 
 export const NokaRouter = HttpRouter;
 
@@ -62,7 +62,7 @@ export class HttpResult<T> {
     public status: number,
     public body: T,
     public headers?: HttpResponseHeaders,
-  ) { }
+  ) {}
 
   /**
    * @internal
@@ -71,8 +71,9 @@ export class HttpResult<T> {
     res.body = this.body;
     res.status = this.status;
     if (this.headers) {
-      Object.entries(this.headers)
-        .forEach(([key, value]) => res.set(key, String(value || "")));
+      Object.entries(this.headers).forEach(([key, value]) =>
+        res.set(key, String(value || "")),
+      );
     }
   }
 

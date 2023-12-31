@@ -7,7 +7,8 @@ export class HomeController {
   @Get("/")
   @View("index")
   async index() {
-    //return Result.redirect("https://baidu.com");
+    //return { message: "Noka" };
+    //return Result.redirect("https://noka.site");
     return Result.ok({ message: "Noka" });
   }
 }
